@@ -2,8 +2,6 @@
  * Site header
  */
 .site-header {
-    border-top: 16px solid $color-primary-4;
-    border-bottom: 4px solid $color-primary-3;
     min-height: 56px;
     background-color: $color-primary-0;
 
@@ -15,7 +13,7 @@
     box-shadow: 0px 6px 8px $grey-color;
 }
 
-.page-content {margin-top: 76px}
+.page-content {margin-top: 56px}
 
 .site-title {
     font-size: 26px;
@@ -207,6 +205,12 @@
 /**
  * Posts
  */
+ .post {
+    box-shadow: 0px 4px 8px $grey-color;
+    padding: $spacing-unit;
+    background-color: #fff
+ }
+ 
 .post-header {
     margin-bottom: $spacing-unit;
 }
