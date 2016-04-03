@@ -49,10 +49,17 @@ $color-primary-4: #6B0000;
 }
 
 
+@import "color";
+@import "mixins";
+@import "variables";
+@import "global";
+@import "typography";
 
 // Import partials from `sass_dir` (defaults to `_sass`)
 @import
         "base",
         "layout",
-        "syntax-highlighting"
+        "syntax-highlighting",
+        "buttons",
+        "waves"
 ;

@@ -200,12 +200,21 @@
     font-size: 24px;
 }
 
-
+/**
+ * Pagination
+ */
+.pagination {
+    text-align: right;
+    margin-bottom:16px;
+    .page_number {
+        padding: 0px 8px;
+    }
+}
 
 /**
  * Posts
  */
- .post {
+ .card {
     box-shadow: 0px 4px 8px $grey-color;
     padding: $spacing-unit;
     background-color: #fff
