@@ -15,8 +15,8 @@ $base-line-height: 1.5;
 $spacing-unit:     32px;
 
 $text-color:       #111;
-$background-color: #fdfdfd;
-$brand-color:      #2a7ae2;
+$text-color-inverse: #eee;
+$background-color: #fafafa;
 
 $grey-color:       #828282;
 $grey-color-light: lighten($grey-color, 40%);
@@ -28,6 +28,11 @@ $content-width:    800px;
 $on-palm:          600px;
 $on-laptop:        800px;
 
+$color-primary-0: #AF0B0B;	// Main Primary color */
+$color-primary-1: #E34848;
+$color-primary-2: #D41C1C;
+$color-primary-3: #910000;
+$color-primary-4: #6B0000;
 
 
 // Use media queries like this:
