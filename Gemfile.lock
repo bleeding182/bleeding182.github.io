@@ -166,6 +166,7 @@ DEPENDENCIES
   github-pages
   guard
   guard-livereload
+  jekyll-paginate
 
 BUNDLED WITH
    1.11.2
