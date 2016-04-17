@@ -6,16 +6,20 @@ layout: default
 
   <h1 class="page-heading">Posts</h1>
 
-  <ul class="post-list">
+  <ul class="post-list" itemscope="" itemtype="http://schema.org/Blog">
     {% for post in paginator.posts %}
       <li class="card">
-        <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
+        <article itemprop="blogPost" itemscope="" itemtype="http://schema.org/BlogPosting">
+            <meta itemprop="author publisher" content="{{post.author}}" />
+            <span itemprop="datePublished dateModified" class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
 
-        <h2>
-          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-        </h2>
-        <p>{{ post.excerpt }}</p>
-      </li>
+            <h2 itemprop="name headline">
+              <a class="post-link" href="{{ post.url | prepend: site.baseurl }}" itemprop="mainEntityOfPage url">{{ post.title }}</a>
+            </h2>
+            <meta itemprop="keywords" content="{{ post.tags | join: ',' }}" />
+            <div itemprop="description">{{ post.excerpt }}</div>
+        </article>
+    </li>
     {% endfor %}
   </ul>
   <!-- Pagination links -->

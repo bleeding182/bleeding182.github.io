@@ -7,6 +7,7 @@
 
 # Site settings
 title: Android Stuff
+author: David Medenjak
 email: davidmedenjak@gmail.com
 description: >
   A blog about android and testing.
@@ -17,6 +18,14 @@ github_username:  bleeding182
 
 # Build settings
 markdown: kramdown
+
+defaults:
+  -
+    scope:
+      path: ""
+    values:
+      layout: "default"
+      author: David Medenjak
 
 paginate: 3
 
