@@ -16,6 +16,11 @@ layout: default
             <h2 itemprop="name headline">
               <a class="post-link" href="{{ post.url | prepend: site.baseurl }}" itemprop="mainEntityOfPage url">{{ post.title }}</a>
             </h2>
+            {% if post.tags.size > 0 %}
+            <p class="tags" style="margin-top: -16px;">
+            <small>{{ post.tags | join: '</small><small class="tag">' }}</small>
+            </p>
+            {% endif %}
             <meta itemprop="keywords" content="{{ post.tags | join: ',' }}" />
             <div itemprop="description">{{ post.excerpt }}</div>
         </article>

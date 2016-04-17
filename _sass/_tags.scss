@@ -1,0 +1,14 @@
+
+.tags {
+    :first-child {
+        margin: 4px 4px 4px 0px;
+    }
+    small {
+        border-color: $primary-color;
+        border-width: 1px;
+        margin: 4px 4px;
+        border-style: solid;
+        border-radius: 2px;
+        padding: 2px 4px;
+    }
+}
