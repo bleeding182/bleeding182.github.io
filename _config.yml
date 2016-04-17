@@ -19,3 +19,6 @@ github_username:  bleeding182
 markdown: kramdown
 
 paginate: 3
+
+gems:
+  - jekyll-sitemap

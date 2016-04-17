@@ -167,6 +167,7 @@ DEPENDENCIES
   guard
   guard-livereload
   jekyll-paginate
+  jekyll-sitemap
 
 BUNDLED WITH
    1.11.2
