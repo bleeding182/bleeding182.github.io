@@ -8,7 +8,7 @@ tags:
 - animation
 published: true
 ---
-Just a quick update to my [last post](http://bleeding182.blogspot.com/2015/11/separator.html) on a little thing I missed out: Animations.
+Just a quick update to my [last post]({% post_url 2015-11-10-recyclerview-with-decorations-basic-guide %}) on a little thing I missed out: Animations.
 
 Since a recyclerView supports animations by default as soon as you give your items a stable id with `setHasStableIds(true)` and by implementing `getItemId(int)`, it should be worth spending a minute or two in basic handling of those pesky things.
 
