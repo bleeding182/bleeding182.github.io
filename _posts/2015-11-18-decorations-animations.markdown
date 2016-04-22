@@ -87,3 +87,5 @@ for (int i = 0; i < parent.getChildCount(); i++) {
 Now we got us a nice and smooth animation moving along with the view! :D
 
 Next up… I guess another one on animations to conclude the series :p
+
+<div style="clear: both;"/>

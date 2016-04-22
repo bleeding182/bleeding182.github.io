@@ -3,9 +3,9 @@ layout: default
 ---
 
 <div class="home">
-
-  <h1 class="page-heading">Posts</h1>
-
+  <div class="wrapper">
+    <h1 class="page-heading">Posts</h1>
+  </div>
   <ul class="post-list" itemscope="" itemtype="http://schema.org/Blog">
     {% for post in paginator.posts %}
       <li class="card">
@@ -22,21 +22,21 @@ layout: default
     </li>
     {% endfor %}
   </ul>
-  <!-- Pagination links -->
-<div class="pagination">
-  {% if paginator.previous_page %}
-    <a href="{{ paginator.previous_page_path }}" class="waves-effect waves-light btn">Previous</a>
-  {% else %}
-    <span class="btn disabled">Previous</span>
-  {% endif %}
-  <span class="page_number ">Page: {{ paginator.page }} of {{ paginator.total_pages }}</span>
-  {% if paginator.next_page %}
-    <a href="{{ paginator.next_page_path }}" class="waves-effect waves-light btn">Next</a>
-  {% else %}
-    <span class="btn disabled">Next</span>
-  {% endif %}
-</div>
-
-  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
-
+  <div class="wrapper">
+    <!-- Pagination links -->
+    <div class="pagination">
+      {% if paginator.previous_page %}
+        <a href="{{ paginator.previous_page_path }}" class="waves-effect waves-light btn">Previous</a>
+      {% else %}
+        <span class="btn disabled">Previous</span>
+      {% endif %}
+      <span class="page_number ">Page: {{ paginator.page }} of {{ paginator.total_pages }}</span>
+      {% if paginator.next_page %}
+        <a href="{{ paginator.next_page_path }}" class="waves-effect waves-light btn">Next</a>
+      {% else %}
+        <span class="btn disabled">Next</span>
+      {% endif %}
+    </div>
+    <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
+  </div>
 </div>
