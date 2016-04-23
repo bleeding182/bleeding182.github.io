@@ -16,6 +16,8 @@ url: "http://blog.davidmedenjak.com" # the base hostname & protocol for your sit
 #twitter_username: jekyllrb
 github_username:  bleeding182
 
+exclude: ["CNAME", "README.md", "Guardfile", "Gemfile", "Gemfile.lock"]
+
 # Build settings
 markdown: kramdown
 
