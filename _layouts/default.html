@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html>
-
   {% include head.html %}
-
   <body>
-    {% include tag-manager.html %}
+    {% if jekyll.environment == "production" %}{% include tag-manager.html %}{% endif %}
     {% include header.html %}
 
     <div class="page-content">
@@ -12,9 +10,6 @@
         {{ content }}
       </div>
     </div>
-
     {% include footer.html %}
-
   </body>
-
 </html>
