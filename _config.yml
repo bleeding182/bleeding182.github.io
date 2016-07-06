@@ -34,5 +34,7 @@ defaults:
 
 paginate: 5
 
+repository: username/repo-name
+
 gems:
   - jekyll-sitemap
