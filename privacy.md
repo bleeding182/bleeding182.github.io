@@ -14,6 +14,14 @@ This site uses Google AdSense to serve ads. Google AdSense themselves may serve 
 
 You can read more about how Google is storing and processing data at: [How Google uses data when you use our partners’ sites or apps](http://www.google.com/policies/privacy/partners/)
 
+### Disqus
+
+We use Disqus to enable user engagement on this blog.
+
+Disqus uses cookies on all blog post pages which make use of the Disqus comment box. We do not have control about the cookies Disqus uses to track users, but the information collected is used to analyze your usage behavior and provide the Disqus service.
+
+You can see [Disqus' Privacy Policy](https://help.disqus.com/customer/en/portal/articles/466259-privacy-policy) for further details which you can also find at the bottom of every comment box.
+
 ## Sharing your personal information
 
 We do not sell, trade, or rent users' personal identification information to others. We may share generic aggregated demographic information not linked to any personal identification information regarding visitors and users with our business partners, trusted affiliates and advertisers for the purposes outlined above.
@@ -30,4 +38,5 @@ By using this site, you signify your acceptance of this policy and terms of serv
 
 If you have any questions about this Privacy Policy, the practices of this site, or your dealings with this site, please contact us.
 
-Introduced July 6th 2016
+Introduced July 6th 2016  
+Last modified July 10th 2016
