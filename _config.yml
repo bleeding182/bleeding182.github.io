@@ -20,6 +20,7 @@ exclude: ["CNAME", "README.md", "Guardfile", "Gemfile", "Gemfile.lock"]
 
 # Build settings
 markdown: kramdown
+future: true
 
 sass:
     style: compressed
