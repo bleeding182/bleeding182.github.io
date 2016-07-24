@@ -217,6 +217,6 @@ The source code is available at [GitHub][3] within a runnable project.
 
 Thanks to Nick Liu for proof reading.
 
-[1]:http://stackoverflow.com/questions/34536075/modifying-the-resource-image-of-progress-bar
+[1]:http://stackoverflow.com/q/34536075/1837367
 [2]:http://developer.android.com/reference/android/view/animation/BaseInterpolator.html
 [3]:https://github.com/bleeding182/samples/tree/master/SpinningStar

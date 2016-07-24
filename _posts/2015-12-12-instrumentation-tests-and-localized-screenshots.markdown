@@ -120,5 +120,5 @@ Thanks to Nicholas Liu for proof reading.
 [2]: https://blog.swanhtetaung.com/automating-android-screenshots-5b7574c0621d#.xt8dxrx0v
 [3]: http://flavienlaurent.com/blog/2014/12/05/screenshot_automation/
 [4]: http://google.github.io/dagger/
-[5]: http://stackoverflow.com/questions/34186108/how-to-query-all-connected-devices-in-build-gradle/34203293#34203293
+[5]: http://stackoverflow.com/a/34203293/1837367
 [6]: https://github.com/Triple-T/gradle-play-publisher
