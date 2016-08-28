@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html>
+{% include head.html %}
+<body>
+{% if jekyll.environment == "production" %}{% include tag-manager.html %}{% endif %}
+{% include header.html %}
+{{content}}
+</body>
+</html>

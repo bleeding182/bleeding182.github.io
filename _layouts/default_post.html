@@ -1,0 +1,76 @@
+---
+layout: skeleton
+---
+<main>
+<div class="container">
+  <div class="row">
+    <div class="col s12 l9"> 
+      {% if jekyll.environment == "production" and false %}{% include google_adsense.html %}{% endif %}
+      <div class="card-panel">
+      {{ content }}
+      </div>
+      
+      <div class="card-panel">{% if jekyll.environment == "production" %}
+      <div id="disqus_thread"></div>
+      <script>
+      var disqus_config = function () {
+          this.page.url = '{{ page.url | prepend: site.url }}';
+          this.page.identifier = '{{ page.path }}';
+      };
+      (function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//android-stuff.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+      })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+      {% endif %}</div>
+      
+      <div class="row">
+        {% if page.next %}<div class="col s12{% if page.previous %} l6{% endif %}">
+        <div class="card">
+          <div class="card-content">
+            <h6>Next</h6>
+            <span class="card-title ">{{ page.next.title }}</span>
+            <p>{{ page.next.excerpt }}</p>
+          </div>
+        </div>
+        </div>{% endif %}
+        {% if page.previous %}<div class="col s12{% if page.next %} l6{% endif %}">
+        <div class="card">
+          <div class="card-content right-align">
+            <h6>Next</h6>
+            <span class="card-title ">{{ page.previous.title }}</span>
+            <div class="align-left">{{ page.previous.excerpt }}</div>
+          </div>
+          </div>
+        </div>{% endif %}
+      </div>
+    </div>
+    <div class="col hide-on-med-and-down l3"> 
+      <div class="link-wrapper">
+        <h5>Recent Articles</h5>
+        <ul class="table-of-contents">
+          {% for my_page in site.posts limit:3 %}
+          <li><a href="{{ my_page.url | prepend: site.baseurl }}">{{ my_page.title }}</a></li>
+          {% endfor %} 
+        </ul>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+</main>
+
+<footer>
+<!--{% include footer.html %}-->
+</footer>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+<script type="text/javascript">
+$( document ).ready(function(){
+     $(".button-collapse").sideNav();
+}) 
+</script>

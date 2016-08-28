@@ -10,3 +10,22 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.link-wrapper {
+    margin-top: 16px;
+}
+
+.card-panel {
+    h1 {
+        font-size: 200%;
+    }
+    h2 {
+        font-size: 180%;
+    }
+    h3 {
+        font-size: 160%;
+    }
+    h4 {
+        font-size: 140%;
+    }
+}
