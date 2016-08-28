@@ -1,33 +1,23 @@
 ---
 layout: default
 ---
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- Responsive -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-5651964724661386"
-     data-ad-slot="6446103758"
-     data-ad-format="auto"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+{% if jekyll.environment == "production" and false %}{% include google_adsense.html %}{% endif %}
 
-<div class="card">
-    <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
-        <meta itemprop="keywords" content="{{ page.tags | join: ',' }}" />
-        <meta itemprop="mainEntityOfPage" content="{{ page.url | prepend: site.baseurl }}" />
-        <meta itemprop="description"
-            content="{{ page.excerpt | strip_html | truncatewords: 40 }}" />
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">{{ page.title }}</h1>
-        <p class="post-meta"><time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished dateModified">{{ page.date | date: "%b %-d, %Y" }}</time>{% if page.author %} • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ page.author }}</span></span>{% endif %}</p>
-      </header>
+  <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+      <meta itemprop="keywords" content="{{ page.tags | join: ',' }}" />
+      <meta itemprop="mainEntityOfPage" content="{{ page.url | prepend: site.baseurl }}" />
+      <meta itemprop="description"
+          content="{{ page.excerpt | strip_html | truncatewords: 40 }}" />
+    <header class="post-header">
+      <h1 class="post-title" itemprop="name headline">{{ page.title }}</h1>
+      <p class="post-meta"><time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished dateModified">{{ page.date | date: "%b %-d, %Y" }}</time>{% if page.author %} • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ page.author }}</span></span>{% endif %}</p>
+    </header>
 
-      <div class="post-content" itemprop="articleBody">
-        {{ content }}
-      </div>
-    </article>
-</div>
+    <div class="post-content" itemprop="articleBody">
+      {{ content }}
+    </div>
+  </article>
+  
 {% if jekyll.environment == "production" %}
 <div class="card"><div id="disqus_thread"></div>
 <script>

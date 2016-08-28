@@ -1,35 +1,35 @@
 ---
 layout: default
 ---
-<div class="home">
-  <div class="wrapper">
-    <h1 class="page-heading">Posts</h1>
+<h2 class="header">Posts</h1>
+<ul class="post-list" itemscope="" itemtype="http://schema.org/Blog">
+  {% for post in paginator.posts %}
+  <div class="card">
+    <article itemprop="blogPost" itemscope="" itemtype="http://schema.org/BlogPosting" class="card-content spaced-content">
+      <meta itemprop="author publisher" content="{{post.author}}" />
+      <meta itemprop="keywords" content="{{ post.tags | join: ',' }}" />
+      <span class="card-title" itemprop="name headline">
+        {{ post.title }}
+      </span>
+      <p>
+      <span itemprop="datePublished dateModified" class="light">{{ post.date | date: "%b %-d, %Y" }}</span>
+      </p>
+      <div itemprop="description">{{ post.excerpt }}</div>
+    </article>
+    <div class="card-action">
+      <a class="post-link" href="{{ post.url | prepend: site.baseurl }}" itemprop="mainEntityOfPage url">Read More</a>
+    </div>
   </div>
-  <ul class="post-list" itemscope="" itemtype="http://schema.org/Blog">
-    {% for post in paginator.posts %}
-      <li class="card">
-        <article itemprop="blogPost" itemscope="" itemtype="http://schema.org/BlogPosting">
-          <meta itemprop="author publisher" content="{{post.author}}" />
-          <span itemprop="datePublished dateModified" class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
-
-          <h2 itemprop="name headline">
-            <a class="post-link" href="{{ post.url | prepend: site.baseurl }}" itemprop="mainEntityOfPage url">{{ post.title }}</a>
-          </h2>
-          <meta itemprop="keywords" content="{{ post.tags | join: ',' }}" />
-          <div itemprop="description">{{ post.excerpt }}</div>
-        </article>
-    </li>
+  {% endfor %}
+</ul>
+<div class="wrapper">
+  <!-- Pagination links -->
+  <ul class="pagination">
+    <li class="{% if paginator.previous_page %}waves-effec{% else %}disabled{% endif %}"><a href="{% if paginator.previous_page %}{{ paginator.previous_page_path }}{% else %}#{% endif %}">&lt;</a></li>
+    {% for pageNum in (1..paginator.total_pages) %}
+      <li class="{% if paginator.page == pageNum %}active{% else %}waves-effect{% endif %}"><a href="/{%if pageNum > 1%}page{{pageNum}}{% else %}{%endif%}">{{pageNum}}</a></li>
     {% endfor %}
+    <li class="{% if paginator.next_page %}waves-effec{% else %}disabled{% endif %}"><a href="{% if paginator.next_page %}{{ paginator.next_page_path }}{% else %}#{% endif %}">&gt;</a></li>
   </ul>
-  <div class="wrapper">
-    <!-- Pagination links -->
-    <ul class="pagination">
-      <li class="{% if paginator.previous_page %}waves-effec{% else %}disabled{% endif %}"><a href="{% if paginator.previous_page %}{{ paginator.previous_page_path }}{% else %}#{% endif %}">&lt;</a></li>
-      {% for pageNum in (1..paginator.total_pages) %}
-        <li class="{% if paginator.page == pageNum %}active{% else %}waves-effect{% endif %}"><a href="/{%if pageNum > 1%}page{{pageNum}}{% else %}{%endif%}">{{pageNum}}</a></li>
-      {% endfor %}
-      <li class="{% if paginator.next_page %}waves-effec{% else %}disabled{% endif %}"><a href="{% if paginator.next_page %}{{ paginator.next_page_path }}{% else %}#{% endif %}">&gt;</a></li>
-    </ul>
-    <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
-  </div>
+  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
 </div>

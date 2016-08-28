@@ -18,10 +18,17 @@ main {
 }
 
 ul {
-  &.browser-default {
+  &.browser-default,
+  &.browser-default li {
     list-style-type: initial;
   }
 
+  padding: 0;
+  list-style-type: none;
+
+  li {
+    list-style-type: none;
+  }
 }
 
 a {
@@ -43,13 +50,6 @@ a {
   }
 }
 
-
-ul {
-  padding: 0;
-  li {
-    
-  }
-}
 
 // classic clearfix
 .clearfix {
@@ -148,15 +148,17 @@ video.responsive-video {
 
   li {
     display: inline-block;
-    font-size: 1.2rem;
-    line-height: 30px;
     border-radius: 2px;
     text-align: center;
+    vertical-align: top;
+    height: 30px;
 
     a {
       color: #444;
-      padding: 0 10px;
       display: inline-block;
+      font-size: 1.2rem;
+      padding: 0 10px;
+      line-height: 30px;
     }
 
     &.active a { color: #fff; }
@@ -164,9 +166,12 @@ video.responsive-video {
     &.active { background-color: $primary-color; }
 
     &.disabled a {
-      display: inline-block;
       cursor: default;
       color: #999;
+    }
+
+    i {
+      font-size: 2rem;
     }
   }
 
@@ -227,6 +232,57 @@ video.responsive-video {
     color: #fff;
   }
 }
+
+
+// Parallax
+.parallax-container {
+  position: relative;
+  overflow: hidden;
+  height: 500px;
+}
+
+.parallax {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+
+  img {
+    display: none;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    -webkit-transform: translate3d(0,0,0);
+            transform: translate3d(0,0,0);
+    transform: translateX(-50%);
+  }
+}
+
+// Pushpin
+.pin-top, .pin-bottom {
+  position: relative;
+}
+.pinned {
+  position: fixed !important;
+}
+
+/*********************
+  Transition Classes
+**********************/
+
+ul.staggered-list li {
+  opacity: 0;
+}
+
+.fade-in {
+  opacity: 0;
+  transform-origin: 0 50%;
+}
+
 
 /*********************
   Media Query Classes
@@ -561,6 +617,12 @@ span.badge {
   &.new:after {
     content: " new";
   }
+
+  &[data-badge-caption]::after {
+    content: " " attr(data-badge-caption);
+  }
+
+
 }
 nav ul a span.badge {
   position: static;
@@ -583,6 +645,83 @@ nav ul a span.badge {
       height: 100%;
     }
 }
+
+// Progress Bar
+.progress {
+    position: relative;
+    height: 4px;
+    display: block;
+    width: 100%;
+    background-color: lighten($progress-bar-color, 40%);
+    border-radius: 2px;
+    margin: $element-top-margin 0 $element-bottom-margin 0;
+    overflow: hidden;
+  .determinate {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background-color: $progress-bar-color;
+    transition: width .3s linear;
+  }
+  .indeterminate {
+    background-color: $progress-bar-color;
+    &:before {
+      content: '';
+      position: absolute;
+      background-color: inherit;
+      top: 0;
+      left:0;
+      bottom: 0;
+      will-change: left, right;
+      // Custom bezier
+      animation: indeterminate 2.1s cubic-bezier(0.650, 0.815, 0.735, 0.395) infinite;
+
+    }
+    &:after {
+      content: '';
+      position: absolute;
+      background-color: inherit;
+      top: 0;
+      left:0;
+      bottom: 0;
+      will-change: left, right;
+      // Custom bezier
+      animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.840, 0.440, 1.000) infinite;
+      animation-delay: 1.15s;
+    }
+  }
+}
+@keyframes indeterminate {
+    0% {
+      left: -35%;
+      right:100%;
+    }
+    60% {
+      left: 100%;
+      right: -90%;
+    }
+    100% {
+      left: 100%;
+      right: -90%;
+    }
+}
+
+@keyframes indeterminate-short {
+    0% {
+      left: -200%;
+      right: 100%;
+    }
+    60% {
+      left: 107%;
+      right: -8%;
+    }
+    100% {
+      left: 107%;
+      right: -8%;
+    }
+}
+
 
 /*******************
   Utility Classes
