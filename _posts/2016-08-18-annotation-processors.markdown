@@ -60,7 +60,7 @@ Just add the dependencies to your project `build.gradle` and I hope I do not hav
 
 {%highlight groovy%}
 testCompile 'junit:junit:4.12'
-    
+
 testCompile 'com.google.testing.compile:compile-testing:0.8'
 compile 'com.squareup:javapoet:1.7.0'
 {%endhighlight%}
