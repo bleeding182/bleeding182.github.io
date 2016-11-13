@@ -3,63 +3,62 @@
 ---
 @charset "utf-8";
 
+$primary: #AF0B0B;
+
+@import "mdl/material-design-lite";
+@import "_syntax-highlighting";
 
 
-// Our variables
-$base-font-family: "Roboto Condensed", Helvetica, sans-serif;
-$base-font-size:   16px;
-$base-font-weight: 400;
-$small-font-size:  $base-font-size * 0.875;
-$base-line-height: 1.5;
-
-$spacing-unit:     32px;
-
-$text-color:       #111;
-$text-color-inverse: #eee;
-$background-color: #fafafa;
-
-$grey-color:       #828282;
-$grey-color-light: lighten($grey-color, 40%);
-$grey-color-dark:  darken($grey-color, 25%);
-
-// Width of the content area
-$content-width:    800px;
-
-$on-palm:          600px;
-$on-laptop:        800px;
-
-$color-primary-0: #AF0B0B;	// Main Primary color */
-$color-primary-1: #E34848;
-$color-primary-2: #D41C1C;
-$color-primary-3: #910000;
-$color-primary-4: #6B0000;
-
-
-// Use media queries like this:
-// @include media-query($on-palm) {
-//     .wrapper {
-//         padding-right: $spacing-unit / 2;
-//         padding-left: $spacing-unit / 2;
-//     }
-// }
-@mixin media-query($device) {
-    @media screen and (max-width: $device) {
-        @content;
-    }
+body {
+  background-color: #fafafa;
 }
 
+.content {
+  max-width: 800px;
+}
 
-@import "color";
-@import "mixins";
-@import "variables";
-@import "global";
-@import "typography";
+.comments {
+  background-color: #eeeeee;
+}
 
-// Import partials from `sass_dir` (defaults to `_sass`)
-@import
-        "base",
-        "layout",
-        "syntax-highlighting",
-        "buttons",
-        "waves"
-;
+.post .mdl-card__supporting-text {
+  width: auto;
+  height: auto;
+}
+
+.post .mdl-card {
+  width: auto;
+}
+
+.post img {
+  max-width: 100%;
+  margin-left: auto;
+  display: block;
+  margin-right: auto;
+}
+
+.highlight {
+  background: desaturate(lighten(#d46f1c, 50%), 15%);
+  margin: 0px;
+  overflow: auto;
+  border-radius: 2px;
+  box-sizing: border-box;
+  padding-left: 8px;
+  padding-right: 8px;
+  box-shadow: inset 0 1px 1px 0 rgba(0, 0, 0, $shadow-key-penumbra-opacity),
+              inset 0 1px 1px -2px rgba(0, 0, 0, $shadow-key-umbra-opacity),
+              inset 0 1px 5px 0 rgba(0, 0, 0, $shadow-ambient-shadow-opacity);
+}
+
+.icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.social-btn__github {
+  background: transparent;
+}
+.social-btn__github svg {
+  width: 24px;
+  height: 24px;
+}

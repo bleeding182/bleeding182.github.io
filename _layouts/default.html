@@ -2,14 +2,19 @@
 <html>
   {% include head.html %}
   <body>
-    {% if jekyll.environment == "production" %}{% include tag-manager.html %}{% endif %}
-    {% include header.html %}
+    {% include tag-manager.html %}
 
-    <div class="page-content">
-      <div class="content-wrapper">
-        {{ content }}
-      </div>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      {% include header.html %}
+      <main class="mdl-layout__content">
+        <div class="page-content">
+          {{content}}
+        </div>
+        {% include footer.html %}
+      </main>
     </div>
-    {% include footer.html %}
+
+    <!-- Material Design Lite -->
+    <script src="{{ "/js/material.min.js" | prepend: site.baseurl }}"></script>
   </body>
 </html>

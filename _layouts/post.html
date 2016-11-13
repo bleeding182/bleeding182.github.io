@@ -1,46 +1,60 @@
 ---
 layout: default
 ---
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- Blog Post Top -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-5651964724661386"
-     data-ad-slot="5309467350"
-     data-ad-format="auto"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+{% include ads/blog_post_top.html %}
 
-<div class="card">
-    <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+<div class="mdl-grid content">
+
+  <div class="mdl-card mdl-cell post mdl-cell--12-col mdl-shadow--2dp">
+    <article itemscope="" itemtype="http://schema.org/BlogPosting">
         <meta itemprop="keywords" content="{{ page.tags | join: ',' }}" />
         <meta itemprop="mainEntityOfPage" content="{{ page.url | prepend: site.baseurl }}" />
         <meta itemprop="description"
             content="{{ page.excerpt | strip_html | truncatewords: 40 }}" />
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">{{ page.title }}</h1>
-        <p class="post-meta"><time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished dateModified">{{ page.date | date: "%b %-d, %Y" }}</time>{% if page.author %} • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ page.author }}</span></span>{% endif %}</p>
-      </header>
+      <div class="mdl-card__title">
+        <h2 class="post-title" itemprop="name headline">{{ page.title }}</h2>
+      </div>
 
-      <div class="post-content" itemprop="articleBody">
+      <div class="mdl-card__supporting-text mdl-color-text--black" itemprop="articleBody">
+        <p class="post-meta mdl-typography--caption"><time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished dateModified">{{ page.date | date: "%b %-d, %Y" }}</time>{% if page.author %} • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ page.author }}</span></span>{% endif %}</p>
         {{ content }}
       </div>
     </article>
+
+    <div class="mdl-card__supporting-text mdl-card--border comments">
+      {% if jekyll.environment == "production" %}
+      <div id="disqus_thread"></div>
+      <script>
+      var disqus_config = function () {
+          this.page.url = '{{ page.url | prepend: site.url }}';
+          this.page.identifier = '{{ page.path }}';
+      };
+      (function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//android-stuff.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+      })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+      {% else %}DISQUS HERE{% endif %}
+    </div>
+  </div>
+
+{% if page.previous %}
+  <div class="mdl-cell mdl-cell--top post mdl-cell--6-col mdl-cell--8-col-tablet"><div class="mdl-card mdl-shadow--2dp">
+  <div class="mdl-card__title">
+    <span class="mdl-card__title-text">
+      {{ page.previous.title }}
+    </span>
+  </div>
+  <div class="mdl-card__supporting-text mdl-color-text--black">
+    {{ page.previous.content | truncatewords: 30 }}
+  </div>
+    <div class="mdl-card__actions mdl-card--border">
+      <a href="{{ page.previous.url }}" class="mdl-button mdl-js-button mdl-js-ripple-effect">Read More</a>
+    </div>
+  </div>
 </div>
-{% if jekyll.environment == "production" %}
-<div class="card"><div id="disqus_thread"></div>
-<script>
-var disqus_config = function () {
-    this.page.url = '{{ page.url | prepend: site.url }}';
-    this.page.identifier = '{{ page.path }}';
-};
-(function() {
-    var d = document, s = d.createElement('script');
-    s.src = '//android-stuff.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
-</div>{% endif %}
+{% endif %}
+</div>

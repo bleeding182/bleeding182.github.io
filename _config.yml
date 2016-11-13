@@ -33,7 +33,7 @@ defaults:
       layout: "default"
       author: David Medenjak
 
-paginate: 5
+paginate: 8
 
 repository: username/repo-name
 
