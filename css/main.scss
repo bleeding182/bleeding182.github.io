@@ -37,6 +37,16 @@ body {
   margin-right: auto;
 }
 
+.page-content {
+  flex: 1;
+}
+
+main {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+
 .highlight {
   background: desaturate(lighten(#d46f1c, 50%), 15%);
   margin: 0px;

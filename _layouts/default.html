@@ -6,11 +6,13 @@
 
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
       {% include header.html %}
-      <main class="mdl-layout__content">
-        <div class="page-content">
+      <main>
+        <div class="page-content mdl-cell--stretch">
           {{content}}
         </div>
-        {% include footer.html %}
+        <div>
+          {% include footer.html %}
+        </div>
       </main>
     </div>
 
