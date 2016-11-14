@@ -52,12 +52,12 @@ public class LocalizedTest {
     public static Collection<Locale> locales() {
         return Arrays.asList(new Locale("en"), new Locale("de"), new Locale("fr"));
     }
-    
+
     public LocalizedTest(Locale locale) {
         mLocale = locale;
         // - change locale for app -
     }
-    
+
     // ... tests ...
 }
 {% endhighlight %}
