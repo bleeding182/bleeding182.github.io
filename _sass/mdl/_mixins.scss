@@ -168,11 +168,11 @@
   &:before {
     position: absolute;
     left: -0.5em;
-    content: '“';
+    content: '\201C';
   }
 
   &:after {
-    content: '”';
+    content: '\201D';
     margin-left: -0.05em;
   }
 
