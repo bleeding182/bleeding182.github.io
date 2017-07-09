@@ -4,19 +4,13 @@
   <body>
     {% include tag-manager.html %}
 
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-      {% include header.html %}
-      <main>
-        <div class="page-content mdl-cell--stretch">
-          {{content}}
-        </div>
-        <div>
-          {% include footer.html %}
-        </div>
-      </main>
-    </div>
-
-    <!-- Material Design Lite -->
-    <script src="{{ "/js/material.min.js" | prepend: site.baseurl }}"></script>
+    {% include header.html %}
+    
+    <main>
+      <div class="page-content mdc-toolbar-fixed-adjust">
+        {{content}}
+      </div>
+    </main>
+    
   </body>
 </html>

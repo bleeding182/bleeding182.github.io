@@ -20,6 +20,4 @@ Have a nice day and enjoy my blog!
 
 ---
 
-This blog is powered by Jekyll, hosted by GitHub. You can find the source code for Jekyll at
-{% include icon-github.html username="jekyll" %} /
-[jekyll](https://github.com/jekyll/jekyll)
+This blog is powered by Jekyll, hosted by GitHub.

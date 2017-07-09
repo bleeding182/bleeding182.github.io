@@ -1,0 +1,149 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+@charset "utf-8";
+
+$mdc-theme-primary: #AF0B0B;
+$mdc-theme-accent: #D9721C;
+$mdc-theme-background: #fbfbfb;
+
+//@import "@material/animation/mdc-animation";
+@import "@material/button/mdc-button";
+@import "@material/card/mdc-card";
+//@import "@material/checkbox/mdc-checkbox";
+//@import "@material/dialog/mdc-dialog";
+//@import "@material/drawer/mdc-drawer";
+//@import "@material/elevation/mdc-elevation";
+//@import "@material/fab/mdc-fab";
+//@import "@material/form-field/mdc-form-field";
+//@import "@material/grid-list/mdc-grid-list";
+//@import "@material/icon-toggle/mdc-icon-toggle";
+@import "@material/layout-grid/mdc-layout-grid";
+//@import "@material/linear-progress/mdc-linear-progress";
+//@import "@material/list/mdc-list";
+//@import "@material/menu/mdc-menu";
+//@import "@material/radio/mdc-radio";
+@import "@material/ripple/mdc-ripple";
+//@import "@material/select/mdc-select";
+//@import "@material/slider/mdc-slider";
+//@import "@material/snackbar/mdc-snackbar";
+//@import "@material/switch/mdc-switch";
+//@import "@material/tabs/mdc-tabs";
+//@import "@material/textfield/mdc-textfield";
+@import "@material/theme/mdc-theme";
+@import "@material/toolbar/mdc-toolbar";
+@import "@material/typography/mdc-typography";
+
+
+@import "../syntax-highlighting";
+
+body {
+    background: #fbfbfb;
+}
+
+.content {
+    max-width: 800px;
+}
+
+.pagination {
+    margin: auto;
+}
+
+.pagination i {
+    vertical-align: middle;
+}
+
+.mdc-card__media {
+  background-image: url("../mat.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 180px;
+}
+
+.article a {
+    color: $mdc-theme-accent;
+    text-decoration: none;
+    &:visited {
+      color: $mdc-theme-accent;
+    }
+    &:hover {
+      color: lighten($mdc-theme-accent, 15);   
+    }
+    &:active {
+      color: $mdc-theme-accent;
+    }
+}
+
+.article h1 {
+    @extend .mdc-typography--display3;
+}
+.article h2 {
+    @extend .mdc-typography--display2;
+}
+.article h3 {
+    @extend .mdc-typography--display1;
+}
+.article h4 {
+    @extend .mdc-typography--headline;
+}
+.article h5 {
+    @extend .mdc-typography--title;
+}
+.article h6 {
+    @extend .mdc-typography--subheading2;
+}
+.article h7 {
+    @extend .mdc-typography--subheading1;
+}
+
+.article p {
+    @extend .mdc-typography--body1;
+    font-size: 1rem;
+    line-height: 1.75rem;
+}
+
+.article img {
+    display: block;
+    max-width:100%;
+    max-height:100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+figure.highlight {
+    width: 100%;
+    -webkit-margin-start: 0em;
+    -webkit-margin-after: 0em;
+    background: rgba(175, 11, 11, 0.05);
+    
+    pre {
+        padding: 1em;
+        overflow: auto;
+        line-height:1rem;
+    }
+}
+
+.highlighter-rouge {
+    padding-top: 0.125rem;
+    padding-left: 0.125rem;
+    padding-right: 0.125rem;
+    padding-bottom: 0.1rem;
+    background: rgba(175, 11, 11, 0.075);
+}
+
+.ad {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+

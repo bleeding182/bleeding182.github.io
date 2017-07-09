@@ -1,50 +1,51 @@
-<div class="mdl-grid content" itemscope="" itemtype="http://schema.org/Blog">
-  {% for post in paginator.posts %}
-  <div class="mdl-card mdl-cell mdl-cell--12-col mdl-shadow--2dp">
-  <article itemprop="blogPost" itemscope="" itemtype="http://schema.org/BlogPosting">
-    <meta itemprop="author publisher" content="{{post.author}}" />
-    <div class="mdl-card__title mdl-color--primary">
-      <h2 class="mdl-card__title-text mdl-color-text--primary-contrast">
-        {{ post.title }}
-      </h2>
-    </div>
+<div class="mdc-layout-grid content" itemscope="" itemtype="http://schema.org/Blog">
+  <div class="mdc-layout-grid__inner max-width">
+    {% for post in paginator.posts %}
+      <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12 mdc-card">
+        <article itemprop="blogPost" itemscope="" itemtype="http://schema.org/BlogPosting">
+        
+          <meta itemprop="author publisher" content="{{post.author}}" />
+          <section class="mdc-card__primary">
+            <h1 class="mdc-card__title mdc-card__title--large">
+              {{ post.title }}
+            </h2>
+          </section>
 
-    <div class="mdl-card__supporting-text">
-      <p>
-        <span itemprop="datePublished dateModified" class="mdl-typography--caption">{{ post.date | date: "%b %-d, %Y" }}</span>
-      </p>
-      <meta itemprop="keywords" content="{{ post.tags | join: ',' }}" />
-      <div itemprop="description" class="mdl-color-text--black">{{ post.excerpt }}</div>
-
-    </div>
-    <div class="mdl-card__actions mdl-card--border">
-    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"  href="{{ post.url | prepend: site.baseurl }}" itemprop="mainEntityOfPage url">
-        Read More
-      </a>
-    </div>
-  </article>
-  </div>
-  {% endfor %}
-
-  <!-- Pagination links -->
-  <div class="pagination mdl-grid">
-    {% if paginator.previous_page %}
-    <a href="{{ paginator.previous_page_path }}" class="mdl-button mdl-js-button mdl-js-ripple-effect"><i class="material-icons">navigate_before</i></a>
-    {% else %}
-    <button class="mdl-button mdl-js-button" disabled><i class="material-icons">navigate_before</i></button>
-    {% endif %}
-    {% for pageNum in (1..paginator.total_pages) %}
-      {% if paginator.page == pageNum %}
-        <button class="mdl-button mdl-js-button" disabled>{{pageNum}}</button>
-      {% else %}
-        <a href="/{%if pageNum > 1%}page{{pageNum}}{% else %}{%endif%}" class="mdl-button mdl-js-button mdl-js-ripple-effect">{{pageNum}}</a>
-      {% endif %}
+          <section class="mdc-card__supporting-text article">
+            <p>
+              <span itemprop="datePublished dateModified" class="mdc-typography--subheading1">{{ post.date | date: "%b %-d, %Y" }}</span>
+            </p>
+            <meta itemprop="keywords" content="{{ post.tags | join: ',' }}" />
+            <div itemprop="description" class="mdc-typography--body1">{{ post.excerpt }}</div>
+          </section>
+          <section class="mdc-card__actions">
+            <a class="mdc-button mdc-button--compact mdc-button--accent mdc-card__action"  href="{{ post.url | prepend: site.baseurl }}" itemprop="mainEntityOfPage url">
+                Read More
+            </a>
+          </section>
+        </article>
+      </div>
     {% endfor %}
-    {% if paginator.next_page %}
-    <a href="{{ paginator.next_page_path }}" class="mdl-button mdl-js-button mdl-js-ripple-effect"><i class="material-icons">navigate_next</i></a>
-    {% else %}
-    <button class="mdl-button mdl-js-button" disabled><i class="material-icons">navigate_next</i></button>
-    {% endif %}
-  </div>
 
+    <!-- Pagination links -->
+    <div class="pagination mdc-layout-grid__cell mdc-layout-grid__cell--span-12">
+      {% if paginator.previous_page %}
+      <a href="{{ paginator.previous_page_path }}" class="mdc-button"><i class="material-icons">navigate_before</i></a>
+      {% else %}
+      <button class="mdc-button" disabled><i class="material-icons">navigate_before</i></button>
+      {% endif %}
+      {% for pageNum in (1..paginator.total_pages) %}
+        {% if paginator.page == pageNum %}
+          <button class="mdc-button" disabled>{{pageNum}}</button>
+        {% else %}
+          <a href="/{%if pageNum > 1%}page{{pageNum}}{% else %}{%endif%}" class="mdc-button">{{pageNum}}</a>
+        {% endif %}
+      {% endfor %}
+      {% if paginator.next_page %}
+      <a href="{{ paginator.next_page_path }}" class="mdc-button"><i class="material-icons">navigate_next</i></a>
+      {% else %}
+      <button class="mdc-button" disabled><i class="material-icons">navigate_next</i></button>
+      {% endif %}
+    </div>
+  </div>
 </div>

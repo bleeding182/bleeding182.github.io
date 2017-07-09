@@ -1,26 +1,16 @@
-<header class="mdl-layout__header">
-  <div class="mdl-layout__header-row">
+<header class="mdc-toolbar mdc-toolbar--fixed ">
+  <div class="mdc-toolbar__row">
     <!-- Title -->
-    <a href="{{site.baseurl}}/" class="mdl-navigation__link mdl-js-ripple-effect">
-      <span class="mdl-layout-title">{% if my_page.title %}{{ my_page.title }}{% else %}{{ site.title }}{% endif %}</span>
-    </a>
-    <!-- Add spacer, to align navigation to the right -->
-    <div class="mdl-layout-spacer"></div>
-    <!-- Navigation. We hide it in small screens. -->
-    <nav class="mdl-navigation mdl-layout--large-screen-only">
+    <section class="mdc-toolbar__section mdc-toolbar__section--align-start">
+      {% if {{page.url}} != "/" %}
+      <a href="{{site.baseurl}}/" class="material-icons mdc-toolbar__icon--menu">home</a>
+      {% endif %}
+      <span class="mdc-toolbar__title">{% if my_page.title %}{{ my_page.title }}{% else %}{{ site.title }}{% endif %}</span>
+    </section>
+    
+    <section class="mdc-toolbar__section mdc-toolbar__section--align-end mdc-typography" role="toolbar">
       {% for my_page in site.pages %}{% if my_page.title %}
-      <a class="mdl-navigation__link" href="{{ my_page.url | prepend: site.baseurl }}">{{ my_page.title }}</a>{% endif %}{% endfor %}
-    </nav>
+      <a class="mdc-toolbar__icon mdc-typography--subheading1" href="{{ my_page.url | prepend: site.baseurl }}">{{ my_page.title }}</a>{% endif %}{% endfor %}
+    </section>
   </div>
 </header>
-<div class="mdl-layout__drawer">
-  <span class="mdl-layout-title">{% if my_page.title %}{{ my_page.title }}{% else %}{{ site.title }}{% endif %}</span>
-  <nav class="mdl-navigation">
-    {% for post in site.posts %}{% if forloop.index < 10 %}
-    <a class="mdl-navigation__link" href="{{ post.url }}">{{ post.title }}</a>
-    {% endif %}{% endfor %}
-    <hr/>
-    {% for my_page in site.pages %}{% if my_page.title %}
-    <a class="mdl-navigation__link" href="{{ my_page.url | prepend: site.baseurl }}">{{ my_page.title }}</a>{% endif %}{% endfor %}
-  </nav>
-</div>

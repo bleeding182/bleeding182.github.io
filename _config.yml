@@ -24,6 +24,7 @@ future: true
 
 sass:
     style: compressed
+    sass_dir: _sass/node_modules
 
 defaults:
   -
