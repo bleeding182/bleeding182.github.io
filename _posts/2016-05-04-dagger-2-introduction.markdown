@@ -4,7 +4,6 @@ title:  "Dagger 2 Basics"
 categories: android
 tags:
 - dagger-2
-published: true
 ---
 Dagger 2 can be confusing. This shall shed some light on the key concepts and highlight their proper use. You could start by reading the [User's Guide](http://google.github.io/dagger/users-guide.html) to acquire the general and official knowledge, and once you have brewed your coffee, pray, continue.
 
@@ -153,3 +152,19 @@ MyInterface provideMyInterface(MyInterfaceImpl implementation) {
 {%endhighlight%}
 
 If your interface depends on the implementation of itself, Dagger will create your implementation for you. You then can just return the implementation when your interface is needed&mdash;and never call `new` again.
+
+And while the above approach works quite well, a new `@Binds` annotation was added to Dagger to support this exact use case. If you are using an interface or abstract class as your Module you can also use the following.
+
+{%highlight java%}
+@Binds
+MyInterface provideMyInterface(MyInterfaceImpl implementation);
+{%endhighlight%}
+
+Not only is it less code to write, you should try to use `@Binds` whenever possible since Dagger can do further optimizations that might not be possible by just using `@Provides`.
+
+
+## Summary
+
+If you read everything until here I hope that you gained a good picture about how Dagger operates and how to declare components that will create and provide your dependencies. To help them set up more complicated objects you can use modules, but Constructor Injection is the easiest way to go whenever possible.
+
+In the end you should just go try it and play around. I like to just open a single file in my project and start declaring components, modules, and classes. This allows for easy experimentation and since Dagger is run at compile time you will get quick feedback about the setup, and learn how things fit together.
