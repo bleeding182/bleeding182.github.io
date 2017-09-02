@@ -1,8 +1,9 @@
 source 'https://rubygems.org'
 
-gem 'jekyll', '3.2.1'
+gem 'execjs'
 
 group :jekyll_plugins do
+	gem 'github-pages'
 	gem 'jekyll-sitemap', '0.11.0'
 	gem 'jekyll-paginate'
 end

@@ -76,26 +76,51 @@
 
   &__title {
     @include mdc-typography(title);
+    @include mdc-typography-overflow-ellipsis;
 
     align-self: center;
     margin: 0;
-    margin-left: 16px;
+    margin-left: 24px;
     padding: $mdc-toobar-element-vertical-padding 0;
     line-height: 1.5rem;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
     z-index: 1;
   }
 
   &__icon {
     @include mdc-shared-icon-style;
     @include mdc-theme-prop(color, text-primary-on-primary);
+
+    cursor: pointer;
+  }
+
+  &__icon:last-of-type {
+    padding-right: 16px;
   }
 
   &__icon--menu {
     @include mdc-shared-icon-style(menu);
     @include mdc-theme-prop(color, text-primary-on-primary);
+
+    padding: 16px 24px;
+    cursor: pointer;
+  }
+}
+
+.mdc-toolbar__icon--menu + .mdc-toolbar__title {
+  margin-left: 8px;
+}
+
+@media (max-width: $mdc-toolbar-mobile-breakpoint) {
+  .mdc-toolbar__icon--menu {
+    padding: 16px;
+  }
+
+  .mdc-toolbar__icon:last-child {
+    padding: 16px 8px;
+  }
+
+  .mdc-toolbar__title {
+    margin-left: 16px !important;
   }
 }
 
@@ -103,7 +128,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1;
+  z-index: 4;
 
   @include mdc-elevation(4);
 }
@@ -111,7 +136,7 @@
 .mdc-toolbar--flexible {
   // stylelint-disable plugin/selector-bem-pattern
   // bem linter is disabled because it cannot correctly reconcile mdc prefix for css variables.
-  --mdc-toolbar-ratio-to-extend-flexible: $mdc-toolbar-ratio-to-extend-flexible;
+  --mdc-toolbar-ratio-to-extend-flexible: #{$mdc-toolbar-ratio-to-extend-flexible};
   // stylelint-enable plugin/selector-bem-pattern
 
   .mdc-toolbar__row:first-child {
