@@ -12,7 +12,7 @@ email: davidmedenjak@gmail.com
 description: >
   A blog about android and testing.
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://blog.davidmedenjak.com" # the base hostname & protocol for your site
+url: "https://blog.davidmedenjak.com" # the base hostname & protocol for your site
 #twitter_username: jekyllrb
 github_username:  bleeding182
 
