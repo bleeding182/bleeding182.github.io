@@ -2,7 +2,7 @@
   <div class="mdc-toolbar__row">
     <section class="mdc-toolbar__section mdc-toolbar__section--align-start">
       {% if {{page.url}} != "/" %}
-      <a href="{{site.baseurl}}/" class="material-icons mdc-toolbar__icon--menu">home</a>
+      <a href="{{site.baseurl}}/" class="material-icons mdc-toolbar__menu-icon">home</a>
       {%- endif -%}
       <span class="mdc-toolbar__title">{% if my_page.title %}{{ my_page.title }}{% else %}{{ site.title }}{% endif %}</span>
     </section>
