@@ -9,8 +9,7 @@
 title: Android Stuff
 author: David Medenjak
 email: davidmedenjak@gmail.com
-description: >
-  A blog about android and testing.
+description: "A blog about Android."
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://blog.davidmedenjak.com" # the base hostname & protocol for your site
 #twitter_username: jekyllrb
@@ -38,5 +37,5 @@ paginate: 8
 
 repository: username/repo-name
 
-gems:
+plugins:
   - jekyll-sitemap

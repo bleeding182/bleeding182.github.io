@@ -4,7 +4,7 @@ gem 'execjs'
 
 group :jekyll_plugins do
 	gem 'github-pages'
-	gem 'jekyll-sitemap', '0.11.0'
+	gem 'jekyll-sitemap'
 	gem 'jekyll-paginate'
 end
 

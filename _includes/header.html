@@ -1,16 +1,18 @@
 <header class="mdc-toolbar mdc-toolbar--fixed ">
   <div class="mdc-toolbar__row">
-    <!-- Title -->
     <section class="mdc-toolbar__section mdc-toolbar__section--align-start">
       {% if {{page.url}} != "/" %}
       <a href="{{site.baseurl}}/" class="material-icons mdc-toolbar__icon--menu">home</a>
-      {% endif %}
+      {%- endif -%}
       <span class="mdc-toolbar__title">{% if my_page.title %}{{ my_page.title }}{% else %}{{ site.title }}{% endif %}</span>
     </section>
     
     <section class="mdc-toolbar__section mdc-toolbar__section--align-end mdc-typography" role="toolbar">
-      {% for my_page in site.pages %}{% if my_page.title %}
-      <a class="mdc-toolbar__icon mdc-typography--subheading1" href="{{ my_page.url | prepend: site.baseurl }}">{{ my_page.title }}</a>{% endif %}{% endfor %}
+      {%- for my_page in site.pages -%}
+      {% if my_page.title %}
+      <a class="mdc-toolbar__icon mdc-typography--subheading1" href="{{ my_page.url | prepend: site.baseurl }}">{{ my_page.title }}</a>
+      {%- endif -%}
+      {%- endfor -%}
     </section>
   </div>
 </header>

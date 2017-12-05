@@ -1,13 +1,13 @@
 <div class="mdc-layout-grid content" itemscope="" itemtype="http://schema.org/Blog">
   <div class="mdc-layout-grid__inner max-width">
-    {% for post in paginator.posts %}
+    {%- for post in paginator.posts -%}
       <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12 mdc-card">
         <article itemprop="blogPost" itemscope="" itemtype="http://schema.org/BlogPosting">
         
           <meta itemprop="author publisher" content="{{post.author}}" />
           <section class="mdc-card__primary">
             <h1 class="mdc-card__title mdc-card__title--large">
-              {{ post.title }}
+              {{- post.title -}}
             </h2>
           </section>
 
@@ -25,27 +25,27 @@
           </section>
         </article>
       </div>
-    {% endfor %}
+    {%- endfor -%}
 
     <!-- Pagination links -->
     <div class="pagination mdc-layout-grid__cell mdc-layout-grid__cell--span-12">
-      {% if paginator.previous_page %}
+      {%- if paginator.previous_page -%}
       <a href="{{ paginator.previous_page_path }}" class="mdc-button"><i class="material-icons">navigate_before</i></a>
-      {% else %}
+      {%- else -%}
       <button class="mdc-button" disabled><i class="material-icons">navigate_before</i></button>
-      {% endif %}
-      {% for pageNum in (1..paginator.total_pages) %}
-        {% if paginator.page == pageNum %}
+      {%- endif -%}
+      {%- for pageNum in (1..paginator.total_pages) -%}
+        {%- if paginator.page == pageNum -%}
           <button class="mdc-button" disabled>{{pageNum}}</button>
-        {% else %}
+        {%- else -%}
           <a href="/{%if pageNum > 1%}page{{pageNum}}{% else %}{%endif%}" class="mdc-button">{{pageNum}}</a>
-        {% endif %}
-      {% endfor %}
-      {% if paginator.next_page %}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if paginator.next_page -%}
       <a href="{{ paginator.next_page_path }}" class="mdc-button"><i class="material-icons">navigate_next</i></a>
-      {% else %}
+      {%- else -%}
       <button class="mdc-button" disabled><i class="material-icons">navigate_next</i></button>
-      {% endif %}
+      {%- endif -%}
     </div>
   </div>
 </div>
