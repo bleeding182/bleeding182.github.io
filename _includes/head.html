@@ -11,7 +11,7 @@
     {{ site.title }}
   {%- endif -%}
   </title>
-  <meta name="description" content="{%- if page.excerpt -%}{{- page.excerpt | strip_html | strip_newlines | truncate: 160 -}}{%- else -%}{{- site.description -}}{%- endif -%}">
+  <meta name="description" content="{%- if page.description -%}{{- page.description -}}{%- else -%}{%- if page.excerpt -%}{{- page.excerpt | strip_html | strip_newlines | truncate: 160 -}}{%- else -%}{{- site.description -}}{%- endif -%}{%- endif -%}">
 
   <link rel="stylesheet" href="{{ "/css/site.css" | prepend: site.baseurl }}"/>
 

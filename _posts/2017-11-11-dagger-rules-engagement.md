@@ -1,6 +1,7 @@
 ---
 layout: post
 title:  "Dagger 2 &ndash; Rules of Engagement"
+description: Simple rules to follow to clear up some of the confusion surrounding Dagger when starting out.
 categories: android
 tags:
 - dagger-2
@@ -16,8 +17,7 @@ This said, Dagger is not as complicated as it may seem. It follows a few basic r
 
 ## 1. Components do the work
 
-Components create and store your objects. They know about your project and know how to resolve your dependencies. In short, components create your objects, and you should question _any_ call to `new` you still make yourself. After all, why use Dagger if you keep creating your own objects?
-
+Components create and store your objects. They know about your project and know how to resolve your dependencies. They are the backbone of Dagger and your entry point into Dependency Injection. In short, components create your objects and by utilizing Dagger there is no more need to create every object manually. After all, why use Dagger if you insist on micromanaging your object creation?
 
 ## 2. You have to call Dagger or nothing will happen.
 
@@ -39,14 +39,14 @@ interface MyComponent {
   MyObject getMyObject();
 }
 {% endhighlight %}
-    
+
 If you call `component.getMyObject()` the component will return it to you. This second way of interfacing with Dagger is called a _provision method_ and gets interesting when dealing with component dependencies. You will most likely not be using this method a lot, but it is always good to know one's options.
 
 Those two ways provide an entry point for Dagger, to inject your framework type, or for you to retrieve some fully set-up objects, but for the most part of your code you should...
 
 ## 4. Use constructor injection
 
-While you _could_ use the aforementioned `component.inject(this)` (field injection) for everything, this is probably also the worst thing you could do. You'd have to pass the component around, you'd have to declare an interface method for every single one of your classes, you'd have to call the method for every object you create&mdash;and yet this is how some people try to get started with Dagger. I won't blame them if they say it is overly complicated and adds a lot of boilerplate.
+While you _could_ use the aforementioned `component.inject(this)` (field injection) to inject the desired fields of every object manually, this is probably also the most laborious thing you could do. You'd have to pass the component around, you'd have to declare a method in the component for every single one of your classes, you'd have to invoke the inject method for every single object after its creation&mdash;and yet this is how some people try to get started with Dagger. I won't blame them if they say it is overly complicated and adds a lot of boilerplate.
 
 Use constructor injection and you get clean code that scales well. How? If you have a class that depends on another class, then you declare this dependency in the constructor. And to tell Dagger, "Hey, I know you're reading this, this is how to create my object," you annotate the constructor with `@Inject`. That's all.
 
@@ -54,26 +54,26 @@ Use constructor injection and you get clean code that scales well. How? If you h
 class MyClass() {
 
   private MyDependency dependency;
-  
+
   @Inject
   MyClass(MyDependency dependency) {
     this.dependency = dependency;
   }
 }
 {% endhighlight %}
-    
+
 Please note the _single_ `@Inject` _on the constructor_. There is no need to mark the fields and they can be private as they should. Dagger now knows about `MyClass` and will create it with a `dependency` passed into the constructor. Isn't this easier to read than having all those `.inject(this)` calls and annotated fields everywhere?
 
 This also means that you _don't_ need to use modules all the time! Any class that has an `@Inject` annotated constructor can be created by Dagger without any further setup! This is how we can save a lot of time and effort with Dagger:
 Focus on writing your code, properly list your dependencies, and just assume that someone will pass them into your constructor. Dagger will take care of the rest.
 
-If you're still thinking of calling `new MyClass(...)` yourself, don't. I mean it. When you call `new` yourself then _you_ have to write that code, _you_ have to maintain it, and _you_ are using Dagger wrong. Of course you will still be using `new`, but with Dagger you should be using it significantly less.
+If you use constructor injection, then Dagger can create those objects _for you_. Declare your dependencies and Dagger will provide&mdash;be it field injection, constructor injection, or by invoking a provision method mentioned above. You should not call `new MyClass()` unless you explicitly want to manage the object creation yourself.
 
-## 5. Modules are for libraries
+## 5. Modules only when needed
 
 You are probably using Retrofit, OkHttp, etc. You might have noticed that they usually don't let you create their objects directly, but you have to call a `Builder` and do some setup. Since you don't have access to the code you can't make use of `@Inject` annotated constructors either. This is what modules are for!
 
-In modules you can define provider method bindings that will be called when Dagger needs to create a specific object, and they work in the same way constructors do. To tell Dagger about the method, you add a `@Provides` annotation on it. Any dependencies that you might have&mdash;you guessed it&mdash;you add as arguments to your method.
+In modules you can define provider method bindings that will be called when Dagger needs to create a specific object, and they work like constructors. To tell Dagger about the method, you add a `@Provides` annotation on it. Any dependencies that you might have&mdash;you guessed it&mdash;you add as an arguments to your method.
 
 {% highlight java %}
 @Module
@@ -88,8 +88,10 @@ class HttpModule() {
   }
 }
 {% endhighlight %}
-    
-This lets Dagger know that this module can provide `Retrofit`.  Dagger will call this method with an `OkHttpClient` when it needs the object.
+
+This lets Dagger know that this module can provide `Retrofit` and Dagger will call this method, passing in an `OkHttpClient`, when it needs to create the object.
+
+> **Note:** Modules can do more than that, like  [binding implementations to their interfaces here][interfacebinding], but for now I'd like to stick to the bare basics.
 
 ## 6. Scopes contain an object only once.
 
@@ -118,7 +120,7 @@ Components are but simple Java objects themselves. There is no global state or s
  \_ @PerActivity ActivityComponent
      \_ @PerFragment FragmentComponent
 {% endhighlight %}
-     
+
 If you know about DAGs (Directed Acyclic Graphs) this is everything you need to know about scopes. If scope B depends on scope A, then A MUST NOT depend on B, or you would have a dependency cycle&mdash;and Dagger will refuse to compile your code.
 
 If B is a subcomponent of A, then it can use anything within A. If you're using component dependencies then B would be limited to things exposed by provision methods of A (methods without parameters that return an injected or provided type).  
@@ -152,7 +154,7 @@ class MyModule {
   }
 }
 {% endhighlight %}
-    
+
 Unless you get paid by lines of code, this is not what you want to be doing. Not only do you have to create the object yourself, you also need to add more modules to your components, etc. Your project will be bloated with boilerplate that you wanted to eliminate.
 
 Of course there sometimes will be a need to bind your interface to an implementation, and you have to use modules to do so, so this is how to do it right:
@@ -167,7 +169,7 @@ class MyModule {
   }
 }
 {% endhighlight %}
-    
+
 And as you can see this is pretty straightforward, which is why Dagger can even do this _for you_ in abstract modules or modules that are declared as interfaces by using `@Binds` instead of `@Provides` with the method...
 
 {% highlight java %}
@@ -176,7 +178,7 @@ interface MyModule {
   @Binds MyInterface provideMyInterface(MyInterfaceImplementation implementation);
 }
 {% endhighlight %}
-    
+
 You should always have a reason _why_ you use a module, otherwise you might be adding more overhead than necessary. Favor constructor injection above anything else.
 
 ## Final words
@@ -185,7 +187,8 @@ This is not a full guide. This post is intended for people starting out to clear
 
 Make sure you understand what you're doing, form your own opinion, and&mdash;most of all&mdash;don't just copy-paste some code and expect it to work.
 
-  [basics]:https://blog.davidmedenjak.com/android/2016/05/04/dagger-2-introduction.html
+  [basics]:{{ site.baseurl }}{% post_url 2016-05-04-dagger-2-introduction %}
+  [interfacebinding]:{{ site.baseurl }}{% post_url 2016-05-04-dagger-2-introduction %}#providing-interfaces
   [fixprovides]:https://stackoverflow.com/a/44912081/1837367
   [squareblog]:https://medium.com/square-corner-blog/keeping-the-daggers-sharp-%EF%B8%8F-230b3191c3f
   [zhuinden]:https://medium.com/@Zhuinden/that-missing-guide-how-to-use-dagger2-ef116fbea97

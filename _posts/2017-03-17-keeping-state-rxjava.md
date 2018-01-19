@@ -6,7 +6,7 @@ tags:
 - rxJava
 - loaders
 published: true
-description: Food for thought regarding Loaders
+description: Keeping state with RxJava during orientation change with loaders.
 excerpt_separator: <!--more-->
 ---
 
