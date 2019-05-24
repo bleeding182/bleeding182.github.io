@@ -153,4 +153,6 @@ public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
 
 And that's it! There is a full example on [how to do splash screens on GitHub][1] showcasing a light and dark theme.
 
+Next, we can improve the transition by [animating the splash screen]({{ site.baseurl }}{% post_url 2019-05-17-animated-splash-screens %}) while the content is loading.
+
   [1]:https://github.com/bleeding182/samples/tree/master/SplashScreen
