@@ -4,8 +4,10 @@ layout: default
 <div class="mdc-layout-grid content article">
   <div class="mdc-layout-grid__inner max-width">
   
+  {% comment %}
   {%- include ads/blog_post_top.html -%}
-
+  {% endcomment %}
+  
   <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12 mdc-typography">
     <article itemscope="" itemtype="http://schema.org/BlogPosting">
         <meta itemprop="keywords" content="{{ page.tags | join: ',' }}" />
