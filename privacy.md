@@ -6,13 +6,7 @@ permalink: /privacy/
 
 ## Information we collect
 
-This site uses Google Analytics and Google Tag Manager. These are used to analyze your usage behavior and the information is generally transmitted to a Google server in the United States and stored there. This information is used to increase user experience.
-
-### Ads by Google AdSense
-
-This site uses Google AdSense to serve ads. Google AdSense themselves may serve ads from third parties. Both, Google AdSense and third party vendors use cookies to serve ads based on prior visits to this or other websites. You may find further information about opting out of personalized ads by visiting [www.aboutads.info](http://www.aboutads.info).
-
-You can read more about how Google is storing and processing data at: [How Google uses data when you use our partners’ sites or apps](http://www.google.com/policies/privacy/partners/)
+This site uses Insights to track anonymized usage statistics. [Read more](https://getinsights.io/what-data-we-collect) about data they collect.
 
 ### Disqus
 
@@ -39,4 +33,4 @@ By using this site, you signify your acceptance of this policy and terms of serv
 If you have any questions about this Privacy Policy, the practices of this site, or your dealings with this site, please contact us.
 
 Introduced July 6th 2016  
-Last modified July 10th 2016
+Last modified August 27th 2022
