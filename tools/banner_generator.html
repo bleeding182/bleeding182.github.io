@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Launcher Icon Banner Generator</title>
+    <script src="https://cdn.jsdelivr.net/npm/opentype.js@1.3.4/dist/opentype.min.js"></script>
+    <style>
+        /* CSS styles remain the same */
+        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; background-color: #f4f4f4; line-height: 1.5; }
+        h1, h2, h3 { color: #333; text-align: center; margin-bottom: 0.8em; }
+        .container { background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; width: 90%; max-width: 650px; box-sizing: border-box; position: relative; }
+        label { font-weight: bold; flex-shrink: 0; min-width: 120px; }
+        input[type="range"] { flex-grow: 1; margin-right: 5px; vertical-align: middle; }
+        input[type="color"] { padding: 0; border: 1px solid #ccc; width: 40px; height: 30px; cursor: pointer; vertical-align: middle; border-radius: 4px; background-color: transparent; box-sizing: border-box; }
+        input[type="text"], select { flex-grow: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px; min-width: 100px; box-sizing: border-box; }
+        button { padding: 8px 12px; background-color: #e9e9e9; border: 1px solid #ccc; color: #333; border-radius: 4px; cursor: pointer; font-size: 0.9em; transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease; margin: 2px; vertical-align: middle; }
+        button:hover:not(:disabled) { background-color: #d8d8d8; border-color: #bbb; }
+        button:disabled { background-color: #f0f0f0; border-color: #dcdcdc; color: #aaa; cursor: not-allowed; opacity: 0.7; }
+        button.active { background-color: #007bff; color: white; border-color: #0056b3; font-weight: bold; }
+        button.copy-button { background-color: #007bff; color: white; border-color: #0056b3;}
+        button.copy-button:hover:not(:disabled) { background-color: #0056b3; }
+        textarea { width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: monospace; background-color: #e8e8e8; margin-bottom: 10px; min-height: 180px; white-space: pre; overflow-wrap: normal; overflow-x: scroll; font-size: 0.85em; }
+        code { background-color: #e8e8e8; padding: 2px 4px; border-radius: 3px; font-family: monospace; }
+        .control-group { margin-bottom: 15px; display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .control-group span { min-width: 30px; text-align: right; font-family: monospace; }
+        .button-group { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+        .loading-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255, 255, 255, 0.9); display: flex; justify-content: center; align-items: center; font-size: 1.1em; color: #555; z-index: 10; border-radius: 8px; text-align: center; padding: 10px; }
+        .loading-overlay.hidden { display: none; }
+        #copyStatus, #copyStatusClip { margin-left: 10px; font-weight: bold; transition: opacity 0.5s ease; font-size: 0.9em; }
+        .preview-box { display: inline-block; border: 1px solid #ddd; background-color: #e9e9e9; margin-top: 5px; overflow: hidden; }
+        #previewSvg { display: block; background-image: linear-gradient(45deg, #eee 25%, transparent 25%), linear-gradient(-45deg, #eee 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #eee 75%), linear-gradient(-45deg, transparent 75%, #eee 75%); background-size: 20px 20px; background-position: 0 0, 0 10px, 10px -10px, -10px 0px; }
+        #bannerTextPathPreview { transition: fill 0.2s ease; }
+        .instructions { text-align: left; font-size: 0.9em; color: #444; }
+        .instructions ul { padding-left: 20px; margin-top: 5px; }
+        .note { font-size: 0.85em; color: #666; margin-top: 5px;}
+        /* Hide temporary SVG used for calculations */
+        #calculationSvg { position: absolute; left: -9999px; top: -9999px; width: 108px; height: 108px; overflow: visible; /* Make slightly visible for debug: left:0; top:0; border: 1px solid red; z-index: 100; */ }
+    </style>
+</head>
+<body>
+    <h1>Launcher Icon Banner Generator</h1>
+
+    <!-- Controls -->
+     <div class="container controls">
+         <div class="loading-overlay hidden" id="loadingIndicator">Loading Font...</div>
+        <h2>Configuration</h2>
+         <div class="control-group">
+             <label for="fontFamilySelect">Font Family:</label>
+             <select id="fontFamilySelect"> </select>
+             <p class="note">Only web fonts loadable via CDN are available.</p>
+         </div>
+          <div class="control-group">
+             <label>Font Style:</label>
+              <div class="button-group" id="fontStyleSelector">
+                  <button data-style="bold">Bold</button>
+                  <button data-style="italic">Italic</button>
+              </div>
+              <span id="styleFallbackMsg" style="font-size: 0.8em; color: #888; display: none;"></span>
+              <p class="note">Toggles attempt to load the actual Bold/Italic variant. Fallbacks apply.</p>
+         </div>
+        <div class="control-group">
+            <label for="bannerText">Banner Text:</label>
+            <input type="text" id="bannerText" value="DEV" maxlength="20">
+        </div>
+        <div class="control-group">
+             <label>Corner:</label>
+             <div class="button-group" id="cornerSelector">
+                 <button data-corner="top-left" class="active">Top Left</button>
+                 <button data-corner="top-right">Top Right</button>
+                 <button data-corner="bottom-left">Bottom Left</button>
+                 <button data-corner="bottom-right">Bottom Right</button>
+             </div>
+        </div>
+        <div class="control-group">
+            <label for="bannerBgColor">Banner BG (Std):</label>
+            <input type="color" id="bannerBgColor" value="#FF0000">
+        </div>
+        <div class="control-group">
+            <label for="textColor">Text Color (Std):</label>
+            <input type="color" id="textColor" value="#FFFFFF">
+        </div>
+         <hr style="border: none; border-top: 1px solid #eee; margin: 15px 0;">
+        <div class="control-group">
+            <label for="bannerSize">Banner Reach (%):</label>
+            <input type="range" id="bannerSize" min="20" max="90" value="75" step="1">
+            <span id="bannerSizeValue">45%</span>
+        </div>
+         <div class="control-group">
+            <label for="fontSize">Font Size (rel):</label>
+            <input type="range" id="fontSize" min="5" max="25" value="11" step="1">
+            <span id="fontSizeValue">11</span>
+        </div>
+    </div>
+
+    <!-- Preview -->
+    <div class="container preview-container">
+        <h2>Preview</h2>
+        <div class="preview-box">
+            <svg id="previewSvg" viewBox="0 0 108 108" width="216" height="216">
+                 <rect id="placeholderIcon" x="21" y="21" width="66" height="66" rx="4" ry="4" fill="#cccccc"/>
+                 <path id="bannerPath" fill="#FF0000" d=""/>
+                 <path id="bannerTextPathPreview" fill="#FFFFFF" d=""/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Standard Output -->
+    <div class="container output-container">
+        <h2>Colored Snippet</h2>
+        <p class="note">Add this to your foreground launcher icon.</p>
+        <textarea id="outputXml" rows="12" readonly>// Select font and configure...</textarea>
+        <button id="copyButton" class="copy-button" disabled>Copy Standard Snippet</button>
+        <span id="copyStatus" style="color: green; display: none;">Copied!</span>
+    </div>
+
+     <!-- Monochrome Output -->
+    <div class="container output-container">
+        <h2>Monochrome Snippet</h2>
+        <textarea id="outputXmlClipPath" rows="20" readonly>// Select font and configure...</textarea>
+        <button id="copyClipPathButton" class="copy-button" disabled>Copy Monochrome Snippet</button>
+        <span id="copyStatusClip" style="color: green; display: none;">Copied!</span>
+         <p style="font-size: 0.85em; margin-top: 10px; color: #555;">
+             Uses <code>clip-path</code> on <code>icon_content</code> to avoid overlap/alpha mixing. The Banner is a single combined path (text is transparent hole). Color is fixed white, <strong>but you can work with alpha</strong>!
+         </p>
+    </div>
+
+    <!-- Hidden SVG for calculations -->
+    <svg id="calculationSvg" viewBox="0 0 108 108" width="108" height="108" style="position: absolute; left: -9999px; top: -9999px; overflow: visible;"></svg>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- DOM Elements ---
+            const fontFamilySelect = document.getElementById('fontFamilySelect');
+            const fontStyleSelector = document.getElementById('fontStyleSelector');
+            const styleFallbackMsg = document.getElementById('styleFallbackMsg');
+            const bannerTextInput = document.getElementById('bannerText');
+            const cornerSelector = document.getElementById('cornerSelector');
+            const bannerBgColorInput = document.getElementById('bannerBgColor');
+            const textColorInput = document.getElementById('textColor');
+            const bannerSizeInput = document.getElementById('bannerSize');
+            const bannerSizeValueSpan = document.getElementById('bannerSizeValue');
+            const fontSizeInput = document.getElementById('fontSize');
+            const fontSizeValueSpan = document.getElementById('fontSizeValue');
+            const previewSvg = document.getElementById('previewSvg');
+            const bannerPath = document.getElementById('bannerPath');
+            const bannerTextPathPreview = document.getElementById('bannerTextPathPreview');
+            const outputXml = document.getElementById('outputXml');
+            const copyButton = document.getElementById('copyButton');
+            const copyStatus = document.getElementById('copyStatus');
+            const outputXmlClipPath = document.getElementById('outputXmlClipPath');
+            const copyClipPathButton = document.getElementById('copyClipPathButton');
+            const copyStatusClip = document.getElementById('copyStatusClip');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const placeholderIcon = document.getElementById('placeholderIcon');
+            const calculationSvg = document.getElementById('calculationSvg');
+
+            const fontDependentControls = [ bannerTextInput, bannerBgColorInput, textColorInput, bannerSizeInput, fontSizeInput, copyButton, copyClipPathButton ];
+            const fontSelectionControls = [fontFamilySelect, ...fontStyleSelector.querySelectorAll('button')];
+            const cornerButtons = Array.from(cornerSelector.querySelectorAll('button'));
+
+            // --- Constants ---
+            const VIEWBOX_SIZE = 108.0; const VB = VIEWBOX_SIZE;
+            const MONO_COLOR = "#FFFFFFFF";
+            const FONTS = { 'Roboto Mono': { 'Regular': 'https://cdn.jsdelivr.net/npm/@fontsource/roboto-mono@4.5.10/files/roboto-mono-latin-400-normal.woff', 'Bold': 'https://cdn.jsdelivr.net/npm/@fontsource/roboto-mono@4.5.10/files/roboto-mono-latin-700-normal.woff', 'Italic': 'https://cdn.jsdelivr.net/npm/@fontsource/roboto-mono@4.5.10/files/roboto-mono-latin-400-italic.woff', 'BoldItalic': 'https://cdn.jsdelivr.net/npm/@fontsource/roboto-mono@4.5.10/files/roboto-mono-latin-700-italic.woff' }, 'Lato': { 'Regular': 'https://cdn.jsdelivr.net/npm/@fontsource/lato@4.5.10/files/lato-latin-400-normal.woff', 'Bold': 'https://cdn.jsdelivr.net/npm/@fontsource/lato@4.5.10/files/lato-latin-700-normal.woff', 'Italic': 'https://cdn.jsdelivr.net/npm/@fontsource/lato@4.5.10/files/lato-latin-400-italic.woff', 'BoldItalic': 'https://cdn.jsdelivr.net/npm/@fontsource/lato@4.5.10/files/lato-latin-700-italic.woff' }, 'Open Sans': { 'Regular': 'https://cdn.jsdelivr.net/npm/@fontsource/open-sans@4.5.13/files/open-sans-latin-400-normal.woff', 'Bold': 'https://cdn.jsdelivr.net/npm/@fontsource/open-sans@4.5.13/files/open-sans-latin-700-normal.woff', 'Italic': 'https://cdn.jsdelivr.net/npm/@fontsource/open-sans@4.5.13/files/open-sans-latin-400-italic.woff', 'BoldItalic': 'https://cdn.jsdelivr.net/npm/@fontsource/open-sans@4.5.13/files/open-sans-latin-700-italic.woff' }, 'Source Code Pro': { 'Regular': 'https://cdn.jsdelivr.net/npm/@fontsource/source-code-pro@4.5.12/files/source-code-pro-latin-400-normal.woff', 'Bold': 'https://cdn.jsdelivr.net/npm/@fontsource/source-code-pro@4.5.12/files/source-code-pro-latin-700-normal.woff' } };
+            const SVG_NS = "http://www.w3.org/2000/svg";
+
+            // --- State ---
+            let loadedFont = null;
+            let isFontLoading = false;
+            let currentFontFamily = 'Roboto Mono';
+            let currentFontStyle = { bold: false, italic: false };
+            let currentCorner = 'top-left';
+            let bannerCoords = { p1x:0, p1y:0, p2x:0, p2y:0, p3x:0, p3y:0, p4x:0, p4y:0 };
+            let currentBannerPathData = '';
+            let currentTransformedTextPathData = '';
+            let currentCombinedMonoPathData = '';
+            let currentIconClipPathData = '';
+
+            // --- Utility Functions ---
+            const p = (num, precision = 2) => num.toFixed(precision).replace(/\.?0+$/, '') || '0';
+            function setControlsEnabled(enableFontSelection, enableFontDependent) {
+                fontSelectionControls.forEach(control => control.disabled = !enableFontSelection);
+                cornerButtons.forEach(btn => btn.disabled = !enableFontDependent);
+                fontDependentControls.forEach(control => control.disabled = !enableFontDependent);
+            }
+            function showLoading(message) {
+                loadingIndicator.textContent = message;
+                loadingIndicator.classList.remove('hidden');
+                setControlsEnabled(false, false);
+                isFontLoading = true;
+                outputXml.value = `// ${message}...`;
+                outputXmlClipPath.value = `// ${message}...`;
+                bannerTextPathPreview.setAttribute('d', '');
+            }
+            function hideLoading(success = true) {
+                loadingIndicator.classList.add('hidden');
+                setControlsEnabled(true, success);
+                isFontLoading = false;
+                if (!success) {
+                    outputXml.value = `// Font loading failed... Select another font or check console.`;
+                    outputXmlClipPath.value = `// Font loading failed...`;
+                }
+            }
+            function getStyleName(bold, italic) { if (bold && italic) return 'BoldItalic'; if (bold) return 'Bold'; if (italic) return 'Italic'; return 'Regular'; }
+            function findAvailableStyleUrl(family, desiredStyle) {
+                const familyStyles = FONTS[family];
+                if (!familyStyles) return { url: null, styleUsed: 'Regular', fallback: true };
+                if (familyStyles[desiredStyle]) return { url: familyStyles[desiredStyle], styleUsed: desiredStyle, fallback: false };
+                const styleParts = { bold: desiredStyle.includes('Bold'), italic: desiredStyle.includes('Italic') };
+                if (styleParts.bold && styleParts.italic && familyStyles['BoldItalic']) return { url: familyStyles['BoldItalic'], styleUsed: 'BoldItalic', fallback: true };
+                if (styleParts.bold && familyStyles['Bold']) return { url: familyStyles['Bold'], styleUsed: 'Bold', fallback: true };
+                if (styleParts.italic && familyStyles['Italic']) return { url: familyStyles['Italic'], styleUsed: 'Italic', fallback: true };
+                if (familyStyles['Regular']) return { url: familyStyles['Regular'], styleUsed: 'Regular', fallback: true };
+                const firstAvailableStyle = Object.keys(familyStyles)[0];
+                if (firstAvailableStyle) return { url: familyStyles[firstAvailableStyle], styleUsed: firstAvailableStyle, fallback: true };
+                return { url: null, styleUsed: 'Regular', fallback: true };
+            }
+
+            // --- Core Logic Functions ---
+            function loadFontAndStyle() {
+                 if (!currentFontFamily || !FONTS[currentFontFamily]) {
+                    console.error("Invalid font family:", currentFontFamily);
+                    hideLoading(false);
+                    return;
+                 }
+                 const desiredStyleName = getStyleName(currentFontStyle.bold, currentFontStyle.italic);
+                 const { url, styleUsed, fallback } = findAvailableStyleUrl(currentFontFamily, desiredStyleName);
+                 if (!url) {
+                    console.error(`No URL for ${currentFontFamily} - ${desiredStyleName}`);
+                    loadingIndicator.textContent = `Font variant not found.`;
+                    loadingIndicator.classList.remove('hidden');
+                    hideLoading(false);
+                    return;
+                 }
+                 styleFallbackMsg.textContent = fallback ? `(Using ${styleUsed} fallback)` : '';
+                 styleFallbackMsg.style.display = fallback ? 'inline' : 'none';
+
+                 showLoading(`Loading ${currentFontFamily} ${styleUsed}...`);
+                 loadedFont = null;
+
+                 opentype.load(url, (err, font) => {
+                    if (err) {
+                        console.error('Font loading failed:', url, err);
+                        loadingIndicator.textContent = `Font loading failed. Try another.`;
+                        loadingIndicator.classList.remove('hidden');
+                        hideLoading(false);
+                    } else {
+                        loadedFont = font;
+                        console.log('Font loaded:', url);
+                        hideLoading(true);
+                        updatePreviewAndOutput();
+                    }
+                });
+             }
+
+            function pathSegmentsToString(segments, precision = 2) {
+                return segments.map(seg => {
+                    const type = seg.type.toUpperCase();
+                    return type + (seg.values ? seg.values.map(v => p(v, precision)).join(',') : '');
+                }).join(' ');
+            }
+
+            function convertOpentypeCommandsToSegments(commands) {
+                return commands.map(cmd => {
+                    const seg = { type: cmd.type, values: [] }; // opentype types are already uppercase
+                    switch (seg.type) {
+                        case 'M':
+                        case 'L':
+                            seg.values = [cmd.x, cmd.y];
+                            break;
+                        case 'C':
+                            seg.values = [cmd.x1, cmd.y1, cmd.x2, cmd.y2, cmd.x, cmd.y];
+                            break;
+                        case 'Q':
+                            seg.values = [cmd.x1, cmd.y1, cmd.x, cmd.y];
+                            break;
+                        case 'Z':
+                            // No values
+                            break;
+                        default:
+                            console.warn("Unknown opentype command type in convertOpentypeCommandsToSegments:", cmd.type);
+                            return null; // Filter out later
+                    }
+                    return seg;
+                }).filter(seg => seg !== null);
+            }
+
+            function transformPathSegments(segments, matrix) {
+                if (!segments || segments.length === 0 || !matrix) return [];
+
+                const svgRoot = calculationSvg;
+                if (!svgRoot || typeof svgRoot.createSVGPoint !== 'function') {
+                    console.error("Calculation SVG root not available for point creation.");
+                    return [];
+                }
+
+                let currentPoint = svgRoot.createSVGPoint();
+                let startPoint = svgRoot.createSVGPoint();
+
+                const transformPoint = (x, y) => {
+                    let svgPoint = svgRoot.createSVGPoint();
+                    svgPoint.x = x;
+                    svgPoint.y = y;
+                    try {
+                         let transformed = svgPoint.matrixTransform(matrix);
+                         return { x: transformed.x, y: transformed.y };
+                    } catch (e) {
+                        console.error("Error during matrixTransform:", e, " Point:", {x,y}, "Matrix:", matrix);
+                        return { x: x, y: y };
+                    }
+                };
+
+                const transformedSegments = [];
+                for (const seg of segments) {
+                    const newSeg = { type: seg.type.toUpperCase(), values: [] }; // Ensures type is uppercase
+                    const vals = seg.values || [];
+                    let transformed;
+
+                    try {
+                        switch (newSeg.type) {
+                            case 'M':
+                                transformed = transformPoint(vals[0], vals[1]);
+                                newSeg.values = [transformed.x, transformed.y];
+                                currentPoint.x = transformed.x; currentPoint.y = transformed.y;
+                                startPoint.x = transformed.x; startPoint.y = transformed.y;
+                                break;
+                            case 'L':
+                                transformed = transformPoint(vals[0], vals[1]);
+                                newSeg.values = [transformed.x, transformed.y];
+                                currentPoint.x = transformed.x; currentPoint.y = transformed.y;
+                                break;
+                            case 'H': // Will convert to L
+                                transformed = transformPoint(vals[0], currentPoint.y);
+                                newSeg.type = 'L';
+                                newSeg.values = [transformed.x, transformed.y];
+                                currentPoint.x = transformed.x;
+                                break;
+                            case 'V': // Will convert to L
+                                transformed = transformPoint(currentPoint.x, vals[0]);
+                                newSeg.type = 'L';
+                                newSeg.values = [transformed.x, transformed.y];
+                                currentPoint.y = transformed.y;
+                                break;
+                            case 'C':
+                                let p1 = transformPoint(vals[0], vals[1]);
+                                let p2 = transformPoint(vals[2], vals[3]);
+                                let pEnd = transformPoint(vals[4], vals[5]);
+                                newSeg.values = [p1.x, p1.y, p2.x, p2.y, pEnd.x, pEnd.y];
+                                currentPoint.x = pEnd.x; currentPoint.y = pEnd.y;
+                                break;
+                            case 'S': // Note: opentype.js raw commands don't include S. If S occurs, handled like Q.
+                            case 'Q':
+                                let pCtrl = transformPoint(vals[0], vals[1]);
+                                let pEndQ = transformPoint(vals[2], vals[3]);
+                                newSeg.values = [pCtrl.x, pCtrl.y, pEndQ.x, pEndQ.y];
+                                currentPoint.x = pEndQ.x; currentPoint.y = pEndQ.y;
+                                break;
+                            case 'T': // Note: opentype.js raw commands don't include T.
+                                let pEndT = transformPoint(vals[0], vals[1]); // T only has one pair of coords
+                                newSeg.values = [pEndT.x, pEndT.y];
+                                currentPoint.x = pEndT.x; currentPoint.y = pEndT.y;
+                                break;
+                            case 'A': // Note: opentype.js font paths don't include A.
+                                let pArcEnd = transformPoint(vals[5], vals[6]);
+                                newSeg.values = [vals[0], vals[1], vals[2], vals[3], vals[4], pArcEnd.x, pArcEnd.y];
+                                currentPoint.x = pArcEnd.x; currentPoint.y = pArcEnd.y;
+                                break;
+                            case 'Z':
+                                currentPoint.x = startPoint.x; currentPoint.y = startPoint.y;
+                                break;
+                            default:
+                                console.warn("Unsupported path segment type:", newSeg.type);
+                                continue;
+                        }
+                        transformedSegments.push(newSeg);
+                    } catch (segError) {
+                        console.error("Error processing segment:", seg, segError);
+                    }
+                }
+                return transformedSegments;
+            }
+
+            function getTransformedPathData(opentypePathCommands, pivotX, pivotY, rotation) {
+                if (!opentypePathCommands || opentypePathCommands.length === 0 || !calculationSvg) {
+                    return '';
+                }
+
+                // 1. Convert opentype.js commands to the {type, values} segment format
+                const originalSegments = convertOpentypeCommandsToSegments(opentypePathCommands);
+                if (originalSegments.length === 0 && opentypePathCommands.length > 0) {
+                    console.warn("Conversion from opentype commands yielded no segments.");
+                    return "M0,0"; // Fallback for empty segments
+                }
+                 if (originalSegments.length === 0) { // if input commands were also empty
+                    return "";
+                }
+
+
+                // 2. Create the transformation matrix manually
+                // The transform `translate(pivotX, pivotY) rotate(rotation)` means:
+                //   a. Translate the coordinate system to (pivotX, pivotY).
+                //   b. Rotate the (already translated) coordinate system by `rotation` degrees around its new origin (0,0),
+                //      which corresponds to (pivotX, pivotY) in the parent coordinate system.
+                let transformMatrix = calculationSvg.createSVGMatrix();
+                transformMatrix = transformMatrix.translate(pivotX, pivotY);
+                transformMatrix = transformMatrix.rotate(rotation);
+
+                // 3. Transform the segments using the constructed matrix
+                const transformedSegments = transformPathSegments(originalSegments, transformMatrix);
+                return pathSegmentsToString(transformedSegments, 2);
+            }
+
+
+            function updatePreviewAndOutput() {
+                if (!loadedFont || isFontLoading) {
+                    console.warn("Update skipped: Font not loaded or loading.");
+                    return;
+                 }
+
+                const text = bannerTextInput.value.toUpperCase();
+                const bgColor = bannerBgColorInput.value;
+                const textColor = textColorInput.value;
+                const bannerSizePercent = parseInt(bannerSizeInput.value, 10);
+                const fontSizeVal = parseInt(fontSizeInput.value, 10); // Renamed to avoid conflict with global fontSize
+                bannerSizeValueSpan.textContent = `${bannerSizePercent}%`;
+                fontSizeValueSpan.textContent = fontSizeVal;
+
+                const B = VB * (bannerSizePercent / 100.0);
+                const W = Math.min(fontSizeVal * 2.1, B * 0.9);
+                let p1x = 0, p1y = 0, p2x = 0, p2y = 0, p3x = 0, p3y = 0, p4x = 0, p4y = 0;
+                let textRotation = 0;
+                 switch (currentCorner) {
+                    case 'top-left':
+                        p1x=B; p1y=0; p2x=0; p2y=B; p3x=0; p3y=B-W; p4x=B-W; p4y=0;
+                        textRotation = -45; break;
+                    case 'top-right':
+                        p1x=VB-B; p1y=0; p2x=VB; p2y=B; p3x=VB; p3y=B-W; p4x=VB-(B-W); p4y=0;
+                        textRotation = 45; break;
+                    case 'bottom-left':
+                        p1x=0; p1y=VB-B; p2x=B; p2y=VB; p3x=B-W; p3y=VB; p4x=0; p4y=VB-(B-W);
+                        textRotation = 45; break;
+                    case 'bottom-right':
+                        p1x=VB-B; p1y=VB; p2x=VB; p2y=VB-B; p3x=VB; p3y=VB-(B-W); p4x=VB-(B-W); p4y=VB;
+                        textRotation = -45; break;
+                 }
+                 bannerCoords = { p1x, p1y, p2x, p2y, p3x, p3y, p4x, p4y };
+                 currentBannerPathData = `M ${p(bannerCoords.p1x)} ${p(bannerCoords.p1y)} L ${p(bannerCoords.p2x)} ${p(bannerCoords.p2y)} L ${p(bannerCoords.p3x)} ${p(bannerCoords.p3y)} L ${p(bannerCoords.p4x)} ${p(bannerCoords.p4y)} Z`;
+                 const pivotX = (bannerCoords.p1x + bannerCoords.p2x + bannerCoords.p3x + bannerCoords.p4x) / 4.0;
+                 const pivotY = (bannerCoords.p1y + bannerCoords.p2y + bannerCoords.p3y + bannerCoords.p4y) / 4.0;
+
+                let untransformedTextCommands = [];
+                if (text.trim() !== '' && loadedFont) {
+                    try {
+                        const tempPath = loadedFont.getPath(text, 0, 0, fontSizeVal);
+                        const bbox = tempPath.getBoundingBox();
+                        if (bbox && typeof bbox.x1 === 'number') {
+                            const centerOffsetX = -(bbox.x1 + bbox.x2) / 2.0;
+                            const centerOffsetY = -(bbox.y1 + bbox.y2) / 2.0;
+                            const centeredPath = loadedFont.getPath(text, centerOffsetX, centerOffsetY, fontSizeVal);
+                            untransformedTextCommands = centeredPath.commands; // Get opentype.js commands
+                        } else { console.warn("Could not get bounding box for text path:", text); }
+                    } catch (fontError) { console.error("Error generating text path:", fontError); untransformedTextCommands = []; }
+                }
+
+                currentTransformedTextPathData = getTransformedPathData(untransformedTextCommands, pivotX, pivotY, textRotation);
+
+                if (!currentTransformedTextPathData || currentTransformedTextPathData === "M0,0") {
+                     console.warn("Transformed text path calculation failed or resulted in empty/default path.");
+                     // Keep preview clear if text path is effectively empty
+                     if (untransformedTextCommands.length > 0 && currentTransformedTextPathData === "M0,0") {
+                         bannerTextPathPreview.setAttribute('d', '');
+                     } else if (untransformedTextCommands.length === 0) {
+                         bannerTextPathPreview.setAttribute('d', '');
+                     }
+                }
+
+
+                let iconClipPathDataPart1 = '';
+                let iconClipPathDataPart2 = '';
+                switch (currentCorner) {
+                    case 'top-left':
+                        iconClipPathDataPart1 = `M 0 0 L ${p(bannerCoords.p4x)} 0 L 0 ${p(bannerCoords.p3y)} Z`;
+                        iconClipPathDataPart2 = `M ${p(bannerCoords.p1x)} 0 L ${p(VB)} 0 L ${p(VB)} ${p(VB)} L 0 ${p(VB)} L 0 ${p(bannerCoords.p2y)} Z`;
+                        break;
+                    case 'top-right':
+                        iconClipPathDataPart1 = `M ${p(VB)} 0 L ${p(bannerCoords.p4x)} 0 L ${p(VB)} ${p(bannerCoords.p3y)} Z`;
+                        iconClipPathDataPart2 = `M ${p(bannerCoords.p1x)} 0 L 0 0 L 0 ${p(VB)} L ${p(VB)} ${p(VB)} L ${p(VB)} ${p(bannerCoords.p2y)} Z`;
+                        break;
+                    case 'bottom-left':
+                        iconClipPathDataPart1 = `M 0 ${p(VB)} L ${p(bannerCoords.p4x)} ${p(VB)} L 0 ${p(bannerCoords.p3y)} Z`;
+                        iconClipPathDataPart2 = `M 0 ${p(bannerCoords.p1y)} L 0 0 L ${p(VB)} 0 L ${p(VB)} ${p(VB)} L ${p(bannerCoords.p2x)} ${p(VB)} Z`;
+                        break;
+                    case 'bottom-right':
+                        iconClipPathDataPart1 = `M ${p(VB)} ${p(VB)} L ${p(bannerCoords.p4x)} ${p(VB)} L ${p(VB)} ${p(bannerCoords.p3y)} Z`;
+                        iconClipPathDataPart2 = `M ${p(bannerCoords.p1x)} ${p(VB)} L 0 ${p(VB)} L 0 0 L ${p(VB)} 0 L ${p(VB)} ${p(bannerCoords.p2y)} Z`;
+                        break;
+                    default:
+                        iconClipPathDataPart1 = '';
+                        iconClipPathDataPart2 = `M0,0 H${p(VB)} V${p(VB)} H0 Z`;
+                }
+                currentIconClipPathData = `${iconClipPathDataPart1} ${iconClipPathDataPart2}`.trim();
+                currentCombinedMonoPathData = currentTransformedTextPathData && currentTransformedTextPathData !== "M0,0"
+                    ? `${currentBannerPathData} ${currentTransformedTextPathData}`
+                    : currentBannerPathData;
+
+                bannerPath.setAttribute('d', currentBannerPathData);
+                bannerPath.setAttribute('fill', bgColor);
+                bannerTextPathPreview.setAttribute('d', currentTransformedTextPathData);
+                bannerTextPathPreview.setAttribute('fill', textColor);
+
+                generateStandardOutput();
+                generateMonochromeOutput();
+
+                copyStatus.style.display = 'none';
+                copyStatusClip.style.display = 'none';
+            }
+
+            function generateStandardOutput() {
+                 const xml = `<!-- Banner Background (Absolute Coords) -->\n<path\n    android:fillColor="${bannerBgColorInput.value}"\n    android:pathData="${currentBannerPathData}"/>\n\n<!-- Banner Text (Absolute Coords, Pre-Transformed) -->\n<path\n    android:fillColor="${textColorInput.value}"\n    android:pathData="${currentTransformedTextPathData}"/>`;
+                 outputXml.value = xml;
+            }
+
+            function generateMonochromeOutput() {
+                const xml = `<vector xmlns:android="http://schemas.android.com/apk/res/android"\n    android:width="108dp"\n    android:height="108dp"\n    android:viewportWidth="${VB}"\n    android:viewportHeight="${VB}">\n\n    <!-- 1. Group for the main icon content -->\n    <group android:name="icon_content">\n        <!-- Clip path removes banner area using inverse banner shape -->\n        <clip-path android:pathData="${currentIconClipPathData}" />\n\n        <!-- PLACE YOUR ORIGINAL ICON PATHS HERE -->\n        <!-- Example placeholder: -->\n        <path android:fillColor="#CCCCCC" android:pathData="M21,21 H87 V87 H21 Z"/>\n\n    </group>\n\n    <!-- 2. Combined Banner+Text path (Uses evenOdd fill type) -->\n    <!-- This single path represents the white banner with transparent text holes -->\n    <path\n        android:fillColor="${MONO_COLOR}"\n        android:pathData="${currentCombinedMonoPathData}"\n        android:fillType="evenOdd" />\n\n</vector>`;
+                outputXmlClipPath.value = xml;
+             }
+
+            function copyToClipboard(textareaId, statusId) {
+                 const textarea = document.getElementById(textareaId);
+                 const statusSpan = document.getElementById(statusId);
+                 const textToCopy = textarea.value;
+                 if (!textToCopy || textToCopy.startsWith('//')) return;
+
+                 navigator.clipboard.writeText(textToCopy).then(() => {
+                    statusSpan.textContent = 'Copied!';
+                    statusSpan.style.color = 'green';
+                    statusSpan.style.display = 'inline';
+                    statusSpan.style.opacity = '1';
+                    setTimeout(() => {
+                        statusSpan.style.opacity = '0';
+                        setTimeout(() => { statusSpan.style.display = 'none'; }, 500);
+                    }, 2000);
+                 }).catch(err => {
+                    console.error('Failed to copy text: ', err);
+                    statusSpan.textContent = 'Copy Failed!';
+                    statusSpan.style.color = 'red';
+                    statusSpan.style.display = 'inline';
+                    statusSpan.style.opacity = '1';
+                 });
+            }
+
+            function initialize() {
+                Object.keys(FONTS).forEach(fontName => {
+                    const option = document.createElement('option');
+                    option.value = fontName; option.textContent = fontName;
+                    if (fontName === currentFontFamily) option.selected = true;
+                    fontFamilySelect.appendChild(option);
+                });
+
+                 fontFamilySelect.addEventListener('change', (event) => {
+                    currentFontFamily = event.target.value;
+                    currentFontStyle = { bold: false, italic: false };
+                    fontStyleSelector.querySelectorAll('button.active').forEach(b => b.classList.remove('active'));
+                    loadFontAndStyle();
+                 });
+
+                 fontStyleSelector.addEventListener('click', (event) => {
+                    if (event.target.tagName === 'BUTTON' && !event.target.disabled) {
+                        const style = event.target.dataset.style;
+                        if (style === 'bold') currentFontStyle.bold = !currentFontStyle.bold;
+                        else if (style === 'italic') currentFontStyle.italic = !currentFontStyle.italic;
+                        event.target.classList.toggle('active');
+                        loadFontAndStyle();
+                    }
+                 });
+
+                 cornerSelector.addEventListener('click', (event) => {
+                     if (event.target.tagName === 'BUTTON' && !event.target.disabled) {
+                        const selectedCorner = event.target.dataset.corner;
+                        if (selectedCorner && selectedCorner !== currentCorner) {
+                            cornerSelector.querySelector('button.active')?.classList.remove('active');
+                            event.target.classList.add('active');
+                            currentCorner = selectedCorner;
+                            if (loadedFont && !isFontLoading) {
+                                updatePreviewAndOutput();
+                            }
+                        }
+                    }
+                 });
+
+                fontDependentControls.forEach(el => {
+                    if (!el.classList.contains('copy-button')) {
+                         el.addEventListener('input', () => {
+                             if (loadedFont && !isFontLoading) {
+                                 updatePreviewAndOutput();
+                             }
+                         });
+                    }
+                });
+
+                copyButton.addEventListener('click', () => copyToClipboard('outputXml', 'copyStatus'));
+                copyClipPathButton.addEventListener('click', () => copyToClipboard('outputXmlClipPath', 'copyStatusClip'));
+
+                setControlsEnabled(false, false);
+                loadFontAndStyle();
+            }
+
+            initialize();
+        });
+    </script>
+</body>
+</html>
