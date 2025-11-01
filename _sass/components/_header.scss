@@ -213,6 +213,9 @@
   .site-header,
   .top-app-bar {
     padding: var(--blog-space-sm) var(--blog-space-sm);
+    /* Make header static on mobile - just scrolls away naturally */
+    position: static;
+    gap: var(--blog-space-sm);
 
     .header-left {
       gap: var(--blog-space-xs);
@@ -223,16 +226,16 @@
       gap: var(--blog-space-xs);
 
       .breadcrumb-home {
-        font-size: 1.5rem;
+        font-size: 1.25rem;
       }
 
       .breadcrumb-separator {
-        font-size: 1.25rem;
+        font-size: 1rem;
       }
 
       .title,
       .breadcrumb-current {
-        font-size: 2rem;
+        font-size: 1.5rem;
       }
     }
 
@@ -241,8 +244,13 @@
       gap: var(--blog-space-md);
 
       a {
-        font-size: 1rem;
+        font-size: 0.95rem;
       }
+    }
+
+    /* Hide theme toggle on mobile */
+    .theme-toggle {
+      display: none;
     }
   }
 }
@@ -253,12 +261,12 @@
     .breadcrumbs,
     .site-breadcrumbs {
       .breadcrumb-home {
-        font-size: 1.25rem;
+        font-size: 1.125rem;
       }
 
       .title,
       .breadcrumb-current {
-        font-size: 1.75rem;
+        font-size: 1.375rem;
       }
     }
 
@@ -267,7 +275,7 @@
       gap: var(--blog-space-sm);
 
       a {
-        font-size: 0.95rem;
+        font-size: 0.9rem;
       }
     }
   }

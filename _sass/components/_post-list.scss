@@ -109,6 +109,15 @@
         color: var(--blog-color-link);
       }
     }
+
+    /* Images in excerpt - constrain to prevent layout overflow */
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin: var(--blog-space-md) auto;
+      border-radius: var(--blog-radius-md);
+    }
   }
 
   /* Read more link */
