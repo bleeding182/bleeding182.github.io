@@ -4,8 +4,11 @@ title:  "Dagger 2 Basics"
 categories: android
 tags:
 - dagger-2
+excerpt_separator: <!--more-->
 ---
 Dagger 2 can be confusing. This shall shed some light on the key concepts and highlight their proper use. You could start by reading the [User's Guide](http://google.github.io/dagger/users-guide.html) to acquire the general and official knowledge, and once you have brewed your coffee, pray, continue.
+
+<!--more-->
 
 ## Components
 Dagger 2 is all about components. You cannot use Dagger without any of those, since they contain all the information. I tend to call components the object graph&mdash;objects depending on objects depending on other objects and so on. Every dependency is a requirement that has to be satisfied before the dependent object can be created. Thinking of it as a graph thus makes for a much more understandable picture. 

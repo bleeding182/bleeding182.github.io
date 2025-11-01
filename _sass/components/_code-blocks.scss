@@ -1,0 +1,221 @@
+/**
+ * Code Blocks Component
+ *
+ * Styling for inline code and code blocks with syntax highlighting
+ */
+
+@use '../tokens' as *;
+
+
+/* ============================================
+   INLINE CODE
+   ============================================ */
+
+code,
+.code-inline,
+.highlighter-rouge {
+  font-family: var(--blog-font-mono);
+  font-size: 0.95em;  /* Increased from 0.875em for better readability */
+  color: var(--blog-color-code-text);
+  background-color: var(--blog-color-code-inline-bg);
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--blog-radius-sm);
+  font-weight: var(--blog-font-weight-medium);
+
+  /* Enable font ligatures for Fira Code */
+  font-variant-ligatures: normal;
+  font-feature-settings: 'calt' 1, 'liga' 1;
+  -webkit-font-feature-settings: 'calt' 1, 'liga' 1;
+  -moz-font-feature-settings: 'calt' 1, 'liga' 1;
+}
+
+/* Prevent double-styling when code is inside highlighter-rouge */
+.highlighter-rouge code {
+  background-color: transparent;
+  padding: 0;
+}
+
+
+/* ============================================
+   CODE BLOCKS
+   ============================================ */
+
+figure.highlight,
+.code-block,
+pre {
+  width: 100%;
+  margin: var(--blog-space-content-element) 0;
+  background: var(--blog-color-code-bg);
+  border-radius: var(--blog-radius-md);
+  overflow: hidden;
+  box-shadow: var(--blog-shadow-sm);
+
+  pre {
+    padding: var(--blog-space-md);
+    overflow: auto;
+    line-height: 1.5;
+    margin: 0;
+    background: transparent;
+    box-shadow: none;
+
+    code {
+      font-family: var(--blog-font-mono);
+      font-size: 1rem;  /* Increased from 0.9rem for better readability */
+      line-height: 1.6;  /* Slightly increased for better readability */
+      color: var(--blog-color-code-text);
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
+
+      /* Enable font ligatures for Fira Code */
+      font-variant-ligatures: normal;
+      font-feature-settings: 'calt' 1, 'liga' 1;
+      -webkit-font-feature-settings: 'calt' 1, 'liga' 1;
+      -moz-font-feature-settings: 'calt' 1, 'liga' 1;
+    }
+  }
+
+  /* Syntax highlighting tokens */
+  .highlighter-rouge {
+    background: transparent;
+    padding: 0;
+  }
+}
+
+/* When pre is not inside figure */
+pre:not(figure pre) {
+  code {
+    display: block;
+  }
+}
+
+
+/* ============================================
+   CODE BLOCK WITH LANGUAGE LABEL
+   ============================================ */
+
+.code-block-with-label {
+  margin: var(--blog-space-content-element) 0;
+  border-radius: var(--blog-radius-md);
+  overflow: hidden;
+  box-shadow: var(--blog-shadow-sm);
+
+  .code-block-label {
+    background-color: var(--blog-color-surface-elevated);
+    color: var(--blog-color-text-secondary);
+    padding: var(--blog-space-xs) var(--blog-space-md);
+    font-family: var(--blog-font-body);
+    font-size: var(--blog-type-content-caption-size);
+    font-weight: var(--blog-font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: var(--blog-border-thin) solid var(--blog-color-divider);
+  }
+
+  figure.highlight,
+  pre {
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
+
+
+/* ============================================
+   SCROLLBAR STYLING
+   Better scrollbar for code blocks
+   ============================================ */
+
+figure.highlight pre,
+.code-block pre {
+  /* WebKit browsers */
+  &::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--blog-color-code-bg);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--blog-color-border);
+    border-radius: var(--blog-radius-sm);
+
+    &:hover {
+      background: var(--blog-color-text-secondary);
+    }
+  }
+
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: var(--blog-color-border) var(--blog-color-code-bg);
+}
+
+
+/* ============================================
+   DIFF HIGHLIGHTING
+   For showing code changes
+   ============================================ */
+
+.code-block {
+  .highlight-addition,
+  .gd {
+    background-color: rgba(46, 160, 67, 0.15);
+    border-left: 3px solid rgba(46, 160, 67, 0.6);
+    padding-left: var(--blog-space-xs);
+  }
+
+  .highlight-deletion,
+  .gi {
+    background-color: rgba(248, 81, 73, 0.15);
+    border-left: 3px solid rgba(248, 81, 73, 0.6);
+    padding-left: var(--blog-space-xs);
+  }
+}
+
+
+/* ============================================
+   LINE NUMBERS
+   Optional line numbering for code blocks
+   ============================================ */
+
+.code-block-with-lines {
+  .line-number {
+    display: inline-block;
+    min-width: 2.5rem;
+    padding-right: var(--blog-space-sm);
+    text-align: right;
+    color: var(--blog-color-text-secondary);
+    user-select: none;
+    opacity: 0.5;
+  }
+}
+
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 768px) {
+  figure.highlight,
+  .code-block,
+  pre {
+    margin: var(--blog-space-lg) -#{var(--blog-space-sm)};
+    border-radius: 0;
+
+    pre {
+      padding: var(--blog-space-sm);
+
+      code {
+        font-size: 0.9rem;  /* Increased from 0.85rem for mobile readability */
+      }
+    }
+  }
+
+  code,
+  .code-inline,
+  .highlighter-rouge {
+    font-size: 0.9em;  /* Increased from 0.8em for mobile readability */
+  }
+}

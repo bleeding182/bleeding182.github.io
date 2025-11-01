@@ -1,51 +1,71 @@
-<div class="mdc-layout-grid content" itemscope="" itemtype="http://schema.org/Blog">
-  <div class="mdc-layout-grid__inner max-width">
-    {%- for post in paginator.posts -%}
-      <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12 mdc-card">
-        <article itemprop="blogPost" itemscope="" itemtype="http://schema.org/BlogPosting">
-        
-          <meta itemprop="author publisher" content="{{post.author}}" />
-          <section class="mdc-card__primary">
-            <h1 class="mdc-card__title mdc-card__title--large">
-              {{- post.title -}}
-            </h2>
-          </section>
+<div class="post-list content" itemscope="" itemtype="http://schema.org/Blog">
+  {%- for post in paginator.posts -%}
+    <article class="post-list-item post-item" itemprop="blogPost" itemscope="" itemtype="http://schema.org/BlogPosting">
+      <meta itemprop="author publisher" content="{{post.author}}" />
+      <meta itemprop="keywords" content="{{ post.tags | join: ',' }}" />
 
-          <section class="mdc-card__supporting-text article">
-            <p>
-              <span itemprop="datePublished dateModified" class="mdc-typography--subheading1">{{ post.date | date: "%b %-d, %Y" }}</span>
-            </p>
-            <meta itemprop="keywords" content="{{ post.tags | join: ',' }}" />
-            <div itemprop="description" class="mdc-typography--body1">{{ post.excerpt }}</div>
-          </section>
-          <section class="mdc-card__actions">
-            <a class="mdc-button mdc-button--compact mdc-card__action"  href="{{ post.url | prepend: site.baseurl }}" itemprop="mainEntityOfPage url">
-                Read More
-            </a>
-          </section>
-        </article>
+      <p class="post-list-meta post-meta">
+        <time itemprop="datePublished dateModified" datetime="{{ post.date | date_to_xmlschema }}">
+          {{ post.date | date: "%b %-d, %Y" }}
+        </time>
+      </p>
+
+      <h2 class="post-list-heading">
+        <a href="{{ post.url | prepend: site.baseurl }}" itemprop="mainEntityOfPage url">
+          {{- post.title -}}
+        </a>
+      </h2>
+
+      <div itemprop="description" class="post-list-excerpt excerpt">
+        {{ post.excerpt }}
       </div>
+
+      <a href="{{ post.url | prepend: site.baseurl }}" class="read-more">
+        Read Article
+      </a>
+    </article>
+  {%- endfor -%}
+
+  <!-- Pagination links -->
+  <div class="pagination">
+    {%- if paginator.previous_page -%}
+    <md-text-button href="{{ paginator.previous_page_path }}">
+      <svg slot="icon" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20" fill="currentColor">
+        <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/>
+      </svg>
+      Previous
+    </md-text-button>
+    {%- else -%}
+    <md-text-button disabled>
+      <svg slot="icon" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20" fill="currentColor">
+        <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/>
+      </svg>
+      Previous
+    </md-text-button>
+    {%- endif -%}
+
+    {%- for pageNum in (1..paginator.total_pages) -%}
+      {%- if paginator.page == pageNum -%}
+        <md-filled-button disabled>{{pageNum}}</md-filled-button>
+      {%- else -%}
+        <md-outlined-button href="/{%if pageNum > 1%}page{{pageNum}}{% else %}{%endif%}">{{pageNum}}</md-outlined-button>
+      {%- endif -%}
     {%- endfor -%}
 
-    <!-- Pagination links -->
-    <div class="pagination mdc-layout-grid__cell mdc-layout-grid__cell--span-12">
-      {%- if paginator.previous_page -%}
-      <a href="{{ paginator.previous_page_path }}" class="mdc-button"><i class="material-icons">navigate_before</i></a>
-      {%- else -%}
-      <button class="mdc-button" disabled><i class="material-icons">navigate_before</i></button>
-      {%- endif -%}
-      {%- for pageNum in (1..paginator.total_pages) -%}
-        {%- if paginator.page == pageNum -%}
-          <button class="mdc-button" disabled>{{pageNum}}</button>
-        {%- else -%}
-          <a href="/{%if pageNum > 1%}page{{pageNum}}{% else %}{%endif%}" class="mdc-button">{{pageNum}}</a>
-        {%- endif -%}
-      {%- endfor -%}
-      {%- if paginator.next_page -%}
-      <a href="{{ paginator.next_page_path }}" class="mdc-button"><i class="material-icons">navigate_next</i></a>
-      {%- else -%}
-      <button class="mdc-button" disabled><i class="material-icons">navigate_next</i></button>
-      {%- endif -%}
-    </div>
+    {%- if paginator.next_page -%}
+    <md-text-button href="{{ paginator.next_page_path }}" trailing-icon>
+      Next
+      <svg slot="icon" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20" fill="currentColor">
+        <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
+      </svg>
+    </md-text-button>
+    {%- else -%}
+    <md-text-button disabled trailing-icon>
+      Next
+      <svg slot="icon" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20" fill="currentColor">
+        <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
+      </svg>
+    </md-text-button>
+    {%- endif -%}
   </div>
 </div>

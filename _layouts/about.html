@@ -1,21 +1,12 @@
 ---
 layout: default
 ---
-<div class="mdc-layout-grid content article">
-  <div class="mdc-layout-grid__inner max-width mdc-typography">
-    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12">
-      <h1>{{ page.title }}</h1>
-      <div>
-        {{ content }}
-      </div>
-    </div>
-    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12">
-      <div class="mdc-card">
-        <section class="mdc-card__actions">
-          <a href="https://stackoverflow.com/users/1837367/david-medenjak">
-            <img src="https://stackoverflow.com/users/flair/1837367.png?theme=clean" width="208" height="58" alt="profile for David Medenjak at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for David Medenjak at Stack Overflow, Q&amp;A for professional and enthusiast programmers">
-          </a>
-        </section>
-      </div>
-    </div>
+<div class="content article">
+  <h1>{{ page.title }}</h1>
+  {{ content }}
+  <div style="text-align: center; margin-top: 3rem;">
+    <a href="https://stackoverflow.com/users/1837367/david-medenjak">
+      <img src="https://stackoverflow.com/users/flair/1837367.png?theme=clean" width="208" height="58" alt="profile for David Medenjak at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for David Medenjak at Stack Overflow, Q&amp;A for professional and enthusiast programmers">
+    </a>
+  </div>
 </div>

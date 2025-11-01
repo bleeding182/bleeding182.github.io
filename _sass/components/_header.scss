@@ -1,0 +1,274 @@
+/**
+ * Header Component
+ *
+ * Site header with breadcrumbs, navigation, and theme toggle
+ */
+
+@use '../tokens' as *;
+
+
+/* ============================================
+   TOP APP BAR
+   Sticky header with scroll behavior
+   ============================================ */
+
+.site-header,
+.top-app-bar {
+  background-color: var(--blog-color-surface);
+  color: var(--blog-color-text-primary);
+  padding: var(--blog-space-md) var(--blog-space-lg);
+  position: sticky;
+  top: 0;
+  z-index: var(--blog-z-sticky);
+  transition: background-color var(--blog-duration-normal) var(--blog-easing-standard),
+              box-shadow var(--blog-duration-normal) var(--blog-easing-standard);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--blog-space-lg);
+  flex-wrap: wrap;
+
+  /* Elevated state when scrolled */
+  &.scrolled {
+    background-color: var(--blog-color-surface-elevated);
+    box-shadow: var(--blog-shadow-md);
+  }
+
+
+  /* ============================================
+     HEADER LEFT SECTION
+     Breadcrumbs and navigation
+     ============================================ */
+
+  .header-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--blog-space-xs);
+  }
+
+
+  /* ============================================
+     BREADCRUMBS
+     Navigation hierarchy
+     ============================================ */
+
+  .site-breadcrumbs,
+  .breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    .breadcrumb-home {
+      font-family: var(--blog-font-display);
+      font-size: 1.75rem;
+      font-weight: var(--blog-font-weight-bold);
+      font-stretch: var(--blog-font-stretch-condensed);
+      letter-spacing: -0.01em;
+      color: var(--blog-color-text-secondary);
+      text-decoration: none;
+      transition: var(--blog-transition-color);
+
+      &:hover {
+        color: var(--blog-color-accent);
+      }
+    }
+
+    .breadcrumb-separator {
+      color: var(--blog-color-text-secondary);
+      font-size: 1.5rem;
+      font-weight: 300;
+    }
+
+    .breadcrumb-current,
+    .title {
+      font-family: var(--blog-font-display);
+      font-size: 2.5rem;
+      font-weight: var(--blog-font-weight-black);
+      font-stretch: var(--blog-font-stretch-ultra-condensed);
+      letter-spacing: -0.02em;
+      color: var(--blog-color-text-primary);
+      margin: 0;
+      line-height: 1.05;
+    }
+  }
+
+
+  /* ============================================
+     NAVIGATION
+     Main site navigation links
+     ============================================ */
+
+  .site-nav,
+  nav {
+    display: flex;
+    gap: var(--blog-space-lg);
+    align-items: center;
+    flex-wrap: wrap;
+
+    a {
+      color: var(--blog-color-text-primary);
+      text-decoration: none;
+      font-weight: var(--blog-font-weight-bold);
+      font-size: 1.05rem;
+      position: relative;
+      transition: var(--blog-transition-color);
+      letter-spacing: 0.02em;
+
+      /* Animated underline */
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: var(--blog-border-medium);
+        background: var(--blog-color-accent);
+        transition: width var(--blog-duration-normal) var(--blog-easing-standard);
+      }
+
+      &:hover {
+        color: var(--blog-color-accent);
+
+        &::after {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+
+/* ============================================
+   THEME TOGGLE BUTTON
+   Light/dark theme switcher
+   ============================================ */
+
+.theme-toggle {
+  background: none;
+  border: none;
+  color: var(--blog-color-text-primary);
+  cursor: pointer;
+  padding: var(--blog-space-xs);
+  border-radius: var(--blog-radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--blog-duration-fast) var(--blog-easing-standard),
+              transform var(--blog-duration-fast) var(--blog-easing-standard);
+
+  &:hover {
+    background-color: var(--blog-color-surface-elevated);
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Icon visibility based on theme */
+  .sun-icon {
+    display: none;
+  }
+
+  .moon-icon {
+    display: block;
+  }
+}
+
+/* Show correct icon based on theme */
+:root[data-theme="dark"] .theme-toggle {
+  .sun-icon {
+    display: block;
+  }
+
+  .moon-icon {
+    display: none;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle {
+    .sun-icon {
+      display: block;
+    }
+
+    .moon-icon {
+      display: none;
+    }
+  }
+}
+
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 768px) {
+  .site-header,
+  .top-app-bar {
+    padding: var(--blog-space-sm) var(--blog-space-sm);
+
+    .header-left {
+      gap: var(--blog-space-xs);
+    }
+
+    .breadcrumbs,
+    .site-breadcrumbs {
+      gap: var(--blog-space-xs);
+
+      .breadcrumb-home {
+        font-size: 1.5rem;
+      }
+
+      .breadcrumb-separator {
+        font-size: 1.25rem;
+      }
+
+      .title,
+      .breadcrumb-current {
+        font-size: 2rem;
+      }
+    }
+
+    nav,
+    .site-nav {
+      gap: var(--blog-space-md);
+
+      a {
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .site-header,
+  .top-app-bar {
+    .breadcrumbs,
+    .site-breadcrumbs {
+      .breadcrumb-home {
+        font-size: 1.25rem;
+      }
+
+      .title,
+      .breadcrumb-current {
+        font-size: 1.75rem;
+      }
+    }
+
+    nav,
+    .site-nav {
+      gap: var(--blog-space-sm);
+
+      a {
+        font-size: 0.95rem;
+      }
+    }
+  }
+}

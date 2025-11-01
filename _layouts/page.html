@@ -1,13 +1,11 @@
 ---
 layout: default
 ---
-<div class="mdc-layout-grid content article">
-  <div class="mdc-layout-grid__inner max-width mdc-typography">
-    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12">
-      <h1>{{ page.title }}</h1>
-      <div>
-        {{ content }}
-      </div>
-    </div>
+<div class="content article">
+  <header class="article-header">
+    <h1 class="article-heading-1">{{ page.title }}</h1>
+  </header>
+  <div class="article-body">
+    {{ content }}
   </div>
 </div>

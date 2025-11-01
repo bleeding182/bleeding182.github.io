@@ -5,9 +5,13 @@ categories: android
 tags:
 - layouts
 - xml
+published: true
+excerpt_separator: <!--more-->
 ---
 
 I'd like to take a look at how we can improve our most basic layouts&mdash;both for maintainability and for performance. Let's get right to it and take a look at this _very_ basic example of a list element for a simple label that should look familiar to both beginners and experts. While this is a very minimal example it's a great place to touch on a few topics relevant to us all.
+
+<!--more-->
 
 {% highlight xml %}
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -199,4 +203,3 @@ By using this for our background we can now support click listeners as well and 
 ---
 
 With all these changes done we have created a reusable layout that will work across all themes and locales, display all content, and align correctly on phones of all sizes. I hope these insights help to improve on some of the more common issues with even simple layouts, but we only touched on a lot of different topics and this post is by no means exhaustive, so be sure to experiment and build great layouts!
-

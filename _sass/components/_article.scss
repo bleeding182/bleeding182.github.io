@@ -1,0 +1,334 @@
+/**
+ * Article Component
+ *
+ * Content page article - read-optimized, spacious, elegant
+ * Designed for comfortable long-form reading
+ */
+
+@use '../tokens' as *;
+
+
+/* ============================================
+   ARTICLE CONTAINER
+   ============================================ */
+
+.article {
+  max-width: var(--blog-width-content-standard);
+  margin: 0 auto;
+  padding: var(--blog-space-content-section) var(--blog-space-md);
+  color: var(--blog-color-text-primary);
+
+
+  /* ============================================
+     ARTICLE HEADINGS
+     Using variable font-stretch for elegant headlines
+     ============================================ */
+
+  h1,
+  .article-heading-1 {
+    font-family: var(--blog-font-display);
+    font-size: var(--blog-type-content-h1-size);
+    line-height: var(--blog-type-content-h1-line-height);
+    font-weight: var(--blog-type-content-h1-weight);
+    font-stretch: var(--blog-type-content-h1-stretch);
+    letter-spacing: var(--blog-type-content-h1-spacing);
+    color: var(--blog-color-text-primary);
+    margin: var(--blog-space-md) 0 var(--blog-space-lg) 0;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  h2,
+  .article-heading-2 {
+    font-family: var(--blog-font-display);
+    font-size: var(--blog-type-content-h2-size);
+    line-height: var(--blog-type-content-h2-line-height);
+    font-weight: var(--blog-type-content-h2-weight);
+    font-stretch: var(--blog-type-content-h2-stretch);
+    letter-spacing: var(--blog-type-content-h2-spacing);
+    color: var(--blog-color-text-primary);
+    margin: var(--blog-space-xl) 0 var(--blog-space-lg) 0;
+  }
+
+  h3,
+  .article-heading-3 {
+    font-family: var(--blog-font-display);
+    font-size: var(--blog-type-content-h3-size);
+    line-height: var(--blog-type-content-h3-line-height);
+    font-weight: var(--blog-type-content-h3-weight);
+    font-stretch: var(--blog-type-content-h3-stretch);
+    letter-spacing: var(--blog-type-content-h3-spacing);
+    color: var(--blog-color-text-primary);
+    margin: var(--blog-space-lg) 0 var(--blog-space-md) 0;
+  }
+
+  h4,
+  .article-heading-4 {
+    font-family: var(--blog-font-display);
+    font-size: var(--blog-type-content-h4-size);
+    line-height: var(--blog-type-content-h4-line-height);
+    font-weight: var(--blog-type-content-h4-weight);
+    font-stretch: var(--blog-type-content-h4-stretch);
+    letter-spacing: var(--blog-type-content-h4-spacing);
+    color: var(--blog-color-text-primary);
+    margin: var(--blog-space-content-paragraph) 0 var(--blog-space-sm) 0;
+  }
+
+  h5,
+  .article-heading-5 {
+    font-family: var(--blog-font-display);
+    font-size: var(--blog-type-content-h5-size);
+    line-height: var(--blog-type-content-h5-line-height);
+    font-weight: var(--blog-type-content-h5-weight);
+    font-stretch: var(--blog-type-content-h5-stretch);
+    letter-spacing: var(--blog-type-content-h5-spacing);
+    color: var(--blog-color-text-primary);
+    margin: var(--blog-space-md) 0 var(--blog-space-sm) 0;
+  }
+
+  h6,
+  .article-heading-6 {
+    font-family: var(--blog-font-display);
+    font-size: var(--blog-type-content-h6-size);
+    line-height: var(--blog-type-content-h6-line-height);
+    font-weight: var(--blog-type-content-h6-weight);
+    font-stretch: var(--blog-type-content-h6-stretch);
+    letter-spacing: var(--blog-type-content-h6-spacing);
+    color: var(--blog-color-text-primary);
+    margin: var(--blog-space-md) 0 var(--blog-space-sm) 0;
+  }
+
+
+  /* ============================================
+     ARTICLE BODY TEXT
+     Optimized for comfortable reading
+     ============================================ */
+
+  p,
+  .article-body {
+    font-family: var(--blog-font-body);
+    font-size: var(--blog-type-content-body-size);
+    line-height: var(--blog-type-content-body-line-height);
+    font-weight: var(--blog-type-content-body-weight);
+    letter-spacing: var(--blog-type-content-body-spacing);
+    color: var(--blog-color-text-secondary);
+    margin: var(--blog-space-content-paragraph) 0;
+  }
+
+  /* Enhanced first paragraph (lead) */
+  .article-lead,
+  > p:first-of-type {
+    font-size: var(--blog-type-content-lead-size);
+    line-height: var(--blog-type-content-lead-line-height);
+    font-weight: var(--blog-type-content-lead-weight);
+  }
+
+
+  /* ============================================
+     LISTS
+     ============================================ */
+
+  ul,
+  ol {
+    font-size: var(--blog-type-content-body-size);
+    line-height: var(--blog-type-content-body-line-height);
+    margin: var(--blog-space-content-paragraph) 0;
+    padding-left: 1.5rem;
+    color: var(--blog-color-text-secondary);
+
+    li {
+      margin: var(--blog-space-xs) 0;
+    }
+
+    /* Nested lists */
+    ul,
+    ol {
+      margin: var(--blog-space-xs) 0;
+    }
+  }
+
+
+  /* ============================================
+     LINKS
+     ============================================ */
+
+  a {
+    color: var(--blog-color-link);
+    text-decoration: underline;
+    text-decoration-thickness: var(--blog-border-thin);
+    text-underline-offset: 2px;
+    transition: all var(--blog-duration-fast) var(--blog-easing-standard);
+
+    &:visited {
+      color: var(--blog-color-link-visited);
+    }
+
+    &:hover {
+      color: var(--blog-color-link-hover);
+      text-decoration-thickness: var(--blog-border-medium);
+    }
+
+    &:active {
+      color: var(--blog-color-link);
+    }
+  }
+
+
+  /* ============================================
+     BLOCKQUOTES
+     ============================================ */
+
+  blockquote {
+    margin: var(--blog-space-content-element) 0;
+    padding-left: var(--blog-space-md);
+    border-left: var(--blog-border-thick) solid var(--blog-color-secondary-accent);
+    font-style: italic;
+    font-size: var(--blog-type-content-body-size);
+    line-height: var(--blog-type-content-body-line-height);
+    color: var(--blog-color-text-secondary);
+
+    p {
+      margin: var(--blog-space-sm) 0;
+    }
+
+    /* Citation */
+    cite {
+      display: block;
+      margin-top: var(--blog-space-sm);
+      font-size: var(--blog-type-content-caption-size);
+      font-style: normal;
+      color: var(--blog-color-text-secondary);
+
+      &::before {
+        content: '— ';
+      }
+    }
+  }
+
+
+  /* ============================================
+     IMAGES AND FIGURES
+     ============================================ */
+
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: var(--blog-space-content-element) auto;
+    border-radius: var(--blog-radius-md);
+  }
+
+  figure {
+    margin: var(--blog-space-content-element) 0;
+
+    img {
+      margin: 0 auto var(--blog-space-sm);
+    }
+
+    figcaption {
+      font-size: var(--blog-type-content-caption-size);
+      line-height: var(--blog-type-content-caption-line-height);
+      color: var(--blog-color-text-secondary);
+      text-align: center;
+      font-style: italic;
+    }
+  }
+
+
+  /* ============================================
+     HORIZONTAL RULES
+     ============================================ */
+
+  hr {
+    border: none;
+    border-top: var(--blog-border-thin) solid var(--blog-color-divider);
+    margin: var(--blog-space-content-block) 0;
+  }
+
+
+  /* ============================================
+     TABLES
+     ============================================ */
+
+  table {
+    width: 100%;
+    margin: var(--blog-space-content-element) 0;
+    border-collapse: collapse;
+    font-size: var(--blog-type-content-body-size);
+
+    th,
+    td {
+      padding: var(--blog-space-sm) var(--blog-space-md);
+      text-align: left;
+      border-bottom: var(--blog-border-thin) solid var(--blog-color-divider);
+    }
+
+    th {
+      font-weight: var(--blog-font-weight-bold);
+      color: var(--blog-color-text-primary);
+      background-color: var(--blog-color-surface-elevated);
+    }
+
+    td {
+      color: var(--blog-color-text-secondary);
+    }
+
+    tbody tr:hover {
+      background-color: var(--blog-color-surface-elevated);
+    }
+  }
+}
+
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 768px) {
+  .article {
+    padding: var(--blog-space-lg) var(--blog-space-sm);
+
+    h1 {
+      font-size: 2.25rem;
+    }
+
+    h2 {
+      font-size: 1.875rem;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+    }
+
+    h4 {
+      font-size: 1.375rem;
+    }
+
+    p,
+    ul,
+    ol,
+    blockquote {
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    .article-lead,
+    > p:first-of-type {
+      font-size: 1.125rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .article {
+    h1 {
+      font-size: 1.875rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+    }
+  }
+}

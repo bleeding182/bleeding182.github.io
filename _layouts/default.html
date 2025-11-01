@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   {%- include head.html -%}
-  <body>
+  <body class="{% if page.layout %}page-{{ page.layout }}{% else %}page-home{% endif %}">
     {%- include tag-manager.html -%}
     {%- include header.html -%}
     <main>
-      <div class="page-content mdc-toolbar-fixed-adjust">
-        {{content}}
-      </div>
+      {{content}}
     </main>
   </body>
 </html>
