@@ -1,66 +1,55 @@
 ---
 layout: default
 ---
-<div class="mdc-layout-grid content article">
-  <div class="mdc-layout-grid__inner max-width">
-  
-  {% comment %}
-  {%- include ads/blog_post_top.html -%}
-  {% endcomment %}
-  
-  <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12 mdc-typography">
-    <article itemscope="" itemtype="http://schema.org/BlogPosting">
-        <meta itemprop="keywords" content="{{ page.tags | join: ',' }}" />
-        <meta itemprop="mainEntityOfPage" content="{{ page.url | prepend: site.baseurl }}" />
-        <meta itemprop="description"
-            content="{{ page.excerpt | strip_html | truncatewords: 40 }}" />
-        
-        <h1 itemprop="name headline">{{ page.title }}</h1>
+<div class="content article">
+  <article itemscope="" itemtype="http://schema.org/BlogPosting">
+    <meta itemprop="keywords" content="{{ page.tags | join: ',' }}" />
+    <meta itemprop="mainEntityOfPage" content="{{ page.url | prepend: site.baseurl }}" />
+    <meta itemprop="description" content="{{ page.excerpt | strip_html | truncatewords: 40 }}" />
 
-      <div itemprop="articleBody">
-        <p><time class="post-meta mdc-typography--subheading2"datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished dateModified">{{ page.date | date: "%b %-d, %Y" }}</time>{% if page.author %} • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name" class="post-meta mdc-typography--subheading2">{{ page.author }}</span></span>{% endif %}</p>
-        {{ content }}
-      </div>
-    </article>
+    <header class="article-header">
+      <p class="post-meta">
+        <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished dateModified">
+          {{ page.date | date: "%b %-d, %Y" }}
+        </time>
+      </p>
 
-    <div class="mdl-card__supporting-text mdl-card--border comments">
-      {%- if jekyll.environment == "production" -%}
-      <div id="disqus_thread"></div>
-      <script>
-      var disqus_config = function () {
-          this.page.url = '{{ page.url | prepend: site.url }}';
-          this.page.identifier = '{{ page.path }}';
-      };
-      (function() {
-          var d = document, s = d.createElement('script');
-          s.src = '//android-stuff.disqus.com/embed.js';
-          s.setAttribute('data-timestamp', +new Date());
-          (d.head || d.body).appendChild(s);
-      })();
-      </script>
-      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
-      {%- else -%}
-      DISQUS HERE
-      {%- endif -%}
+      <h1 class="article-heading-1" itemprop="name headline">{{ page.title }}</h1>
+
+      {% if page.author %}
+      <p class="post-author-name">
+        <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <span itemprop="name">{{ page.author }}</span>
+        </span>
+      </p>
+      {% endif %}
+    </header>
+
+    <div class="article-body" itemprop="articleBody">
+      {{ content }}
     </div>
-  </div>
+  </article>
 
-{%- if false -%}
-  <div class="mdl-cell mdl-cell--top post mdl-cell--6-col mdl-cell--8-col-tablet"><div class="mdl-card mdl-shadow--2dp">
-  <div class="mdl-card__title">
-    <span class="mdl-card__title-text">
-      {{ page.previous.title }}
-    </span>
-  </div>
-  <div class="mdl-card__supporting-text mdl-color-text--black">
-    {{ page.previous.content | truncatewords: 30 }}
-  </div>
-    <div class="mdl-card__actions mdl-card--border">
-      <a href="{{ page.previous.url }}" class="mdl-button mdl-js-button mdl-js-ripple-effect">Read More</a>
+  <footer class="article-footer">
+    <div class="comments">
+    {%- if jekyll.environment == "production" -%}
+    <div id="disqus_thread"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = '{{ page.url | prepend: site.url }}';
+        this.page.identifier = '{{ page.path }}';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');
+        s.src = '//android-stuff.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+    {%- else -%}
+    <p class="dev-notice">Comments are only visible in production.</p>
+    {%- endif -%}
     </div>
-  </div>
+  </footer>
 </div>
-{%- endif -%}
-  </div>
-</div>
-

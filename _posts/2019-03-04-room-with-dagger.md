@@ -7,9 +7,12 @@ categories: android
 tags:
 - room
 - dagger
+excerpt_separator: <!--more-->
 ---
 
 Binding Room to Dagger does not involve *any boilerplate* at all if we bind it as a dependency. Like Dagger, Room uses an annotation processor to generate the implementation of our database and DAOs. This implementation will create the DAOs the first time they are accessed, then cache the objects for future calls, limiting them to a single instance. Sound familiar? It should. This is very similar to what a Dagger component does with scoped objects&mdash;we can use this and bind the database as a dependency directly to our component. No need for any modules.
+
+<!--more-->
 
 ### What not to do
 

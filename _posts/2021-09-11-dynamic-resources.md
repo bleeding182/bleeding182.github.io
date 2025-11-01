@@ -5,6 +5,8 @@ categories: android
 tags:
 - resources
 - themes
+published: true
+excerpt_separator: <!--more-->
 ---
 
 Android Theming works great once you _really_ get into it, but one of the biggest limitations is that you can't modify those themes at runtime. You can override some values, but you always need to know those colors at compile time and create more themes or theme overlays.  
@@ -12,6 +14,8 @@ You can achieve dynamically colored themes with some libraries that will either 
 
 Android 11 added the option to include your own [Resource Loaders](https://developer.android.com/about/versions/11/features#resource-loaders) and with that we finally have a way to dynamically alter our apps themes dynamically.  
 We can tell Android to load a separate file which will override any existing resources, so we could for example change our `colorPrimary` and marvel at how all buttons, colors, etc will _just work_ as if we had switched the color at compile time.
+
+<!--more-->
 
 ## Demo Time
 
@@ -67,10 +71,10 @@ For the demo I included the above APK in my `src/assets` from where I copied the
 class App : Application() {
     override fun onCreate() {
         super.onCreate()
-        
+
         val file = File(cacheDir, "overrideResources")
         unzip(ZipInputStream(assets.open("override.apk")), file)
-  
+
         val rl = ResourcesLoader()
         rl.addProvider(ResourcesProvider.loadFromDirectory(file.path, null))
         resources.addLoaders(rl)

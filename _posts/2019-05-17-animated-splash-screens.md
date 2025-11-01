@@ -5,9 +5,12 @@ categories: android
 tags:
 - splash screen
 - animation
+excerpt_separator: <!--more-->
 ---
 
 Show a splash screen while the content is loading _without_ further delaying the app startup time. Maybe even throw in some small animations and you'll have a _great_ first impression.
+
+<!--more-->
 
 We previously had a look at how to [add a splash screen]({{ site.baseurl }}{% post_url 2017-09-02-splash-screens %}) by using `android:windowBackground` to display a drawable while the app is loading, so let's go a step further and keep showing the splash screen for a bit longer until we are done loading our content!
 

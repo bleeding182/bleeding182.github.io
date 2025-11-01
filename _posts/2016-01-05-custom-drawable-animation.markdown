@@ -6,8 +6,11 @@ tags:
 - drawable
 - animation
 published: true
+excerpt_separator: <!--more-->
 ---
 There are many opportunities where the usage of a custom drawable will lead to nice, clean, and reusable results. If you need to display changing text inside an icon or introduce a custom progress indicator like in [Modifying the resource image of Progress Bar][1] on Stack Overflow, you can easily do so with custom drawables.
+
+<!--more-->
 
 With this guide I want to point out what's necessary to set up, draw, and animate drawables with little effort. This is a basic sample, so please take the code and modify it to your needs! A compilable project with the full source code is available at [GitHub][3].
 

@@ -1,0 +1,116 @@
+/**
+ * Pagination Component
+ *
+ * Navigation between pages using Material Web Components
+ */
+
+@use '../tokens' as *;
+
+
+/* ============================================
+   PAGINATION CONTAINER
+   ============================================ */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--blog-space-sm);
+  margin: var(--blog-space-2xl) auto var(--blog-space-lg);
+  flex-wrap: wrap;
+  padding: 0 var(--blog-space-md);
+
+
+  /* ============================================
+     MATERIAL WEB COMPONENT BUTTONS
+     Styled using design tokens
+     ============================================ */
+
+  md-filled-button,
+  md-outlined-button,
+  md-text-button {
+    /* Button colors */
+    --md-filled-button-container-color: var(--blog-color-secondary-accent);
+    --md-filled-button-label-text-color: var(--md-sys-color-on-secondary);
+    --md-outlined-button-outline-color: var(--blog-color-border);
+    --md-outlined-button-label-text-color: var(--blog-color-text-primary);
+    --md-text-button-label-text-color: var(--blog-color-text-secondary);
+
+    /* Hover states */
+    --md-filled-button-hover-container-color: var(--blog-color-accent);
+    --md-outlined-button-hover-label-text-color: var(--blog-color-accent);
+    --md-text-button-hover-label-text-color: var(--blog-color-accent);
+
+    /* Typography */
+    --md-filled-button-label-text-font: var(--blog-font-body);
+    --md-outlined-button-label-text-font: var(--blog-font-body);
+    --md-text-button-label-text-font: var(--blog-font-body);
+    --md-filled-button-label-text-weight: var(--blog-font-weight-bold);
+    --md-outlined-button-label-text-weight: var(--blog-font-weight-bold);
+    --md-text-button-label-text-weight: var(--blog-font-weight-bold);
+
+    /* Shape */
+    --md-filled-button-container-shape: var(--blog-radius-lg);
+    --md-outlined-button-container-shape: var(--blog-radius-lg);
+    --md-text-button-container-shape: var(--blog-radius-lg);
+  }
+
+  /* Current page (disabled button) */
+  md-filled-button[disabled] {
+    --md-filled-button-disabled-container-color: var(--blog-color-accent);
+    --md-filled-button-disabled-label-text-color: #FFFFFF;
+    opacity: 1;
+    pointer-events: none;
+  }
+
+  /* Page number buttons */
+  md-outlined-button {
+    min-width: 48px;
+  }
+
+  /* Previous/Next buttons */
+  md-text-button {
+    letter-spacing: 0.02em;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+
+/* ============================================
+   PAGINATION INFO
+   Optional page count display
+   ============================================ */
+
+.pagination-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--blog-space-xs);
+  margin: var(--blog-space-sm) 0;
+  font-size: var(--blog-type-content-caption-size);
+  color: var(--blog-color-text-secondary);
+  text-align: center;
+}
+
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 480px) {
+  .pagination {
+    gap: var(--blog-space-xs);
+
+    md-text-button {
+      font-size: 0.875rem;
+    }
+
+    md-outlined-button {
+      min-width: 40px;
+    }
+  }
+}

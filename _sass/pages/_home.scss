@@ -1,0 +1,198 @@
+/**
+ * Home Page Styles
+ *
+ * Scan-optimized layout for the blog post list
+ * Dense, bold, designed for quick scanning and discovery
+ */
+
+@use '../tokens' as *;
+
+
+/* ============================================
+   HOME PAGE LAYOUT
+   ============================================ */
+
+.page-home {
+  /* Base background and text color */
+  background-color: var(--blog-color-background);
+  color: var(--blog-color-text-primary);
+
+
+  /* ============================================
+     CONTENT CONTAINER
+     Narrower for density
+     ============================================ */
+
+  .content {
+    max-width: var(--blog-width-content-narrow);
+    margin: 0 auto;
+    padding: var(--blog-space-home-section) var(--blog-space-md);
+  }
+
+
+  /* ============================================
+     HOME PAGE SPECIFIC OVERRIDES
+     Apply dense typography scale
+     ============================================ */
+
+  /* Typography adjustments for scan-optimized layout */
+  --effective-heading-size: var(--blog-type-home-heading-size);
+  --effective-body-size: var(--blog-type-home-body-size);
+  --effective-spacing: var(--blog-space-home-item);
+
+
+  /* ============================================
+     FEATURED POST (First Post)
+     Larger, more prominent styling
+     ============================================ */
+
+  .post-list-item:first-child {
+    margin-bottom: var(--blog-space-xl);
+    padding-bottom: var(--blog-space-xl);
+
+    h2,
+    .post-list-heading {
+      font-size: var(--blog-type-home-display-size);
+      line-height: var(--blog-type-home-display-line-height);
+      font-weight: var(--blog-type-home-display-weight);
+      font-stretch: var(--blog-type-home-display-stretch);
+      letter-spacing: var(--blog-type-home-display-spacing);
+    }
+
+    .excerpt,
+    .post-list-excerpt {
+      font-size: 1.0625rem;
+      line-height: 1.7;
+    }
+  }
+
+
+  /* ============================================
+     PAGINATION
+     ============================================ */
+
+  .pagination {
+    margin-top: var(--blog-space-2xl);
+    margin-bottom: var(--blog-space-xl);
+  }
+}
+
+
+/* ============================================
+   HOME PAGE HEADER
+   Simpler breadcrumbs - no page title
+   ============================================ */
+
+.page-home .top-app-bar,
+.page-home .site-header {
+  .breadcrumbs,
+  .site-breadcrumbs {
+    /* Hide separator and current page on home */
+    .breadcrumb-separator,
+    .breadcrumb-current,
+    .title {
+      display: none;
+    }
+
+    .breadcrumb-home {
+      font-size: 2.5rem;
+      font-weight: var(--blog-font-weight-black);
+      font-stretch: var(--blog-font-stretch-ultra-condensed);
+    }
+  }
+}
+
+
+/* ============================================
+   GRID LAYOUT (Optional)
+   Can be enabled for multi-column layout
+   ============================================ */
+
+.page-home .page-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--blog-space-md);
+  max-width: var(--blog-width-content-full);
+  margin: 0 auto;
+  padding: 0 var(--blog-space-md);
+}
+
+.page-home .grid-col {
+  grid-column: span 12;
+}
+
+.page-home .grid-col-8 {
+  grid-column: span 8;
+}
+
+.page-home .grid-col-6 {
+  grid-column: span 6;
+}
+
+.page-home .grid-col-4 {
+  grid-column: span 4;
+}
+
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 768px) {
+  .page-home {
+    .content {
+      padding: var(--blog-space-lg) var(--blog-space-sm);
+    }
+
+    .post-list-item:first-child {
+      margin-bottom: var(--blog-space-lg);
+      padding-bottom: var(--blog-space-lg);
+
+      h2,
+      .post-list-heading {
+        font-size: 2rem;
+      }
+    }
+
+    /* Single column grid on mobile */
+    .page-grid {
+      grid-template-columns: 1fr;
+      gap: var(--blog-space-sm);
+      padding: 0 var(--blog-space-sm);
+    }
+
+    .grid-col,
+    .grid-col-8,
+    .grid-col-6,
+    .grid-col-4 {
+      grid-column: span 1;
+    }
+  }
+
+  .page-home .top-app-bar,
+  .page-home .site-header {
+    .breadcrumbs .breadcrumb-home,
+    .site-breadcrumbs .breadcrumb-home {
+      font-size: 2rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .page-home {
+    .post-list-item:first-child {
+      h2,
+      .post-list-heading {
+        font-size: 1.75rem;
+      }
+    }
+  }
+
+  .page-home .top-app-bar,
+  .page-home .site-header {
+    .breadcrumbs .breadcrumb-home,
+    .site-breadcrumbs .breadcrumb-home {
+      font-size: 1.75rem;
+    }
+  }
+}

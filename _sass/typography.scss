@@ -1,0 +1,333 @@
+/**
+ * Blog Typography System
+ *
+ * Semantic typography classes that apply design tokens.
+ * Provides ready-to-use type styles for common patterns.
+ */
+
+@use 'tokens' as *;
+
+
+/* ============================================
+   BASE TYPOGRAPHY
+   Applied globally
+   ============================================ */
+
+body {
+  font-family: var(--blog-font-body);
+  font-size: var(--blog-type-content-body-size);
+  line-height: var(--blog-type-content-body-line-height);
+  font-weight: var(--blog-font-weight-regular);
+  color: var(--blog-color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* ============================================
+   DISPLAY TYPOGRAPHY
+   Large, hero-style text
+   ============================================ */
+
+.display-heading {
+  font-family: var(--blog-font-display);
+  font-size: var(--blog-type-content-display-size);
+  line-height: var(--blog-type-content-display-line-height);
+  font-weight: var(--blog-type-content-display-weight);
+  font-stretch: var(--blog-type-content-display-stretch);
+  letter-spacing: var(--blog-type-content-display-spacing);
+  color: var(--blog-color-text-primary);
+  margin: 0;
+}
+
+
+/* ============================================
+   SECTION HEADINGS
+   Content hierarchy
+   ============================================ */
+
+.section-heading {
+  font-family: var(--blog-font-display);
+  font-size: var(--blog-type-content-h1-size);
+  line-height: var(--blog-type-content-h1-line-height);
+  font-weight: var(--blog-type-content-h1-weight);
+  font-stretch: var(--blog-type-content-h1-stretch);
+  letter-spacing: var(--blog-type-content-h1-spacing);
+  color: var(--blog-color-text-primary);
+  margin: 0 0 var(--blog-space-content-element) 0;
+}
+
+.subsection-heading-large {
+  font-family: var(--blog-font-display);
+  font-size: var(--blog-type-content-h2-size);
+  line-height: var(--blog-type-content-h2-line-height);
+  font-weight: var(--blog-type-content-h2-weight);
+  font-stretch: var(--blog-type-content-h2-stretch);
+  letter-spacing: var(--blog-type-content-h2-spacing);
+  color: var(--blog-color-text-primary);
+  margin: var(--blog-space-content-block) 0 var(--blog-space-content-element) 0;
+}
+
+.subsection-heading-medium {
+  font-family: var(--blog-font-display);
+  font-size: var(--blog-type-content-h3-size);
+  line-height: var(--blog-type-content-h3-line-height);
+  font-weight: var(--blog-type-content-h3-weight);
+  font-stretch: var(--blog-type-content-h3-stretch);
+  letter-spacing: var(--blog-type-content-h3-spacing);
+  color: var(--blog-color-text-primary);
+  margin: var(--blog-space-content-element) 0 var(--blog-space-content-paragraph) 0;
+}
+
+.subsection-heading-small {
+  font-family: var(--blog-font-display);
+  font-size: var(--blog-type-content-h4-size);
+  line-height: var(--blog-type-content-h4-line-height);
+  font-weight: var(--blog-type-content-h4-weight);
+  font-stretch: var(--blog-type-content-h4-stretch);
+  letter-spacing: var(--blog-type-content-h4-spacing);
+  color: var(--blog-color-text-primary);
+  margin: var(--blog-space-content-paragraph) 0 var(--blog-space-sm) 0;
+}
+
+
+/* ============================================
+   BODY TEXT
+   Reading content
+   ============================================ */
+
+.body-text-large {
+  /* Lead paragraph / intro text */
+  font-family: var(--blog-font-body);
+  font-size: var(--blog-type-content-lead-size);
+  line-height: var(--blog-type-content-lead-line-height);
+  font-weight: var(--blog-type-content-lead-weight);
+  color: var(--blog-color-text-primary);
+  margin: 0 0 var(--blog-space-content-paragraph) 0;
+}
+
+.body-text {
+  font-family: var(--blog-font-body);
+  font-size: var(--blog-type-content-body-size);
+  line-height: var(--blog-type-content-body-line-height);
+  font-weight: var(--blog-type-content-body-weight);
+  letter-spacing: var(--blog-type-content-body-spacing);
+  color: var(--blog-color-text-primary);
+  margin: 0 0 var(--blog-space-content-paragraph) 0;
+}
+
+.body-text-small {
+  /* Smaller body text for compact areas */
+  font-family: var(--blog-font-body);
+  font-size: var(--blog-type-home-body-size);
+  line-height: var(--blog-type-home-body-line-height);
+  font-weight: var(--blog-type-home-body-weight);
+  color: var(--blog-color-text-primary);
+  margin: 0 0 var(--blog-space-sm) 0;
+}
+
+
+/* ============================================
+   CAPTION/META TEXT
+   Dates, labels, metadata
+   ============================================ */
+
+.caption-text {
+  font-family: var(--blog-font-body);
+  font-size: var(--blog-type-content-caption-size);
+  line-height: var(--blog-type-content-caption-line-height);
+  font-weight: var(--blog-type-content-caption-weight);
+  color: var(--blog-color-text-secondary);
+  margin: 0;
+}
+
+.caption-text-uppercase {
+  @extend .caption-text;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+
+/* ============================================
+   POST LIST TYPOGRAPHY (Home Page)
+   Dense, scan-optimized
+   ============================================ */
+
+.post-list-heading {
+  font-family: var(--blog-font-display);
+  font-size: var(--blog-type-home-heading-size);
+  line-height: var(--blog-type-home-heading-line-height);
+  font-weight: var(--blog-type-home-heading-weight);
+  font-stretch: var(--blog-type-home-heading-stretch);
+  letter-spacing: var(--blog-type-home-heading-spacing);
+  color: var(--blog-color-text-primary);
+  margin: 0 0 var(--blog-space-home-element) 0;
+}
+
+.post-list-display {
+  /* Extra large for featured posts */
+  font-family: var(--blog-font-display);
+  font-size: var(--blog-type-home-display-size);
+  line-height: var(--blog-type-home-display-line-height);
+  font-weight: var(--blog-type-home-display-weight);
+  font-stretch: var(--blog-type-home-display-stretch);
+  letter-spacing: var(--blog-type-home-display-spacing);
+  color: var(--blog-color-text-primary);
+  margin: 0 0 var(--blog-space-home-element) 0;
+}
+
+.post-list-excerpt {
+  font-family: var(--blog-font-body);
+  font-size: var(--blog-type-home-body-size);
+  line-height: var(--blog-type-home-body-line-height);
+  font-weight: var(--blog-type-home-body-weight);
+  color: var(--blog-color-text-secondary);
+  margin: 0 0 var(--blog-space-home-inline) 0;
+}
+
+.post-list-meta {
+  font-family: var(--blog-font-body);
+  font-size: var(--blog-type-home-caption-size);
+  line-height: var(--blog-type-home-caption-line-height);
+  font-weight: var(--blog-type-home-caption-weight);
+  color: var(--blog-color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+
+/* ============================================
+   CODE/MONOSPACE
+   ============================================ */
+
+.code-text {
+  font-family: var(--blog-font-mono);
+  font-size: 0.95em;  /* Increased from 0.9em for better readability */
+  color: var(--blog-color-code-text);
+
+  /* Enable font ligatures for Fira Code */
+  font-variant-ligatures: normal;
+  font-feature-settings: 'calt' 1, 'liga' 1;
+  -webkit-font-feature-settings: 'calt' 1, 'liga' 1;
+  -moz-font-feature-settings: 'calt' 1, 'liga' 1;
+}
+
+.code-inline {
+  @extend .code-text;
+  background-color: var(--blog-color-code-inline-bg);
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--blog-radius-sm);
+}
+
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.text-primary {
+  color: var(--blog-color-text-primary);
+}
+
+.text-secondary {
+  color: var(--blog-color-text-secondary);
+}
+
+.text-accent {
+  color: var(--blog-color-accent);
+}
+
+.font-weight-regular {
+  font-weight: var(--blog-font-weight-regular);
+}
+
+.font-weight-medium {
+  font-weight: var(--blog-font-weight-medium);
+}
+
+.font-weight-bold {
+  font-weight: var(--blog-font-weight-bold);
+}
+
+.font-weight-black {
+  font-weight: var(--blog-font-weight-black);
+}
+
+.text-uppercase {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+
+/* ============================================
+   RESPONSIVE TYPOGRAPHY
+   Scale down on smaller screens
+   ============================================ */
+
+@media (max-width: 768px) {
+  .display-heading {
+    font-size: 2.5rem;
+    line-height: 1.1;
+  }
+
+  .section-heading {
+    font-size: 2.25rem;
+    line-height: 1.15;
+  }
+
+  .subsection-heading-large {
+    font-size: 1.875rem;
+    line-height: 1.2;
+  }
+
+  .subsection-heading-medium {
+    font-size: 1.5rem;
+    line-height: 1.25;
+  }
+
+  .post-list-display {
+    font-size: 2rem;
+  }
+
+  .post-list-heading {
+    font-size: 1.625rem;
+  }
+
+  .body-text-large {
+    font-size: 1.125rem;
+  }
+
+  .body-text {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .display-heading {
+    font-size: 2rem;
+  }
+
+  .section-heading {
+    font-size: 1.875rem;
+  }
+
+  .subsection-heading-large {
+    font-size: 1.5rem;
+  }
+
+  .post-list-display {
+    font-size: 1.75rem;
+  }
+
+  .post-list-heading {
+    font-size: 1.5rem;
+  }
+}

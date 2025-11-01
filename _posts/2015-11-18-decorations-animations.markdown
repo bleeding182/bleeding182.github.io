@@ -7,8 +7,11 @@ tags:
 - itemDecoration
 - animation
 published: true
+excerpt_separator: <!--more-->
 ---
 Just a quick update to my [last post]({% post_url 2015-11-10-recyclerview-with-decorations-basic-guide %}) on a little thing I missed out: Animations.
+
+<!--more-->
 
 Since a recyclerView supports animations by default as soon as you give your items a stable id with `setHasStableIds(true)` and by implementing `getItemId(int)`, it should be worth spending a minute or two in basic handling of those pesky things.
 

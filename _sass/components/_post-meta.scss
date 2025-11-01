@@ -1,0 +1,300 @@
+/**
+ * Post Meta Component
+ *
+ * Post metadata like date, author, reading time, categories
+ * Different treatments for home page vs. content pages
+ */
+
+@use '../tokens' as *;
+
+
+/* ============================================
+   POST META (General)
+   Used in both list and article views
+   ============================================ */
+
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--blog-space-xs);
+  color: var(--blog-color-text-secondary);
+  font-size: var(--blog-type-content-caption-size);
+  font-weight: var(--blog-font-weight-medium);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin-bottom: var(--blog-space-sm);
+
+  /* Accent bar before metadata */
+  &::before {
+    content: '';
+    width: 24px;
+    height: var(--blog-border-medium);
+    background: var(--blog-color-accent);
+    border-radius: var(--blog-radius-sm);
+  }
+
+  time {
+    color: inherit;
+  }
+
+  /* Separators between meta items */
+  .meta-separator {
+    color: var(--blog-color-text-secondary);
+    opacity: 0.5;
+    margin: 0 var(--blog-space-xs);
+
+    &::before {
+      content: '•';
+    }
+  }
+}
+
+
+/* ============================================
+   POST LIST META (Home Page)
+   Compact, minimal styling
+   ============================================ */
+
+.post-list-meta {
+  font-family: var(--blog-font-body);
+  font-size: var(--blog-type-home-caption-size);
+  line-height: var(--blog-type-home-caption-line-height);
+  font-weight: var(--blog-type-home-caption-weight);
+  color: var(--blog-color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 var(--blog-space-home-inline) 0;
+  display: flex;
+  align-items: center;
+  gap: var(--blog-space-xs);
+
+  time {
+    color: inherit;
+  }
+
+  /* Accent bar before date */
+  &::before {
+    content: '';
+    width: 24px;
+    height: var(--blog-border-medium);
+    background: var(--blog-color-accent);
+    border-radius: var(--blog-radius-sm);
+  }
+}
+
+
+/* ============================================
+   ARTICLE META (Content Page)
+   Enhanced styling with more detail
+   ============================================ */
+
+.article-meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--blog-space-sm);
+  margin: var(--blog-space-lg) 0 var(--blog-space-content-element) 0;
+  padding: var(--blog-space-md) 0;
+  border-top: var(--blog-border-thin) solid var(--blog-color-divider);
+  border-bottom: var(--blog-border-thin) solid var(--blog-color-divider);
+
+  .meta-row {
+    display: flex;
+    align-items: center;
+    gap: var(--blog-space-sm);
+    flex-wrap: wrap;
+  }
+
+  .meta-label {
+    font-size: var(--blog-type-content-caption-size);
+    font-weight: var(--blog-font-weight-bold);
+    color: var(--blog-color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .meta-value {
+    font-size: var(--blog-type-content-caption-size);
+    color: var(--blog-color-text-primary);
+  }
+
+  time {
+    color: inherit;
+  }
+}
+
+
+/* ============================================
+   POST TAGS/CATEGORIES
+   ============================================ */
+
+.post-tags,
+.post-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--blog-space-xs);
+  margin: var(--blog-space-sm) 0;
+
+  .tag,
+  .category {
+    display: inline-block;
+    padding: var(--blog-space-xs) var(--blog-space-sm);
+    background-color: var(--blog-color-surface-elevated);
+    color: var(--blog-color-text-secondary);
+    font-size: var(--blog-type-content-caption-size);
+    font-weight: var(--blog-font-weight-medium);
+    text-decoration: none;
+    border-radius: var(--blog-radius-lg);
+    transition: background-color var(--blog-duration-fast) var(--blog-easing-standard),
+                color var(--blog-duration-fast) var(--blog-easing-standard);
+
+    &:hover {
+      background-color: var(--blog-color-accent);
+      color: var(--md-sys-color-on-primary);
+    }
+  }
+}
+
+
+/* ============================================
+   READING TIME
+   ============================================ */
+
+.reading-time {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--blog-space-xs);
+  font-size: var(--blog-type-content-caption-size);
+  color: var(--blog-color-text-secondary);
+
+  svg,
+  .icon {
+    width: 16px;
+    height: 16px;
+    opacity: 0.7;
+  }
+}
+
+
+/* ============================================
+   AUTHOR INFO
+   ============================================ */
+
+.post-author-name {
+  font-size: var(--blog-type-content-caption-size);
+  font-weight: var(--blog-font-weight-medium);
+  color: var(--blog-color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: var(--blog-space-sm) 0 0 0;
+  padding-bottom: var(--blog-space-md);
+  border-bottom: var(--blog-border-thin) solid var(--blog-color-divider);
+  text-align: left;
+}
+
+.post-author {
+  display: flex;
+  align-items: center;
+  gap: var(--blog-space-sm);
+  margin: var(--blog-space-md) 0;
+
+  .author-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--blog-radius-full);
+    object-fit: cover;
+  }
+
+  .author-details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--blog-space-xs);
+  }
+
+  .author-name {
+    font-size: var(--blog-type-content-body-size);
+    font-weight: var(--blog-font-weight-bold);
+    color: var(--blog-color-text-primary);
+  }
+
+  .author-title {
+    font-size: var(--blog-type-content-caption-size);
+    color: var(--blog-color-text-secondary);
+  }
+}
+
+
+/* ============================================
+   POST DATES
+   Published and updated dates
+   ============================================ */
+
+.post-dates {
+  display: flex;
+  flex-direction: column;
+  gap: var(--blog-space-xs);
+  font-size: var(--blog-type-content-caption-size);
+  color: var(--blog-color-text-secondary);
+
+  .date-published,
+  .date-updated {
+    display: flex;
+    align-items: center;
+    gap: var(--blog-space-xs);
+
+    .date-label {
+      font-weight: var(--blog-font-weight-bold);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    time {
+      color: var(--blog-color-text-primary);
+    }
+  }
+
+  .date-updated {
+    font-style: italic;
+  }
+}
+
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 768px) {
+  .post-meta {
+    flex-wrap: wrap;
+    font-size: 0.8rem;
+
+    &::before {
+      width: 20px;
+    }
+  }
+
+  .article-meta {
+    .meta-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--blog-space-xs);
+    }
+  }
+
+  .post-author {
+    .author-avatar {
+      width: 40px;
+      height: 40px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .post-meta {
+    font-size: 0.75rem;
+
+    &::before {
+      width: 16px;
+      height: 1px;
+    }
+  }
+}

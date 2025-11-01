@@ -3,147 +3,187 @@
 ---
 @charset "utf-8";
 
-$mdc-theme-primary: #AF0B0B;
-$mdc-theme-accent: #D9721C;
-$mdc-theme-background: #fbfbfb;
+/**
+ * Unified Design System
+ *
+ * Import order:
+ * 1. Design tokens (foundation)
+ * 2. Material 3 theme (for component integration)
+ * 3. Typography system
+ * 4. Syntax highlighting
+ * 5. Component types
+ * 6. Page types
+ */
 
-//@import "@material/animation/mdc-animation";
-@import "@material/button/mdc-button";
-@import "@material/card/mdc-card";
-//@import "@material/checkbox/mdc-checkbox";
-//@import "@material/dialog/mdc-dialog";
-//@import "@material/drawer/mdc-drawer";
-//@import "@material/elevation/mdc-elevation";
-//@import "@material/fab/mdc-fab";
-//@import "@material/form-field/mdc-form-field";
-//@import "@material/grid-list/mdc-grid-list";
-//@import "@material/icon-toggle/mdc-icon-toggle";
-@import "@material/layout-grid/mdc-layout-grid";
-//@import "@material/linear-progress/mdc-linear-progress";
-//@import "@material/list/mdc-list";
-//@import "@material/menu/mdc-menu";
-//@import "@material/radio/mdc-radio";
-@import "@material/ripple/mdc-ripple";
-//@import "@material/select/mdc-select";
-//@import "@material/slider/mdc-slider";
-//@import "@material/snackbar/mdc-snackbar";
-//@import "@material/switch/mdc-switch";
-//@import "@material/tabs/mdc-tabs";
-//@import "@material/textfield/mdc-textfield";
-@import "@material/theme/mdc-theme";
-@import "@material/toolbar/mdc-toolbar";
-@import "@material/typography/mdc-typography";
+/* ============================================
+   FOUNDATION
+   Design tokens and Material 3 theme
+   ============================================ */
+
+@use "tokens";
+@use "theme";
+@use "typography";
+@use "../_sass/syntax-highlighting";
 
 
-@import "../syntax-highlighting";
+/* ============================================
+   COMPONENT TYPES
+   Semantic, reusable components
+   ============================================ */
 
-body {
-    background: #fbfbfb;
-}
+@use "components/header";
+@use "components/post-list";
+@use "components/article";
+@use "components/pagination";
+@use "components/code-blocks";
+@use "components/post-meta";
 
+
+/* ============================================
+   PAGE TYPES
+   Layout-specific styles
+   ============================================ */
+
+@use "pages/home";
+@use "pages/content";
+
+
+/* ============================================
+   BASE LAYOUT
+   Shared layout components
+   ============================================ */
+
+/* Main content container - default styling */
 .content {
-    max-width: 800px;
+  max-width: var(--blog-width-content-standard);
+  margin: 0 auto;
+  padding: var(--blog-space-content-section) var(--blog-space-md);
 }
 
-.pagination {
-    margin: auto;
+/* Grid system - available for complex layouts */
+.page-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--blog-space-md);
+  max-width: var(--blog-width-content-full);
+  margin: 0 auto;
+  padding: 0 var(--blog-space-md);
 }
 
-.pagination i {
-    vertical-align: middle;
+.grid-col {
+  grid-column: span 12;
 }
 
-.mdc-card__media {
-  background-image: url("../mat.svg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  height: 180px;
+.grid-col-8 {
+  grid-column: span 8;
 }
 
-.article a {
-    color: $mdc-theme-accent;
-    text-decoration: none;
-    &:visited {
-      color: $mdc-theme-accent;
-    }
-    &:hover {
-      color: lighten($mdc-theme-accent, 15);   
-    }
-    &:active {
-      color: $mdc-theme-accent;
-    }
+.grid-col-6 {
+  grid-column: span 6;
 }
 
-.article h1 {
-    @extend .mdc-typography--display3;
-}
-.article h2 {
-    @extend .mdc-typography--display2;
-}
-.article h3 {
-    @extend .mdc-typography--display1;
-}
-.article h4 {
-    @extend .mdc-typography--headline;
-}
-.article h5 {
-    @extend .mdc-typography--title;
-}
-.article h6 {
-    @extend .mdc-typography--subheading2;
-}
-.article h7 {
-    @extend .mdc-typography--subheading1;
-}
-
-.article p {
-    @extend .mdc-typography--body1;
-    font-size: 1rem;
-    line-height: 1.75rem;
-}
-
-.article img {
-    display: block;
-    max-width:100%;
-    max-height:100%;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-figure.highlight {
-    width: 100%;
-    -webkit-margin-start: 0em;
-    -webkit-margin-after: 0em;
-    background: rgba(175, 11, 11, 0.05);
-    
-    pre {
-        padding: 1em;
-        overflow: auto;
-        line-height:1rem;
-    }
-}
-
-.highlighter-rouge {
-    padding-top: 0.125rem;
-    padding-left: 0.125rem;
-    padding-right: 0.125rem;
-    padding-bottom: 0.1rem;
-    background: rgba(175, 11, 11, 0.075);
-}
-
-.ad {
-    margin-left: auto;
-    margin-right: auto;
+.grid-col-4 {
+  grid-column: span 4;
 }
 
 
+/* ============================================
+   UTILITIES
+   Helper classes
+   ============================================ */
+
+/* Margin utilities */
+.mt-xs { margin-top: var(--blog-space-xs); }
+.mt-sm { margin-top: var(--blog-space-sm); }
+.mt-md { margin-top: var(--blog-space-md); }
+.mt-lg { margin-top: var(--blog-space-lg); }
+.mt-xl { margin-top: var(--blog-space-xl); }
+
+.mb-xs { margin-bottom: var(--blog-space-xs); }
+.mb-sm { margin-bottom: var(--blog-space-sm); }
+.mb-md { margin-bottom: var(--blog-space-md); }
+.mb-lg { margin-bottom: var(--blog-space-lg); }
+.mb-xl { margin-bottom: var(--blog-space-xl); }
+
+/* Padding utilities */
+.pt-xs { padding-top: var(--blog-space-xs); }
+.pt-sm { padding-top: var(--blog-space-sm); }
+.pt-md { padding-top: var(--blog-space-md); }
+.pt-lg { padding-top: var(--blog-space-lg); }
+.pt-xl { padding-top: var(--blog-space-xl); }
+
+.pb-xs { padding-bottom: var(--blog-space-xs); }
+.pb-sm { padding-bottom: var(--blog-space-sm); }
+.pb-md { padding-bottom: var(--blog-space-md); }
+.pb-lg { padding-bottom: var(--blog-space-lg); }
+.pb-xl { padding-bottom: var(--blog-space-xl); }
+
+/* Display utilities */
+.d-none { display: none; }
+.d-block { display: block; }
+.d-flex { display: flex; }
+.d-grid { display: grid; }
+
+/* Alignment utilities */
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+
+.align-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
 
 
+/* ============================================
+   RESPONSIVE GRID
+   ============================================ */
+
+@media (max-width: 768px) {
+  .page-grid {
+    grid-template-columns: 1fr;
+    gap: var(--blog-space-sm);
+    padding: 0 var(--blog-space-sm);
+  }
+
+  .grid-col,
+  .grid-col-8,
+  .grid-col-6,
+  .grid-col-4 {
+    grid-column: span 1;
+  }
+
+  .content {
+    padding: var(--blog-space-lg) var(--blog-space-sm);
+    max-width: 100%;
+  }
+}
 
 
+/* ============================================
+   SCROLL BEHAVIOR
+   Add 'scrolled' class to header via JavaScript
+   ============================================ */
+
+/* JavaScript should add .scrolled class when page scrolls */
+.top-app-bar.scrolled,
+.site-header.scrolled {
+  background-color: var(--blog-color-surface-elevated);
+  box-shadow: var(--blog-shadow-md);
+}
 
 
+/* ============================================
+   VIEW TRANSITIONS
+   Smooth page transitions using View Transitions API
+   For Cross-Document (Multi-Page) transitions
 
+   Browser Support:
+   - Chrome/Edge 126+ (June 2024)
+   - Safari: Not yet supported
+   - Firefox: Not yet supported
 
+   Falls back gracefully in unsupported browsers
 
-
+   NOTE: The @view-transition rule is added via <style> tag in head.html
+   because Jekyll's SASS compiler doesn't yet support this new CSS feature.
+   ============================================ */

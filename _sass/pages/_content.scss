@@ -1,0 +1,299 @@
+/**
+ * Content Page Styles
+ *
+ * Read-optimized layout for blog posts and static pages
+ * Spacious, elegant, designed for comfortable long-form reading
+ */
+
+@use '../tokens' as *;
+
+
+/* ============================================
+   CONTENT PAGE LAYOUT
+   ============================================ */
+
+.page-content,
+.page-post {
+  /* Base background and text color */
+  background-color: var(--blog-color-background);
+  color: var(--blog-color-text-primary);
+
+
+  /* ============================================
+     CONTENT CONTAINER
+     Wider for comfortable reading
+     ============================================ */
+
+  .content {
+    max-width: var(--blog-width-content-standard);
+    margin: 0 auto;
+    padding: var(--blog-space-content-section) var(--blog-space-md);
+  }
+
+
+  /* ============================================
+     CONTENT PAGE SPECIFIC OVERRIDES
+     Apply spacious typography scale
+     ============================================ */
+
+  /* Typography adjustments for read-optimized layout */
+  --effective-heading-size: var(--blog-type-content-h1-size);
+  --effective-body-size: var(--blog-type-content-body-size);
+  --effective-spacing: var(--blog-space-content-block);
+}
+
+
+/* ============================================
+   ARTICLE HEADER
+   Page title and metadata
+   ============================================ */
+
+.page-content,
+.page-post {
+  .article-header {
+    margin-bottom: var(--blog-space-content-block);
+    text-align: left;
+
+    /* Main article title */
+    h1,
+    .article-title {
+      font-family: var(--blog-font-display);
+      font-size: var(--blog-type-content-h1-size);
+      line-height: var(--blog-type-content-h1-line-height);
+      font-weight: var(--blog-type-content-h1-weight);
+      font-stretch: var(--blog-type-content-h1-stretch);
+      letter-spacing: var(--blog-type-content-h1-spacing);
+      color: var(--blog-color-text-primary);
+      margin: 0 0 var(--blog-space-md) 0;
+    }
+
+    /* Post meta in header */
+    .post-meta {
+      margin-bottom: 0;
+    }
+  }
+}
+
+
+/* ============================================
+   ARTICLE FOOTER
+   Comments, share buttons, related posts
+   ============================================ */
+
+.page-content,
+.page-post {
+  .article-footer {
+    margin-top: var(--blog-space-content-section);
+    padding-top: var(--blog-space-content-block);
+    border-top: var(--blog-border-thin) solid var(--blog-color-divider);
+  }
+
+  .comments {
+    margin-top: var(--blog-space-content-block);
+    padding-top: var(--blog-space-content-element);
+    border-top: var(--blog-border-thin) solid var(--blog-color-divider);
+
+    .dev-notice {
+      color: var(--blog-color-text-secondary);
+      font-size: var(--blog-type-content-caption-size);
+      font-style: italic;
+    }
+  }
+}
+
+
+/* ============================================
+   AD PLACEMENT
+   ============================================ */
+
+.page-content,
+.page-post {
+  .ad {
+    margin: var(--blog-space-content-element) auto;
+    text-align: center;
+    padding: var(--blog-space-md);
+    background-color: var(--blog-color-surface-elevated);
+    border-radius: var(--blog-radius-md);
+    min-height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+
+/* ============================================
+   RELATED POSTS / POST NAVIGATION
+   ============================================ */
+
+.related-posts {
+  margin-top: var(--blog-space-content-section);
+  padding-top: var(--blog-space-content-element);
+  border-top: var(--blog-border-thin) solid var(--blog-color-divider);
+
+  .related-posts-title {
+    font-family: var(--blog-font-display);
+    font-size: var(--blog-type-content-h3-size);
+    line-height: var(--blog-type-content-h3-line-height);
+    font-weight: var(--blog-type-content-h3-weight);
+    font-stretch: var(--blog-type-content-h3-stretch);
+    letter-spacing: var(--blog-type-content-h3-spacing);
+    color: var(--blog-color-text-primary);
+    margin: 0 0 var(--blog-space-content-element) 0;
+  }
+
+  .related-posts-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--blog-space-lg);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .related-post-item {
+    padding: var(--blog-space-md);
+    background-color: var(--blog-color-surface-elevated);
+    border-radius: var(--blog-radius-md);
+    transition: transform var(--blog-duration-fast) var(--blog-easing-standard),
+                box-shadow var(--blog-duration-fast) var(--blog-easing-standard);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--blog-shadow-md);
+    }
+
+    a {
+      text-decoration: none;
+      color: var(--blog-color-text-primary);
+      font-weight: var(--blog-font-weight-bold);
+      font-size: 1.125rem;
+      line-height: 1.4;
+
+      &:hover {
+        color: var(--blog-color-accent);
+      }
+    }
+
+    .related-post-date {
+      font-size: var(--blog-type-content-caption-size);
+      color: var(--blog-color-text-secondary);
+      margin-top: var(--blog-space-xs);
+    }
+  }
+}
+
+
+/* ============================================
+   POST NAVIGATION (Previous/Next)
+   ============================================ */
+
+.post-navigation {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--blog-space-lg);
+  margin: var(--blog-space-content-block) 0;
+  padding: var(--blog-space-content-element) 0;
+  border-top: var(--blog-border-thin) solid var(--blog-color-divider);
+  border-bottom: var(--blog-border-thin) solid var(--blog-color-divider);
+
+  .nav-previous,
+  .nav-next {
+    flex: 1;
+    min-width: 0;
+
+    a {
+      display: flex;
+      flex-direction: column;
+      gap: var(--blog-space-xs);
+      text-decoration: none;
+      padding: var(--blog-space-sm);
+      border-radius: var(--blog-radius-md);
+      transition: var(--blog-transition-background);
+
+      &:hover {
+        background-color: var(--blog-color-surface-elevated);
+      }
+    }
+
+    .nav-label {
+      font-size: var(--blog-type-content-caption-size);
+      color: var(--blog-color-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: var(--blog-font-weight-bold);
+    }
+
+    .nav-title {
+      font-size: 1.125rem;
+      color: var(--blog-color-text-primary);
+      font-weight: var(--blog-font-weight-bold);
+      line-height: 1.4;
+    }
+  }
+
+  .nav-previous {
+    text-align: left;
+  }
+
+  .nav-next {
+    text-align: right;
+  }
+}
+
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 768px) {
+  .page-content,
+  .page-post {
+    .content {
+      padding: var(--blog-space-lg) var(--blog-space-sm);
+    }
+
+    .article-header {
+      margin-bottom: var(--blog-space-lg);
+
+      h1,
+      .article-title {
+        font-size: 2.25rem;
+      }
+    }
+
+    .article-footer {
+      margin-top: var(--blog-space-xl);
+      padding-top: var(--blog-space-lg);
+    }
+  }
+
+  .related-posts {
+    .related-posts-list {
+      grid-template-columns: 1fr;
+      gap: var(--blog-space-md);
+    }
+  }
+
+  .post-navigation {
+    flex-direction: column;
+    gap: var(--blog-space-md);
+
+    .nav-previous,
+    .nav-next {
+      text-align: left;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .page-content,
+  .page-post {
+    .article-header {
+      h1,
+      .article-title {
+        font-size: 1.875rem;
+      }
+    }
+  }
+}

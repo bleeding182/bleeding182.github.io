@@ -15,7 +15,19 @@ url: "https://blog.davidmedenjak.com" # the base hostname & protocol for your si
 #twitter_username: jekyllrb
 github_username:  bleeding182
 
-exclude: ["CNAME", "README.md", "Guardfile", "Gemfile", "Gemfile.lock"]
+exclude:
+  - CNAME
+  - README.md
+  - Guardfile
+  - Gemfile
+  - Gemfile.lock
+  - CLAUDE.md
+  - node_modules
+  - package.json
+  - package-lock.json
+  - rollup.config.js
+  - src
+  - vendor
 
 # Build settings
 markdown: kramdown
@@ -23,7 +35,17 @@ future: true
 
 sass:
     style: compressed
-    sass_dir: _sass/node_modules
+
+# Performance optimizations
+incremental: false
+
+# Fix file watching on WSL
+force_polling: true
+
+liquid:
+  error_mode: warn
+  strict_filters: false
+  strict_variables: false
 
 defaults:
   -

@@ -1,0 +1,171 @@
+/**
+ * Post List Component
+ *
+ * Home page post listing - scan-optimized, dense, bold
+ * Designed for quick scanning and discovery
+ */
+
+@use '../tokens' as *;
+
+
+/* ============================================
+   POST LIST CONTAINER
+   ============================================ */
+
+.post-list {
+  max-width: var(--blog-width-content-narrow);
+  margin: 0 auto;
+  padding: var(--blog-space-home-section) var(--blog-space-md);
+}
+
+
+/* ============================================
+   POST LIST ITEM
+   Compact, scannable post preview
+   ============================================ */
+
+.post-list-item {
+  margin-bottom: var(--blog-space-home-item);
+  padding-bottom: var(--blog-space-home-item);
+  border-bottom: var(--blog-border-thin) solid var(--blog-color-divider);
+  transition: transform var(--blog-duration-fast) var(--blog-easing-standard);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  /* Post list heading */
+  .post-list-heading,
+  h2 {
+    font-family: var(--blog-font-display);
+    font-size: var(--blog-type-home-heading-size);
+    line-height: var(--blog-type-home-heading-line-height);
+    font-weight: var(--blog-type-home-heading-weight);
+    font-stretch: var(--blog-type-home-heading-stretch);
+    letter-spacing: var(--blog-type-home-heading-spacing);
+    color: var(--blog-color-text-primary);
+    margin: 0 0 var(--blog-space-home-element) 0;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      position: relative;
+      display: inline-block;
+      transition: var(--blog-transition-color);
+
+      /* Animated vertical bar indicator */
+      &::before {
+        content: '';
+        position: absolute;
+        left: -1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: var(--blog-border-thick);
+        height: 0;
+        background: var(--blog-color-accent);
+        border-radius: var(--blog-radius-sm);
+        transition: height var(--blog-duration-normal) var(--blog-easing-standard);
+      }
+
+      &:hover {
+        color: var(--blog-color-accent);
+
+        &::before {
+          height: 100%;
+        }
+      }
+    }
+  }
+
+  /* Post excerpt */
+  .post-list-excerpt,
+  .excerpt {
+    font-family: var(--blog-font-body);
+    font-size: var(--blog-type-home-body-size);
+    line-height: var(--blog-type-home-body-line-height);
+    font-weight: var(--blog-type-home-body-weight);
+    color: var(--blog-color-text-secondary);
+    margin: var(--blog-space-sm) 0 var(--blog-space-md) 0;
+    letter-spacing: 0.01em;
+
+    /* Links in excerpt */
+    a {
+      color: var(--blog-color-link);
+      text-decoration: underline;
+      text-decoration-thickness: var(--blog-border-thin);
+      text-underline-offset: 2px;
+      transition: all var(--blog-duration-fast) var(--blog-easing-standard);
+
+      &:visited {
+        color: var(--blog-color-link-visited);
+      }
+
+      &:hover {
+        color: var(--blog-color-link-hover);
+        text-decoration-thickness: var(--blog-border-medium);
+      }
+
+      &:active {
+        color: var(--blog-color-link);
+      }
+    }
+  }
+
+  /* Read more link */
+  .read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--blog-space-xs);
+    font-weight: var(--blog-font-weight-bold);
+    color: var(--blog-color-secondary-accent);
+    text-decoration: none;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    transition: gap var(--blog-duration-fast) var(--blog-easing-standard);
+
+    &:hover {
+      gap: 0.75rem;
+      color: var(--blog-color-accent);
+    }
+
+    &::after {
+      content: '→';
+      font-size: 1.2rem;
+    }
+  }
+}
+
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 768px) {
+  .post-list {
+    padding: var(--blog-space-lg) var(--blog-space-sm);
+  }
+
+  .post-list-item {
+    margin-bottom: var(--blog-space-lg);
+    padding-bottom: var(--blog-space-lg);
+
+    h2,
+    .post-list-heading {
+      font-size: 1.625rem;
+    }
+
+    .excerpt,
+    .post-list-excerpt {
+      font-size: 0.95rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .post-list-item {
+    h2,
+    .post-list-heading {
+      font-size: 1.5rem;
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "bleeding182-blog",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Personal Android development blog",
+  "scripts": {
+    "build:js": "rollup -c",
+    "watch:js": "rollup -c -w",
+    "prebuild": "npm run build:js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bleeding182/bleeding182.github.io.git"
+  },
+  "keywords": [
+    "android",
+    "blog",
+    "material-design"
+  ],
+  "author": "David Medenjak",
+  "license": "MIT",
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "rollup": "^4.30.1"
+  },
+  "dependencies": {
+    "@material/web": "^2.4.1"
+  }
+}
