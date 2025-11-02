@@ -29,27 +29,4 @@ layout: default
       {{ content }}
     </div>
   </article>
-
-  <footer class="article-footer">
-    <div class="comments">
-    {%- if jekyll.environment == "production" -%}
-    <div id="disqus_thread"></div>
-    <script>
-    var disqus_config = function () {
-        this.page.url = '{{ page.url | prepend: site.url }}';
-        this.page.identifier = '{{ page.path }}';
-    };
-    (function() {
-        var d = document, s = d.createElement('script');
-        s.src = '//android-stuff.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
-    {%- else -%}
-    <p class="dev-notice">Comments are only visible in production.</p>
-    {%- endif -%}
-    </div>
-  </footer>
 </div>
