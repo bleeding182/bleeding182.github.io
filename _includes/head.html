@@ -26,6 +26,8 @@
   </title>
   <meta name="description" content="{%- if page.description -%}{{- page.description -}}{%- else -%}{%- if page.excerpt -%}{{- page.excerpt | strip_html | strip_newlines | truncate: 160 -}}{%- else -%}{{- site.description -}}{%- endif -%}{%- endif -%}">
 
+  <link rel="icon" type="image/svg+xml" href="{{ "/favicon.svg" | prepend: site.baseurl }}">
+
   <link rel="stylesheet" href="{{ "/css/fonts.css" | prepend: site.baseurl }}"/>
   <link rel="stylesheet" href="{{ "/css/site.css" | prepend: site.baseurl }}"/>
 
