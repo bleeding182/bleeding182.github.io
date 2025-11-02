@@ -6,15 +6,7 @@ permalink: /privacy/
 
 ## Information we collect
 
-This site uses Insights to track anonymized usage statistics. [Read more](https://getinsights.io/what-data-we-collect) about data they collect.
-
-### Disqus
-
-We use Disqus to enable user engagement on this blog.
-
-Disqus uses cookies on all blog post pages which make use of the Disqus comment box. We do not have control about the cookies Disqus uses to track users, but the information collected is used to analyze your usage behavior and provide the Disqus service.
-
-You can see [Disqus' Privacy Policy](https://help.disqus.com/customer/en/portal/articles/466259-privacy-policy) for further details which you can also find at the bottom of every comment box.
+This site does not collect any personal information or use tracking analytics.
 
 ## Sharing your personal information
 
@@ -32,5 +24,5 @@ By using this site, you signify your acceptance of this policy and terms of serv
 
 If you have any questions about this Privacy Policy, the practices of this site, or your dealings with this site, please contact us.
 
-Introduced July 6th 2016  
-Last modified August 27th 2022
+Introduced July 6th 2016
+Last modified November 2nd 2025

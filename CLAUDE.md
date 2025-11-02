@@ -52,7 +52,7 @@ Note: Changes to `_config.yml` require restarting the Jekyll server.
 
 - **Layouts**: Located in `_layouts/`
   - `default.html` - Base layout with header and tag manager
-  - `post.html` - Blog post layout with Disqus comments (production only)
+  - `post.html` - Blog post layout
   - `page.html` - For standalone pages
   - `about.html` - About page layout
 
