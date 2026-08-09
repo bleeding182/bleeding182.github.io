@@ -132,6 +132,15 @@ one case Dark Reader should still handle.
   - List items
   - Dividers
 
+`rollup.config.js` builds into `assets/.tmp/` and only `rename(2)`s the result into
+`assets/bundle.js` once it's complete (a `writeBundle` plugin hook). Jekyll's default
+entry filter never walks into dot-prefixed paths, so it can't observe the file
+mid-write; combined with the atomic rename, `bin/serve`'s watcher (`rollup -c -w`)
+can never hand Jekyll a truncated bundle to copy into `_site`. Without this, an empty
+`assets/bundle.js` gets served silently - no error, just every JS feature on the page
+going dead until the next edit. `assets/.tmp/` is gitignored and should normally be
+empty between builds.
+
 ### Custom Fonts
 - Self-hosted fonts in `/fonts` directory
 - Font declarations in `css/fonts.css`

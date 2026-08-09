@@ -2,14 +2,19 @@ _site
 .sass-cache
 .jekyll-metadata
 
+# No trailing slashes below: these are also symlinked into scratch checkouts
+# (git worktrees) to avoid a full reinstall, and a trailing slash matches only
+# real directories - a symlink of the same name would sail past and get
+# committed, then clobber the real directory on the next checkout.
+
 # Node.js
-node_modules/
+node_modules
 npm-debug.log
 yarn-error.log
 
 # Ruby
-vendor/
-.bundle/
+vendor
+.bundle
 
 # Generated assets
 # Built by `npm run build:js`, and rebuilt in CI before Jekyll runs, so the
@@ -17,6 +22,10 @@ vendor/
 # ~80KB diff on every change and the merge conflicts that come with it.
 assets/bundle.js
 assets/bundle.js.map
+
+# Staging directory rollup.config.js writes to before an atomic rename into
+# assets/bundle.js. Should normally be empty between builds.
+assets/.tmp/
 
 # Editor files
 .vscode/
