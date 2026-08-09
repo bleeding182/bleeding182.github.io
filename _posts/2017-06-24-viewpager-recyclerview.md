@@ -15,7 +15,7 @@ Everyone knows how to display multiple pages using a `ViewPager`, but since supp
 
 _More about ItemDecorations!_ :D
 
-![ViewPagerDecoration]({{ site.baseurl }}/assets/viewpager-recyclerview/viewpagerdecoration.gif)
+![ViewPagerDecoration]({{ site.baseurl }}/assets/viewpager-recyclerview/viewpagerdecoration.webp)
 
 <!--more-->
 
@@ -181,7 +181,7 @@ private void drawHighlights(Canvas c, float indicatorStartX, float indicatorPosY
 
 All of this gives us the promised indicator and we can now properly page our RecyclerView.
 
-![ViewPagerDecoration]({{ site.baseurl }}/assets/viewpager-recyclerview/viewpagerdecoration.gif)
+![ViewPagerDecoration]({{ site.baseurl }}/assets/viewpager-recyclerview/viewpagerdecoration.webp)
 
 _The full source code can be found at my [GitHub repository][github-decoration]._
 
