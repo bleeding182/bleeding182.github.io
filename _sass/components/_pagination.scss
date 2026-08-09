@@ -58,7 +58,7 @@
   /* Current page (disabled button) */
   md-filled-button[disabled] {
     --md-filled-button-disabled-container-color: var(--blog-color-accent);
-    --md-filled-button-disabled-label-text-color: #FFFFFF;
+    --md-filled-button-disabled-label-text-color: var(--md-sys-color-on-primary);
     opacity: 1;
     pointer-events: none;
   }

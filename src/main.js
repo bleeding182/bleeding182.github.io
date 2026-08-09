@@ -21,5 +21,3 @@ import '@material/web/divider/divider.js';
 
 // Theme management for light/dark mode toggle
 import './theme.js';
-
-console.log('Material Web components loaded');

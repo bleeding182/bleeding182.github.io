@@ -5,6 +5,40 @@
  * These tokens provide a consistent, maintainable system for the blog's visual language.
  */
 
+/* Dark-mode token overrides, shared by the system-preference and manual-toggle
+   selectors at the bottom of this file. */
+@mixin dark-tokens {
+  /* Code blocks in dark mode need adjustment */
+  --blog-color-code-bg: var(--md-sys-color-surface-container-low);
+  --blog-color-code-inline-bg: var(--md-sys-color-surface-container);
+
+  /* Shadows are less visible in dark mode */
+  --blog-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --blog-shadow-md: 0 2px 4px rgba(0, 0, 0, 0.4);
+  --blog-shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.5);
+  --blog-shadow-xl: 0 8px 16px rgba(0, 0, 0, 0.6);
+
+  /* Dark mode syntax highlighting - Brighter warm palette */
+  --blog-syntax-keyword: #FF6B6B;        /* Bright coral red - keywords, operators */
+  --blog-syntax-string: #FFB74D;         /* Bright amber - strings */
+  --blog-syntax-number: #BCAAA4;         /* Light brown - numbers, literals */
+  --blog-syntax-function: #FF5252;       /* Bright red - functions, methods */
+  --blog-syntax-class: #FF8A65;          /* Light red-orange - classes, types */
+  --blog-syntax-comment: #A1887F;        /* Muted brown - comments */
+  --blog-syntax-constant: #FF7043;       /* Bright orange - constants */
+  --blog-syntax-variable: #D7CCC8;       /* Very light brown - variables */
+  --blog-syntax-tag: #EF5350;            /* Bright red - HTML/XML tags */
+  --blog-syntax-attribute: #FFCCBC;      /* Pale orange - attributes */
+  --blog-syntax-error: #FF5252;          /* Bright red - errors */
+  --blog-syntax-error-bg: #5D1F1F;       /* Dark red background for errors */
+
+  /* Diff highlighting - dimmer fills so they read on a dark surface */
+  --blog-color-diff-add-bg: rgba(63, 185, 80, 0.18);
+  --blog-color-diff-add-border: rgba(63, 185, 80, 0.7);
+  --blog-color-diff-del-bg: rgba(248, 81, 73, 0.18);
+  --blog-color-diff-del-border: rgba(248, 81, 73, 0.7);
+}
+
 :root {
   /* ============================================
      TYPOGRAPHY TOKENS
@@ -179,6 +213,12 @@
   --blog-syntax-error: #B71C1C;          /* Deep dark red - errors */
   --blog-syntax-error-bg: #FFCDD2;       /* Light red background for errors */
 
+  /* Diff highlighting - additions green, deletions red */
+  --blog-color-diff-add-bg: rgba(46, 160, 67, 0.15);
+  --blog-color-diff-add-border: rgba(46, 160, 67, 0.6);
+  --blog-color-diff-del-bg: rgba(248, 81, 73, 0.15);
+  --blog-color-diff-del-border: rgba(248, 81, 73, 0.6);
+
   /* Interactive States */
   --blog-color-hover: var(--md-sys-color-primary);
   --blog-color-active: var(--md-sys-color-primary-container);
@@ -260,7 +300,6 @@
   --blog-shadow-xl: 0 8px 16px rgba(0, 0, 0, 0.12);
 }
 
-
 /* ============================================
    DARK THEME OVERRIDES
    Only override tokens that differ in dark mode
@@ -268,54 +307,10 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    /* Code blocks in dark mode need adjustment */
-    --blog-color-code-bg: var(--md-sys-color-surface-container-low);
-    --blog-color-code-inline-bg: var(--md-sys-color-surface-container);
-
-    /* Shadows are less visible in dark mode */
-    --blog-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-    --blog-shadow-md: 0 2px 4px rgba(0, 0, 0, 0.4);
-    --blog-shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.5);
-    --blog-shadow-xl: 0 8px 16px rgba(0, 0, 0, 0.6);
-
-    /* Dark mode syntax highlighting - Brighter warm palette */
-    --blog-syntax-keyword: #FF6B6B;        /* Bright coral red - keywords, operators */
-    --blog-syntax-string: #FFB74D;         /* Bright amber - strings */
-    --blog-syntax-number: #BCAAA4;         /* Light brown - numbers, literals */
-    --blog-syntax-function: #FF5252;       /* Bright red - functions, methods */
-    --blog-syntax-class: #FF8A65;          /* Light red-orange - classes, types */
-    --blog-syntax-comment: #A1887F;        /* Muted brown - comments */
-    --blog-syntax-constant: #FF7043;       /* Bright orange - constants */
-    --blog-syntax-variable: #D7CCC8;       /* Very light brown - variables */
-    --blog-syntax-tag: #EF5350;            /* Bright red - HTML/XML tags */
-    --blog-syntax-attribute: #FFCCBC;      /* Pale orange - attributes */
-    --blog-syntax-error: #FF5252;          /* Bright red - errors */
-    --blog-syntax-error-bg: #5D1F1F;       /* Dark red background for errors */
+    @include dark-tokens;
   }
 }
 
 :root[data-theme="dark"] {
-  /* Code blocks in dark mode need adjustment */
-  --blog-color-code-bg: var(--md-sys-color-surface-container-low);
-  --blog-color-code-inline-bg: var(--md-sys-color-surface-container);
-
-  /* Shadows are less visible in dark mode */
-  --blog-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --blog-shadow-md: 0 2px 4px rgba(0, 0, 0, 0.4);
-  --blog-shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.5);
-  --blog-shadow-xl: 0 8px 16px rgba(0, 0, 0, 0.6);
-
-  /* Dark mode syntax highlighting - Brighter warm palette */
-  --blog-syntax-keyword: #FF6B6B;        /* Bright coral red - keywords, operators */
-  --blog-syntax-string: #FFB74D;         /* Bright amber - strings */
-  --blog-syntax-number: #BCAAA4;         /* Light brown - numbers, literals */
-  --blog-syntax-function: #FF5252;       /* Bright red - functions, methods */
-  --blog-syntax-class: #FF8A65;          /* Light red-orange - classes, types */
-  --blog-syntax-comment: #A1887F;        /* Muted brown - comments */
-  --blog-syntax-constant: #FF7043;       /* Bright orange - constants */
-  --blog-syntax-variable: #D7CCC8;       /* Very light brown - variables */
-  --blog-syntax-tag: #EF5350;            /* Bright red - HTML/XML tags */
-  --blog-syntax-attribute: #FFCCBC;      /* Pale orange - attributes */
-  --blog-syntax-error: #FF5252;          /* Bright red - errors */
-  --blog-syntax-error-bg: #5D1F1F;       /* Dark red background for errors */
+  @include dark-tokens;
 }

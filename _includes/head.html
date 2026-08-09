@@ -1,38 +1,48 @@
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FEFBFF"/>
+
+  <!-- Follows the system unless the reader pins a theme, in which case theme.js
+       replaces both tags with a single unconditional one. -->
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFF8F6"/>
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1A1110"/>
 
-  <!-- Prevent theme flicker - runs before page render -->
+  <!-- Applies a pinned theme before first paint, and locks out Dark Reader while
+       we are dark so it does not invert an already-dark page. -->
   <script>
     (function() {
-      const stored = localStorage.getItem('theme');
+      var stored = null;
+      try {
+        stored = localStorage.getItem('theme');
+      } catch (e) {}
+
+      if (stored !== 'light' && stored !== 'dark') {
+        stored = null;
+      }
+
       if (stored) {
         document.documentElement.setAttribute('data-theme', stored);
-      } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+
+      var dark = stored
+        ? stored === 'dark'
+        : window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+      if (dark) {
+        var meta = document.createElement('meta');
+        meta.name = 'darkreader-lock';
+        document.head.appendChild(meta);
       }
     })();
   </script>
 
-  <title>
-  {%- if page.title -%}
-    {{ page.title }}
-  {%- else -%}
-    {{ site.title }}
-  {%- endif -%}
-  </title>
-  <meta name="description" content="{%- if page.description -%}{{- page.description -}}{%- else -%}{%- if page.excerpt -%}{{- page.excerpt | strip_html | strip_newlines | truncate: 160 -}}{%- else -%}{{- site.description -}}{%- endif -%}{%- endif -%}">
+  {%- seo -%}
+  {%- feed_meta -%}
 
   <link rel="icon" type="image/svg+xml" href="{{ "/favicon.svg" | prepend: site.baseurl }}">
 
   <link rel="stylesheet" href="{{ "/css/fonts.css" | prepend: site.baseurl }}"/>
   <link rel="stylesheet" href="{{ "/css/site.css" | prepend: site.baseurl }}"/>
-
-  <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
-  <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}">
 
   {%- if paginator.page > 1 -%}
   <meta name="robots" content="noindex">

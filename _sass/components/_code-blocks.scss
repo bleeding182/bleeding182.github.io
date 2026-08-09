@@ -158,18 +158,18 @@ figure.highlight pre,
    For showing code changes
    ============================================ */
 
+/* Rouge's own .gd/.gi classes are coloured in syntax-highlighting.scss.
+   These are the manual classes for hand-marked diffs. */
 .code-block {
-  .highlight-addition,
-  .gd {
-    background-color: rgba(46, 160, 67, 0.15);
-    border-left: 3px solid rgba(46, 160, 67, 0.6);
+  .highlight-addition {
+    background-color: var(--blog-color-diff-add-bg);
+    border-left: 3px solid var(--blog-color-diff-add-border);
     padding-left: var(--blog-space-xs);
   }
 
-  .highlight-deletion,
-  .gi {
-    background-color: rgba(248, 81, 73, 0.15);
-    border-left: 3px solid rgba(248, 81, 73, 0.6);
+  .highlight-deletion {
+    background-color: var(--blog-color-diff-del-bg);
+    border-left: 3px solid var(--blog-color-diff-del-border);
     padding-left: var(--blog-space-xs);
   }
 }
@@ -201,7 +201,7 @@ figure.highlight pre,
   figure.highlight,
   .code-block,
   pre {
-    margin: var(--blog-space-lg) -#{var(--blog-space-sm)};
+    margin: var(--blog-space-lg) calc(-1 * var(--blog-space-sm));
     border-radius: 0;
 
     pre {

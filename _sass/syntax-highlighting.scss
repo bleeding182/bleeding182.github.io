@@ -76,9 +76,10 @@
   .gt    { color: var(--blog-syntax-error); font-weight: bold }
   .ne    { color: var(--blog-syntax-error); font-weight: 700 }
 
-  /* Generic elements */
-  .gd    { color: var(--blog-syntax-error); background-color: var(--blog-syntax-error-bg) }  // Generic.Deleted
-  .gi    { color: var(--blog-syntax-comment); background-color: rgba(76, 175, 80, 0.15) }    // Generic.Inserted
+  /* Generic elements
+     .gd/.gi are the sole owners of diff colouring - see components/_code-blocks.scss */
+  .gd    { background-color: var(--blog-color-diff-del-bg) }  // Generic.Deleted
+  .gi    { background-color: var(--blog-color-diff-add-bg) }  // Generic.Inserted
   .ge    { font-style: italic }
   .gs    { font-weight: bold }
   .gh    { color: var(--blog-syntax-class); font-weight: bold }

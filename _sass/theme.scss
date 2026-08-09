@@ -1,9 +1,70 @@
 /**
  * Material 3 Theme Configuration
  * Based on brand colors: Primary #AF0B0B, Accent #D9721C
+ *
+ * The dark palette lives in a mixin so the system-preference and the
+ * manual-toggle selectors can never drift apart.
  */
 
+@mixin dark-palette {
+  /* Tells the browser (and extensions like Dark Reader) the page is already
+     dark, so native scrollbars, form controls and autofill follow suit. */
+  color-scheme: dark;
+
+  /* Primary (Dark) */
+  --md-sys-color-primary: #FFB3AB;
+  --md-sys-color-on-primary: #680005;
+  --md-sys-color-primary-container: #920009;
+  --md-sys-color-on-primary-container: #FFDAD5;
+
+  /* Secondary (Dark) */
+  --md-sys-color-secondary: #FFB788;
+  --md-sys-color-on-secondary: #4E2600;
+  --md-sys-color-secondary-container: #703800;
+  --md-sys-color-on-secondary-container: #FFDBC9;
+
+  /* Tertiary (Dark) */
+  --md-sys-color-tertiary: #F5BF48;
+  --md-sys-color-on-tertiary: #412D00;
+  --md-sys-color-tertiary-container: #5D4200;
+  --md-sys-color-on-tertiary-container: #FFDEA7;
+
+  /* Error (Dark) */
+  --md-sys-color-error: #FFB4AB;
+  --md-sys-color-on-error: #690005;
+  --md-sys-color-error-container: #93000A;
+  --md-sys-color-on-error-container: #FFDAD6;
+
+  /* Surface (Dark) */
+  --md-sys-color-surface: #1A1110;
+  --md-sys-color-on-surface: #F1DFDC;
+  --md-sys-color-surface-variant: #524341;
+  --md-sys-color-on-surface-variant: #D7C1BE;
+  --md-sys-color-surface-container-lowest: #140C0B;
+  --md-sys-color-surface-container-low: #231918;
+  --md-sys-color-surface-container: #271D1C;
+  --md-sys-color-surface-container-high: #322826;
+  --md-sys-color-surface-container-highest: #3D3231;
+
+  /* Background (Dark) */
+  --md-sys-color-background: #1A1110;
+  --md-sys-color-on-background: #F1DFDC;
+
+  /* Outline (Dark) */
+  --md-sys-color-outline: #A08C89;
+  --md-sys-color-outline-variant: #524341;
+
+  /* Inverse (Dark) */
+  --md-sys-color-inverse-surface: #F1DFDC;
+  --md-sys-color-inverse-on-surface: #36302E;
+  --md-sys-color-inverse-primary: #AF0B0B;
+}
+
 :root {
+  /* Follow the system by default; the [data-theme] selectors below pin it
+     when the user has made an explicit choice via the toggle. */
+  color-scheme: light dark;
+
   /* Primary Color Palette (Red) */
   --md-sys-color-primary: #AF0B0B;
   --md-sys-color-on-primary: #FFFFFF;
@@ -104,105 +165,18 @@
 /* Dark Theme - Applied automatically by system preference */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    /* Primary (Dark) */
-    --md-sys-color-primary: #FFB3AB;
-    --md-sys-color-on-primary: #680005;
-    --md-sys-color-primary-container: #920009;
-    --md-sys-color-on-primary-container: #FFDAD5;
-
-    /* Secondary (Dark) */
-    --md-sys-color-secondary: #FFB788;
-    --md-sys-color-on-secondary: #4E2600;
-    --md-sys-color-secondary-container: #703800;
-    --md-sys-color-on-secondary-container: #FFDBC9;
-
-    /* Tertiary (Dark) */
-    --md-sys-color-tertiary: #F5BF48;
-    --md-sys-color-on-tertiary: #412D00;
-    --md-sys-color-tertiary-container: #5D4200;
-    --md-sys-color-on-tertiary-container: #FFDEA7;
-
-    /* Error (Dark) */
-    --md-sys-color-error: #FFB4AB;
-    --md-sys-color-on-error: #690005;
-    --md-sys-color-error-container: #93000A;
-    --md-sys-color-on-error-container: #FFDAD6;
-
-    /* Surface (Dark) */
-    --md-sys-color-surface: #1A1110;
-    --md-sys-color-on-surface: #F1DFDC;
-    --md-sys-color-surface-variant: #524341;
-    --md-sys-color-on-surface-variant: #D7C1BE;
-    --md-sys-color-surface-container-lowest: #140C0B;
-    --md-sys-color-surface-container-low: #231918;
-    --md-sys-color-surface-container: #271D1C;
-    --md-sys-color-surface-container-high: #322826;
-    --md-sys-color-surface-container-highest: #3D3231;
-
-    /* Background (Dark) */
-    --md-sys-color-background: #1A1110;
-    --md-sys-color-on-background: #F1DFDC;
-
-    /* Outline (Dark) */
-    --md-sys-color-outline: #A08C89;
-    --md-sys-color-outline-variant: #524341;
-
-    /* Inverse (Dark) */
-    --md-sys-color-inverse-surface: #F1DFDC;
-    --md-sys-color-inverse-on-surface: #36302E;
-    --md-sys-color-inverse-primary: #AF0B0B;
+    @include dark-palette;
   }
 }
 
 /* Dark Theme - Manual override via toggle */
 :root[data-theme="dark"] {
-  /* Primary (Dark) */
-  --md-sys-color-primary: #FFB3AB;
-  --md-sys-color-on-primary: #680005;
-  --md-sys-color-primary-container: #920009;
-  --md-sys-color-on-primary-container: #FFDAD5;
+  @include dark-palette;
+}
 
-  /* Secondary (Dark) */
-  --md-sys-color-secondary: #FFB788;
-  --md-sys-color-on-secondary: #4E2600;
-  --md-sys-color-secondary-container: #703800;
-  --md-sys-color-on-secondary-container: #FFDBC9;
-
-  /* Tertiary (Dark) */
-  --md-sys-color-tertiary: #F5BF48;
-  --md-sys-color-on-tertiary: #412D00;
-  --md-sys-color-tertiary-container: #5D4200;
-  --md-sys-color-on-tertiary-container: #FFDEA7;
-
-  /* Error (Dark) */
-  --md-sys-color-error: #FFB4AB;
-  --md-sys-color-on-error: #690005;
-  --md-sys-color-error-container: #93000A;
-  --md-sys-color-on-error-container: #FFDAD6;
-
-  /* Surface (Dark) */
-  --md-sys-color-surface: #1A1110;
-  --md-sys-color-on-surface: #F1DFDC;
-  --md-sys-color-surface-variant: #524341;
-  --md-sys-color-on-surface-variant: #D7C1BE;
-  --md-sys-color-surface-container-lowest: #140C0B;
-  --md-sys-color-surface-container-low: #231918;
-  --md-sys-color-surface-container: #271D1C;
-  --md-sys-color-surface-container-high: #322826;
-  --md-sys-color-surface-container-highest: #3D3231;
-
-  /* Background (Dark) */
-  --md-sys-color-background: #1A1110;
-  --md-sys-color-on-background: #F1DFDC;
-
-  /* Outline (Dark) */
-  --md-sys-color-outline: #A08C89;
-  --md-sys-color-outline-variant: #524341;
-
-  /* Inverse (Dark) */
-  --md-sys-color-inverse-surface: #F1DFDC;
-  --md-sys-color-inverse-on-surface: #36302E;
-  --md-sys-color-inverse-primary: #AF0B0B;
+/* Light Theme - Manual override pins the scheme against a dark system */
+:root[data-theme="light"] {
+  color-scheme: light;
 }
 
 body {
