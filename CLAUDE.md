@@ -122,6 +122,45 @@ that page view, and toggling cannot rescue a page it has already inverted -
 Don't hardcode the lock in the markup either; following the system into light is the
 one case Dark Reader should still handle.
 
+#### Header elevation
+
+The sticky header is elevated by scroll position, in CSS, from
+`_sass/components/_header.scss`: a `header-elevation` keyframe attached to the bar
+with `animation-timeline: scroll(root block)`, ramped in over
+`animation-range: 0 64px`.
+
+Browsers without scroll-driven animations (currently Firefox) fall back to the old
+`.scrolled` class toggled by a scroll listener in `theme.js`. **The two paths are one
+switch and must stay in sync**: the `@supports (animation-timeline: scroll())` guard
+in the SASS and the `CSS.supports('animation-timeline', 'scroll()')` call in
+`initScrollBehavior` test the same string. If they ever disagree you get both paths
+at once (a permanently elevated bar) or neither (an invisible one).
+
+This is load-bearing, not decoration. `--blog-color-surface` is the *same colour* as
+the page background in both themes, so an un-elevated bar is invisible - content
+scrolling underneath it just looks clipped. `--blog-color-surface-elevated` plus
+`--blog-shadow-md` are the only things separating the two, which is why the failure
+mode of this effect must always be "elevated", never "flat".
+
+Details worth keeping in mind before editing it:
+
+- Only a `to` keyframe is declared. The resting values stay on the `.site-header,
+  .top-app-bar` rule and exist in exactly one place. The old implementation
+  duplicated the elevated state verbatim into `css/site.scss`; don't reintroduce that.
+- The `animation` shorthand resets `animation-timeline` and `animation-range`, so
+  both have to be declared after it.
+- `animation-duration` is `1ms`, not `auto`; the scroll timeline supplies the
+  progress, so the declared duration only has to be non-zero. Support is Chromium
+  115+ and Safari 26+; Firefox has it behind a flag in Nightly.
+- Mobile (`max-width: 768px`) sets `position: static` and switches off *both* paths -
+  `animation: none` and a `.scrolled` override back to the resting values. The bar
+  scrolls away with the content there, so there is nothing to elevate above, and
+  `theme.js` has no notion of the breakpoint so it keeps adding the class.
+- No `prefers-reduced-motion` guard: nothing moves, it is a colour and shadow
+  crossfade. Suppressing it would hand reduced-motion readers the invisible header.
+- `var()` inside the keyframe re-resolves live, so toggling the theme while scrolled
+  repaints the elevated bar correctly. Verified in all three theme states.
+
 ### JavaScript
 - Material Web components bundled via Rollup
 - Entry point: `src/main.js`
@@ -131,6 +170,14 @@ one case Dark Reader should still handle.
   - Icon buttons
   - List items
   - Dividers
+
+`src/theme.js` is the only hand-written script in the bundle. It does theming - read
+the stored preference, keep `data-theme`, the Dark Reader lock and the `theme-color`
+tags in step, wire up the toggle - plus `initScrollBehavior`, which is dead code on
+any browser that supports scroll-driven animations and only attaches a listener as
+the header-elevation fallback (see [Header elevation](#header-elevation)).
+
+Nothing else should be added here that CSS can express.
 
 ### Custom Fonts
 - Self-hosted fonts in `/fonts` directory
