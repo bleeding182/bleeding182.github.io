@@ -260,8 +260,21 @@ Nothing else should be added here that CSS can express.
 
 ### Custom Fonts
 - Self-hosted fonts in `/fonts` directory
-- Font declarations in `css/fonts.css`
-- Includes Roboto and Roboto Condensed variants
+- Font declarations in `css/fonts.css`, preloaded from `_includes/head.html`
+- Two files serve the whole site: **Roboto Flex** (`--blog-font-display` and
+  `--blog-font-body`) and **Fira Code** (`--blog-font-mono`). Both are variable,
+  so every weight the SASS asks for - 300 through 900 - comes out of one request
+  each. There is no static Roboto any more; adding a weight costs nothing.
+- `font-stretch` drives Roboto Flex's `wdth` axis (25-151). That axis is why the
+  display font has to stay variable.
+- **Preloads and `@font-face` have to be kept in step.** A font is otherwise
+  discovered three levels deep - document, then `fonts.css`, then the file - and
+  the preload is the only thing that collapses that. Preload only fonts actually
+  matched by rendered text; `MaterialIcons` is declared but never matched, which
+  is why it isn't preloaded. `crossorigin` is required even same-origin, or the
+  preload is discarded and the font fetched twice.
+- `roboto-condensed-v25-*` and MaterialIcons' `.eot`/`.ttf`/`.woff` are unreferenced
+  leftovers, still in the repo but never served.
 
 ### Jekyll Configuration
 - Jekyll version: 4.4.1

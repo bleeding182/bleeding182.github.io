@@ -1,39 +1,5 @@
 /*
- * Roboto font family for body text
- *
- * Standard Roboto with specific weights for better performance
- * Used for all body text and UI elements
- */
-
-/* Roboto Regular (400) */
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url(../fonts/roboto-v30-latin-regular.woff2) format('woff2');
-}
-
-/* Roboto Medium (500) */
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url(../fonts/roboto-v30-latin-500.woff2) format('woff2');
-}
-
-/* Roboto Bold (700) */
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url(../fonts/roboto-v30-latin-700.woff2) format('woff2');
-}
-
-/*
- * Roboto Flex variable font for headlines
+ * Roboto Flex variable font - headlines and body text both
  *
  * Roboto Flex supports multiple axes including:
  * - Weight (wght): 100-1000

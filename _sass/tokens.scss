@@ -57,7 +57,7 @@ $themed: (
 
   /* Font Families */
   --blog-font-display: 'Roboto Flex', sans-serif;  /* Variable font for headlines with font-stretch */
-  --blog-font-body: 'Roboto', sans-serif;          /* Regular Roboto for body text */
+  --blog-font-body: 'Roboto Flex', sans-serif;     /* Same file - its wght axis covers every weight we use */
   --blog-font-mono: 'Fira Code', 'Monaco', 'Consolas', 'Courier New', monospace;
 
   /* Font Stretch (Variable Font Width Axis) */
