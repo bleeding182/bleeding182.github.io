@@ -39,9 +39,6 @@ sass:
 # Performance optimizations
 incremental: false
 
-# Fix file watching on WSL
-force_polling: true
-
 liquid:
   error_mode: warn
   strict_filters: false
