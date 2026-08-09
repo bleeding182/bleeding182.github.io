@@ -1,3 +1,9 @@
+---
+# Front matter (the dashes are enough) is what routes this through Sass, which
+# is what strips these comments from the output. Without it Jekyll copies the
+# file verbatim and every comment below ships to the browser.
+---
+
 /*
  * Roboto Flex variable font - headlines and body text both
  *

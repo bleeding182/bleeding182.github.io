@@ -26,7 +26,7 @@
     </article>
   {%- endfor -%}
 
-  <!-- Pagination links -->
+  {%- comment -%} Pagination links {%- endcomment %}
   <div class="pagination">
     {%- if paginator.previous_page -%}
     <md-text-button href="{{ paginator.previous_page_path }}">

@@ -276,6 +276,35 @@ Nothing else should be added here that CSS can express.
 - `roboto-condensed-v25-*` and MaterialIcons' `.eot`/`.ttf`/`.woff` are unreferenced
   leftovers, still in the repo but never served.
 
+### Comments never reach the browser
+
+Three mechanisms, because no single one covers everything:
+
+- **In templates, use `{% comment %}`, not `<!-- -->`.** Liquid comments are
+  stripped at build; HTML comments are markup and ship to every reader.
+- **CSS comments are stripped by Sass** (`style: compressed`), which is why
+  `css/fonts.scss` is a `.scss` with front matter rather than a plain `.css`.
+  Front matter is the only thing routing it through Sass - drop it and Jekyll
+  copies the file verbatim, comments and all. The output URL stays `/css/fonts.css`.
+- **`_plugins/strip_html_comments.rb`** catches what we don't write:
+  jekyll-seo-tag's Begin/End pair and the `<!--more-->` left behind by
+  `excerpt_separator`. Neither is configurable.
+
+The plugin deliberately skips `<pre>`, `<script>` and `<textarea>` - a comment in
+there is content, not markup. `tools/banner_generator.html` depends on this: it
+builds Android vector XML, comments and all, inside a JS template literal, and
+stripping those would corrupt what the tool hands the user.
+
+A page only gets the plugin if Jekyll renders it. A file with no front matter is
+copied verbatim as a static asset, which is why `tools/banner_generator.html`
+carries `layout: null` - enough to be rendered, without the site chrome that
+`defaults:` would otherwise wrap around a standalone document.
+
+This is done with a plugin rather than a minifier gem; jekyll-minifier would also
+re-minify `assets/bundle.js` through uglifier, which is ES5-only and would choke on
+an ES module bundle. Custom plugins work here only because deployment goes through
+the Actions workflow rather than GitHub Pages' safe mode.
+
 ### Jekyll Configuration
 - Jekyll version: 4.4.1
 - Markdown engine: kramdown

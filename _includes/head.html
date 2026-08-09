@@ -2,15 +2,19 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Follows the system unless the reader pins a theme, in which case theme.js
-       replaces both tags with a single unconditional one. -->
+  {%- comment -%}
+    Follows the system unless the reader pins a theme, in which case theme.js
+    replaces both tags with a single unconditional one.
+  {%- endcomment %}
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFF8F6"/>
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1A1110"/>
 
-  <!-- Applies a pinned theme before first paint, and locks out Dark Reader when
-       the reader pinned a theme or we are already dark. This has to happen here
-       rather than in theme.js: Dark Reader reads the lock as the document loads,
-       so a lock added later in the bundle comes too late for this page view. -->
+  {%- comment -%}
+    Applies a pinned theme before first paint, and locks out Dark Reader when
+    the reader pinned a theme or we are already dark. This has to happen here
+    rather than in theme.js: Dark Reader reads the lock as the document loads,
+    so a lock added later in the bundle comes too late for this page view.
+  {%- endcomment %}
   <script>
     (function() {
       var stored = null;
@@ -56,14 +60,16 @@
   <meta name="robots" content="noindex">
   {%- endif -%}
 
-  <!-- View Transitions API - Enable crossfade between pages -->
-  <!-- Requires Chrome/Edge 126+ (June 2024) - Falls back gracefully in unsupported browsers -->
+  {%- comment -%}
+    View Transitions API - crossfade between pages. Requires Chrome/Edge 126+
+    (June 2024); falls back gracefully in unsupported browsers.
+  {%- endcomment %}
   <style>
     @view-transition {
       navigation: auto;
     }
   </style>
 
-  <!-- Material Web Components -->
+  {%- comment -%} Material Web Components {%- endcomment %}
   <script type="module" src="{{ "/assets/bundle.js" | prepend: site.baseurl }}"></script>
 </head>
