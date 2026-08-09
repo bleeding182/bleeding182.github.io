@@ -1,0 +1,25 @@
+# Line endings
+#
+# Text files are stored as LF in the repository and checked out as LF on every
+# platform. The repo previously held a mix of CRLF and LF, which made unrelated
+# edits show up as whole-file diffs depending on who touched them.
+#
+# LF in the working tree on Windows too: Git for Windows, VS Code, Ruby and Node
+# all handle it, and it keeps SCSS/YAML/JS byte-identical across machines.
+* text=auto eol=lf
+
+# Binary assets - never convert, never diff as text.
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.ico   binary
+*.webp  binary
+*.pdf   binary
+
+# Fonts
+*.woff  binary
+*.woff2 binary
+*.ttf   binary
+*.otf   binary
+*.eot   binary
