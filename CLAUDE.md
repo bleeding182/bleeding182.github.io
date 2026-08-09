@@ -86,25 +86,70 @@ Note: Changes to `_config.yml` require restarting the Jekyll server.
 #### Theming rules
 
 The theme follows the system by default and can be pinned via the header toggle.
-Three selectors carry the theme, and anything theme-dependent must cover all three:
 
-- `:root` - light palette, `color-scheme: light dark`
-- `@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) }` - system dark
+**Colours are written once, with `light-dark()`.** A token carries both values and
+the browser picks:
+
+```scss
+:root {
+  color-scheme: light dark;
+  --md-sys-color-surface: light-dark(#FFF8F6, #1A1110);
+}
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"]  { color-scheme: dark; }
+```
+
+There is no dark palette to keep in sync - no mixin, no `prefers-color-scheme`
+block, no second selector. Pinning a theme narrows `color-scheme` and the whole
+palette follows, live, without a repaint hook or a reload. The Material tokens live
+in `_sass/theme.scss`, the `--blog-*` tokens in `_sass/tokens.scss`.
+
+Rules that come with it:
+
+- `light-dark()` resolves against the element's *used* `color-scheme`. That works
+  only because `color-scheme` is declared on `:root` and nowhere else. **Never set
+  `color-scheme` further down the tree** - it would flip that subtree's colours
+  while the rest of the page stays put.
+- It takes **colours, not values**. In a multi-part value wrap only the colour
+  component: `--blog-shadow-md: 0 2px 4px light-dark(rgba(0,0,0,.08), rgba(0,0,0,.4))`.
+- Nesting is fine, including through `var()`: `--blog-color-code-bg` is
+  `light-dark(var(--md-sys-color-surface-container), var(--md-sys-color-surface-container-low))`,
+  and those tokens are themselves `light-dark()`.
+- Every colour must still resolve through a `--blog-*` or `--md-sys-color-*` token.
+  Hardcoded hex/rgba in component SASS will be wrong in one of the two themes.
+- Baseline since May 2024 (Chrome/Edge 123, Firefox 120, Safari 17.5). Older
+  browsers drop the declaration entirely, so this is a hard floor, not a
+  progressive enhancement - unlike the scroll-driven header, there is no fallback.
+
+**What still needs `data-theme`: everything that is not a colour.** There is no
+selector that matches the used `color-scheme`, and `prefers-color-scheme` reports
+the OS, which a pinned theme is allowed to contradict. So a non-colour that depends
+on the theme still needs all three selectors, and they still have to agree:
+
+- the base rule (light)
 - `:root[data-theme="dark"]` - pinned dark
+- `@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) }` - system dark
 
-The dark values live in the `dark-palette` mixin (`_sass/theme.scss`) and the
-`dark-tokens` mixin (`_sass/tokens.scss`) so the last two can't drift. Add new dark
-values to the mixin, never to a single selector.
+The sun/moon swap in `_sass/components/_header.scss` is the only such case today; it
+toggles `display`, which `light-dark()` cannot express. Anything else non-colour -
+an icon, a `background-image`, a `border-style` - joins it in that shape. Add a
+colour and you touch one line; add a non-colour and you touch three places.
+
+`data-theme` is also what `theme.js` and the pre-paint script in `head.html` read to
+tell "pinned" from "following the system", which the Dark Reader lock below depends
+on. It is not redundant with `color-scheme`.
 
 Absence of `data-theme` means "follow the system" - `theme.js` only sets the
 attribute once the reader has explicitly toggled. Don't write to `localStorage` on
 load; that silently pins the theme and breaks system-following.
 
-Every color must resolve through a `--blog-*` or `--md-sys-color-*` token. Hardcoded
-hex/rgba in component SASS will be wrong in one of the two themes.
+With no `data-theme`, `:root` computes `color-scheme: light dark` in both schemes -
+it advertises support for both and the browser resolves it. Only a pinned theme
+computes a single keyword. Native scrollbars and form controls follow the *used*
+scheme either way, as does `light-dark()`.
 
-`color-scheme` also drives native scrollbars and form controls, and it is what tells
-Dark Reader the page is already dark. On top of that, `<meta name="darkreader-lock">`
+`color-scheme` is also what tells Dark Reader the page is already dark. On top of
+that, `<meta name="darkreader-lock">`
 is set whenever the reader pinned a theme **or** the resolved theme is dark, and only
 omitted when we follow the system into light. Both conditions matter:
 
