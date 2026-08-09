@@ -9,8 +9,38 @@
 
 /* ============================================
    TOP APP BAR
-   Sticky header with scroll behavior
+   Sticky header, elevated by scroll position
    ============================================ */
+
+/**
+ * The elevated state is not decoration. `--blog-color-surface` is the same
+ * colour as the page background in both themes, so an un-elevated bar is
+ * invisible and content scrolling underneath it just looks clipped. Elevation
+ * is the only thing that separates the two.
+ *
+ * Driven by scroll position rather than a JS scroll listener toggling a class.
+ * Only a `to` keyframe is declared, so the resting values stay where they
+ * belong - on the rule below - and exist in exactly one place.
+ *
+ * `animation-timeline: scroll()` is Chromium 115+ and Safari 26+; Firefox has
+ * it behind a flag in Nightly. Everywhere else `theme.js` falls back to a
+ * scroll listener toggling `.scrolled`, so readers get the same behaviour
+ * either way. The two paths are mutually exclusive: this `@supports` condition
+ * and the `CSS.supports()` call in `theme.js` test the same string, so exactly
+ * one is ever live. Change one and you must change the other - if they ever
+ * disagree you get a permanently elevated bar or none at all.
+ *
+ * No `prefers-reduced-motion` guard either. Nothing moves; this is a colour and
+ * shadow crossfade, which is the recommended substitute for motion rather than
+ * a trigger for it. Suppressing it would hand reduced-motion readers the
+ * invisible header described above.
+ */
+@keyframes header-elevation {
+  to {
+    background-color: var(--blog-color-surface-elevated);
+    box-shadow: var(--blog-shadow-md);
+  }
+}
 
 .site-header,
 .top-app-bar {
@@ -20,18 +50,33 @@
   position: sticky;
   top: 0;
   z-index: var(--blog-z-sticky);
-  transition: background-color var(--blog-duration-normal) var(--blog-easing-standard),
-              box-shadow var(--blog-duration-normal) var(--blog-easing-standard);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--blog-space-lg);
   flex-wrap: wrap;
 
-  /* Elevated state when scrolled */
-  &.scrolled {
-    background-color: var(--blog-color-surface-elevated);
-    box-shadow: var(--blog-shadow-md);
+  /* Ramped over the first 64px of scroll: far enough to read as a lift-off
+     rather than a snap, short enough to be settled before the first heading
+     clears the bar. `linear` because scroll offset already is the progress -
+     an easing curve here would just decouple the two. The shorthand resets
+     `animation-timeline` and `animation-range`, so both follow it. */
+  @supports (animation-timeline: scroll()) {
+    animation: header-elevation 1ms linear both;
+    animation-timeline: scroll(root block);
+    animation-range: 0 64px;
+  }
+
+  /* The JS path. A class toggle can only snap, so it crossfades instead of
+     ramping - the closest a binary state gets to the 64px ramp above. */
+  @supports not (animation-timeline: scroll()) {
+    transition: background-color var(--blog-duration-normal) var(--blog-easing-standard),
+                box-shadow var(--blog-duration-normal) var(--blog-easing-standard);
+
+    &.scrolled {
+      background-color: var(--blog-color-surface-elevated);
+      box-shadow: var(--blog-shadow-md);
+    }
   }
 
 
@@ -215,6 +260,16 @@
     padding: var(--blog-space-sm) var(--blog-space-sm);
     /* Make header static on mobile - just scrolls away naturally */
     position: static;
+    /* ...which leaves nothing to elevate above: the bar scrolls off with the
+       content instead of sitting over it. Both paths have to be switched off,
+       or the fallback would elevate on mobile where the CSS one doesn't -
+       theme.js has no notion of the breakpoint and still adds the class. */
+    animation: none;
+
+    &.scrolled {
+      background-color: var(--blog-color-surface);
+      box-shadow: none;
+    }
     gap: var(--blog-space-sm);
 
     .header-left {

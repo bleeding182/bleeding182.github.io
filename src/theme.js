@@ -131,8 +131,21 @@ function initTheme() {
   }
 }
 
-// Add scroll behavior for navbar elevation
+/**
+ * Header elevation is CSS (`animation-timeline: scroll()`, see _header.scss);
+ * this is only the fallback for browsers without it, currently Firefox.
+ *
+ * The condition must stay identical to the `@supports` guard in _header.scss.
+ * They are the two halves of one switch: if both are true the class fights the
+ * animation, and if both are false the header stays invisible against the page
+ * background. Treating a missing `CSS.supports` as unsupported errs towards
+ * this path, which works everywhere rather than only on modern engines.
+ */
 function initScrollBehavior() {
+  const supportsScrollTimeline =
+    typeof CSS !== 'undefined' && CSS.supports('animation-timeline', 'scroll()');
+  if (supportsScrollTimeline) return;
+
   const header = document.querySelector('.top-app-bar');
   if (!header) return;
 

@@ -160,19 +160,6 @@
 
 
 /* ============================================
-   SCROLL BEHAVIOR
-   Add 'scrolled' class to header via JavaScript
-   ============================================ */
-
-/* JavaScript should add .scrolled class when page scrolls */
-.top-app-bar.scrolled,
-.site-header.scrolled {
-  background-color: var(--blog-color-surface-elevated);
-  box-shadow: var(--blog-shadow-md);
-}
-
-
-/* ============================================
    VIEW TRANSITIONS
    Smooth page transitions using View Transitions API
    For Cross-Document (Multi-Page) transitions
