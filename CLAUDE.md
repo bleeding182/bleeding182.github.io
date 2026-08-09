@@ -87,22 +87,36 @@ Note: Changes to `_config.yml` require restarting the Jekyll server.
 
 The theme follows the system by default and can be pinned via the header toggle.
 
-**Colours are written once, with `light-dark()`.** A token carries both values and
-the browser picks:
+**Colours are written once, as a `(light, dark)` pair in a map.** Each pair is
+emitted twice - the light value plainly, the `light-dark()` pair behind a
+`@supports` gate:
 
 ```scss
+$palette: (
+  'md-sys-color-surface': (#FFF8F6, #1A1110),
+);
+
 :root {
-  color-scheme: light dark;
-  --md-sys-color-surface: light-dark(#FFF8F6, #1A1110);
+  color-scheme: light;
+  @include ld.light($palette);        // --md-sys-color-surface: #FFF8F6;
 }
-:root[data-theme="light"] { color-scheme: light; }
-:root[data-theme="dark"]  { color-scheme: dark; }
+
+@include ld.when-supported {          // @supports (color: light-dark(#000, #fff))
+  :root {
+    color-scheme: light dark;
+    @include ld.themed($palette);     // --md-sys-color-surface: light-dark(...);
+  }
+  :root[data-theme="light"] { color-scheme: light; }
+  :root[data-theme="dark"]  { color-scheme: dark; }
+}
 ```
 
-There is no dark palette to keep in sync - no mixin, no `prefers-color-scheme`
-block, no second selector. Pinning a theme narrows `color-scheme` and the whole
-palette follows, live, without a repaint hook or a reload. The Material tokens live
-in `_sass/theme.scss`, the `--blog-*` tokens in `_sass/tokens.scss`.
+**Add a colour by adding one map entry.** There is no dark palette to keep in sync -
+no mixin per theme, no `prefers-color-scheme` block, no second selector, and no
+hand-written fallback. Pinning a theme narrows `color-scheme` and the whole palette
+follows, live, without a repaint hook or a reload. The Material tokens live in
+`_sass/theme.scss` (`$palette`), the `--blog-*` tokens in `_sass/tokens.scss`
+(`$themed`); the three mixins are in `_sass/_light-dark.scss`.
 
 Rules that come with it:
 
@@ -110,16 +124,27 @@ Rules that come with it:
   only because `color-scheme` is declared on `:root` and nowhere else. **Never set
   `color-scheme` further down the tree** - it would flip that subtree's colours
   while the rest of the page stays put.
-- It takes **colours, not values**. In a multi-part value wrap only the colour
-  component: `--blog-shadow-md: 0 2px 4px light-dark(rgba(0,0,0,.08), rgba(0,0,0,.4))`.
-- Nesting is fine, including through `var()`: `--blog-color-code-bg` is
-  `light-dark(var(--md-sys-color-surface-container), var(--md-sys-color-surface-container-low))`,
-  and those tokens are themselves `light-dark()`.
+- It takes **colours, not values**. A multi-part value can't go in the map; lift the
+  colour into its own token instead, as the shadows do -
+  `--blog-shadow-md: 0 2px 4px var(--blog-shadow-color-md)`, with only
+  `--blog-shadow-color-md` themed.
+- Nesting is fine, including through `var()`: `--blog-color-code-bg` pairs
+  `var(--md-sys-color-surface-container)` with `var(--md-sys-color-surface-container-low)`,
+  and those tokens are themselves themed.
 - Every colour must still resolve through a `--blog-*` or `--md-sys-color-*` token.
   Hardcoded hex/rgba in component SASS will be wrong in one of the two themes.
-- Baseline since May 2024 (Chrome/Edge 123, Firefox 120, Safari 17.5). Older
-  browsers drop the declaration entirely, so this is a hard floor, not a
-  progressive enhancement - unlike the scroll-driven header, there is no fallback.
+- **`@supports` is the only fallback that works here, and it is not optional.** The
+  usual two-declaration pattern does nothing for custom properties: they accept any
+  token stream, so `--x: light-dark(a, b)` parses fine on a browser that has never
+  heard of it and simply overrides the plain declaration before it. The failure
+  surfaces later, at `var()` substitution, as invalid-at-computed-value-time, which
+  takes the property down instead of falling back. Skip the gate and the *entire*
+  palette collapses to transparent backgrounds and black text below
+  Chrome/Edge 123 / Firefox 120 / Safari 17.5 (May 2024) - measured, not theorised.
+- Under that floor the site is **light-only**, including `color-scheme`. Don't
+  declare `color-scheme: light dark` or a `[data-theme]` override outside the gate:
+  a browser that can't paint the dark palette shouldn't be handed dark scrollbars
+  and form controls on a light page.
 
 **What still needs `data-theme`: everything that is not a colour.** There is no
 selector that matches the used `color-scheme`, and `prefers-color-scheme` reports
@@ -133,7 +158,7 @@ on the theme still needs all three selectors, and they still have to agree:
 The sun/moon swap in `_sass/components/_header.scss` is the only such case today; it
 toggles `display`, which `light-dark()` cannot express. Anything else non-colour -
 an icon, a `background-image`, a `border-style` - joins it in that shape. Add a
-colour and you touch one line; add a non-colour and you touch three places.
+colour and you touch one map entry; add a non-colour and you touch three places.
 
 `data-theme` is also what `theme.js` and the pre-paint script in `head.html` read to
 tell "pinned" from "following the system", which the Dark Reader lock below depends

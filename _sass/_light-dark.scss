@@ -1,0 +1,46 @@
+/**
+ * light-dark() with a fallback for browsers that predate it
+ *
+ * The floor is Chrome/Edge 123, Firefox 120 and Safari 17.5 - anything older
+ * than mid-2024. Below it the whole palette used to collapse to transparent
+ * backgrounds and black text, which is worse than simply losing dark mode.
+ *
+ * The usual progressive-enhancement pattern - a plain declaration followed by
+ * the modern one - does nothing here. Custom properties accept any token
+ * stream, so `--x: light-dark(a, b)` parses fine even where the function is
+ * unknown, and overrides the plain declaration before it. The failure only
+ * surfaces at `var()` substitution, as invalid-at-computed-value-time, and at
+ * that point it takes the whole property down instead of falling back.
+ * `@supports` is the only gate that keeps the plain declaration alive.
+ *
+ * So every theme colour lives in a map rather than a declaration, and is
+ * emitted twice from that one entry: the light value unconditionally, the pair
+ * inside `when-supported`. There is no second copy to keep in sync, and
+ * browsers under the floor get a correct light-only site.
+ */
+
+@use 'sass:list';
+
+/// Wraps anything that may only apply where light-dark() resolves. Declared
+/// once so the fallback and the enhancement can never end up testing different
+/// things.
+@mixin when-supported {
+  @supports (color: light-dark(#000, #fff)) {
+    @content;
+  }
+}
+
+/// The light half of each token. Emitted unconditionally - this is what
+/// browsers under the floor are left holding.
+@mixin light($tokens) {
+  @each $name, $pair in $tokens {
+    --#{$name}: #{list.nth($pair, 1)};
+  }
+}
+
+/// Both halves. Only ever emitted inside `when-supported`.
+@mixin themed($tokens) {
+  @each $name, $pair in $tokens {
+    --#{$name}: light-dark(#{list.nth($pair, 1)}, #{list.nth($pair, 2)});
+  }
+}

@@ -4,11 +4,53 @@
  * This file defines the blog's semantic design tokens that build upon Material 3.
  * These tokens provide a consistent, maintainable system for the blog's visual language.
  *
- * Theme-dependent values are written once, as `light-dark(<light>, <dark>)`,
- * and resolve against the used `color-scheme` set on `:root` in theme.scss.
+ * Theme-dependent values are written once, as a (light, dark) pair in the map
+ * below, and resolve against the used `color-scheme` set on `:root` in
+ * theme.scss. See _light-dark.scss for why they live in a map.
  */
 
+@use 'light-dark' as ld;
+
+$themed: (
+  // Code block surfaces - dark drops a step down the container ramp so the
+  // block still separates from the page behind it
+  'blog-color-code-bg':        (var(--md-sys-color-surface-container), var(--md-sys-color-surface-container-low)),
+  'blog-color-code-inline-bg': (var(--md-sys-color-surface-container-high), var(--md-sys-color-surface-container)),
+
+  // Syntax Highlighting - warm red/orange palette matching the theme,
+  // brightened for dark so it holds contrast against the code surface
+  'blog-syntax-keyword':    (#AF0B0B, #FF6B6B),  // Brand red / bright coral - keywords, operators
+  'blog-syntax-string':     (#E65100, #FFB74D),  // Deep orange / bright amber - strings
+  'blog-syntax-number':     (#8D6E63, #BCAAA4),  // Brown - numbers, literals
+  'blog-syntax-function':   (#C62828, #FF5252),  // Dark red / bright red - functions, methods
+  'blog-syntax-class':      (#D84315, #FF8A65),  // Red-orange - classes, types
+  'blog-syntax-comment':    (#6D4C41, #A1887F),  // Muted brown - comments
+  'blog-syntax-constant':   (#BF360C, #FF7043),  // Burnt / bright orange - constants
+  'blog-syntax-variable':   (#5D4037, #D7CCC8),  // Dark / very light brown - variables
+  'blog-syntax-tag':        (#D32F2F, #EF5350),  // Bright red - HTML/XML tags
+  'blog-syntax-attribute':  (#A1887F, #FFCCBC),  // Light brown / pale orange - attributes
+  'blog-syntax-error':      (#B71C1C, #FF5252),  // Deep dark / bright red - errors
+  'blog-syntax-error-bg':   (#FFCDD2, #5D1F1F),  // Error background
+
+  // Diff highlighting - additions green, deletions red. Dark uses dimmer fills
+  // so they read on a dark surface.
+  'blog-color-diff-add-bg':     (rgba(46, 160, 67, 0.15), rgba(63, 185, 80, 0.18)),
+  'blog-color-diff-add-border': (rgba(46, 160, 67, 0.6),  rgba(63, 185, 80, 0.7)),
+  'blog-color-diff-del-bg':     (rgba(248, 81, 73, 0.15), rgba(248, 81, 73, 0.18)),
+  'blog-color-diff-del-border': (rgba(248, 81, 73, 0.6),  rgba(248, 81, 73, 0.7)),
+
+  // Shadow colours. Only the colour is themed, so it is lifted out into its own
+  // token and the shadows below stay plain values - `light-dark()` takes a
+  // colour, not a whole box-shadow. Dark needs heavier alpha to register at all.
+  'blog-shadow-color-sm': (rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.3)),
+  'blog-shadow-color-md': (rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.4)),
+  'blog-shadow-color-lg': (rgba(0, 0, 0, 0.1),  rgba(0, 0, 0, 0.5)),
+  'blog-shadow-color-xl': (rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.6)),
+);
+
 :root {
+  @include ld.light($themed);
+
   /* ============================================
      TYPOGRAPHY TOKENS
      ============================================ */
@@ -163,33 +205,8 @@
   --blog-color-divider: var(--md-sys-color-outline-variant);
   --blog-color-border: var(--md-sys-color-outline);
 
-  /* Code Block Colors - dark mode drops a step down the container ramp so the
-     block still separates from the page behind it */
-  --blog-color-code-bg: light-dark(var(--md-sys-color-surface-container), var(--md-sys-color-surface-container-low));
+  /* Code Block Colors - the two themed surfaces are in the map above */
   --blog-color-code-text: var(--md-sys-color-on-surface);
-  --blog-color-code-inline-bg: light-dark(var(--md-sys-color-surface-container-high), var(--md-sys-color-surface-container));
-
-  /* Syntax Highlighting Colors - warm red/orange palette matching the theme,
-     brightened for dark so it holds contrast against the code surface */
-  --blog-syntax-keyword: light-dark(#AF0B0B, #FF6B6B);    /* Brand red / bright coral - keywords, operators */
-  --blog-syntax-string: light-dark(#E65100, #FFB74D);     /* Deep orange / bright amber - strings */
-  --blog-syntax-number: light-dark(#8D6E63, #BCAAA4);     /* Brown - numbers, literals */
-  --blog-syntax-function: light-dark(#C62828, #FF5252);   /* Dark red / bright red - functions, methods */
-  --blog-syntax-class: light-dark(#D84315, #FF8A65);      /* Red-orange - classes, types */
-  --blog-syntax-comment: light-dark(#6D4C41, #A1887F);    /* Muted brown - comments */
-  --blog-syntax-constant: light-dark(#BF360C, #FF7043);   /* Burnt / bright orange - constants */
-  --blog-syntax-variable: light-dark(#5D4037, #D7CCC8);   /* Dark / very light brown - variables */
-  --blog-syntax-tag: light-dark(#D32F2F, #EF5350);        /* Bright red - HTML/XML tags */
-  --blog-syntax-attribute: light-dark(#A1887F, #FFCCBC);  /* Light brown / pale orange - attributes */
-  --blog-syntax-error: light-dark(#B71C1C, #FF5252);      /* Deep dark / bright red - errors */
-  --blog-syntax-error-bg: light-dark(#FFCDD2, #5D1F1F);   /* Error background */
-
-  /* Diff highlighting - additions green, deletions red. Dark uses dimmer fills
-     so they read on a dark surface. */
-  --blog-color-diff-add-bg: light-dark(rgba(46, 160, 67, 0.15), rgba(63, 185, 80, 0.18));
-  --blog-color-diff-add-border: light-dark(rgba(46, 160, 67, 0.6), rgba(63, 185, 80, 0.7));
-  --blog-color-diff-del-bg: light-dark(rgba(248, 81, 73, 0.15), rgba(248, 81, 73, 0.18));
-  --blog-color-diff-del-border: light-dark(rgba(248, 81, 73, 0.6), rgba(248, 81, 73, 0.7));
 
   /* Interactive States */
   --blog-color-hover: var(--md-sys-color-primary);
@@ -266,11 +283,15 @@
      SHADOW TOKENS
      ============================================ */
 
-  /* `light-dark()` takes colours, not whole values, so only the colour
-     component is wrapped - the offsets and blur stay outside it. Dark needs
-     heavier alpha for the shadow to register at all. */
-  --blog-shadow-sm: 0 1px 2px light-dark(rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.3));
-  --blog-shadow-md: 0 2px 4px light-dark(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.4));
-  --blog-shadow-lg: 0 4px 8px light-dark(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.5));
-  --blog-shadow-xl: 0 8px 16px light-dark(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.6));
+  /* Offsets and blur only; the colours come from the map above. */
+  --blog-shadow-sm: 0 1px 2px var(--blog-shadow-color-sm);
+  --blog-shadow-md: 0 2px 4px var(--blog-shadow-color-md);
+  --blog-shadow-lg: 0 4px 8px var(--blog-shadow-color-lg);
+  --blog-shadow-xl: 0 8px 16px var(--blog-shadow-color-xl);
+}
+
+@include ld.when-supported {
+  :root {
+    @include ld.themed($themed);
+  }
 }
