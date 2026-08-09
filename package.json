@@ -21,10 +21,10 @@
   "license": "MIT",
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^16.0.3",
-    "@rollup/plugin-terser": "^0.4.4",
-    "rollup": "^4.30.1"
+    "@rollup/plugin-terser": "^1.0.0",
+    "rollup": "^4.62.4"
   },
   "dependencies": {
-    "@material/web": "^2.4.1"
+    "@material/web": "^2.5.0"
   }
 }
