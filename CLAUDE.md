@@ -104,11 +104,23 @@ Every color must resolve through a `--blog-*` or `--md-sys-color-*` token. Hardc
 hex/rgba in component SASS will be wrong in one of the two themes.
 
 `color-scheme` also drives native scrollbars and form controls, and it is what tells
-Dark Reader the page is already dark. `theme.js` additionally adds
-`<meta name="darkreader-lock">` while dark and removes it in light, which stops Dark
-Reader from inverting an already-dark page. The lock must stay dynamic - hardcoding
-it in `head.html` would also suppress Dark Reader in light mode, which it is not
-meant to do.
+Dark Reader the page is already dark. On top of that, `<meta name="darkreader-lock">`
+is set whenever the reader pinned a theme **or** the resolved theme is dark, and only
+omitted when we follow the system into light. Both conditions matter:
+
+- dark, so Dark Reader does not invert an already-dark page
+- pinned, because an explicit choice outranks the extension - a pinned *light* theme
+  is still a choice, and without the lock Dark Reader inverts it on every page load
+
+Gating the lock on dark alone was a bug: pinning light then navigating handed every
+subsequent page to Dark Reader, which inverted it into a red-tinted dark.
+
+The decision has to be made in the inline script in `head.html`. Dark Reader reads
+the lock as the document loads, so a lock added later from the bundle is too late for
+that page view, and toggling cannot rescue a page it has already inverted -
+`syncDarkReaderLock` in `theme.js` only keeps the tag in step for the next navigation.
+Don't hardcode the lock in the markup either; following the system into light is the
+one case Dark Reader should still handle.
 
 ### JavaScript
 - Material Web components bundled via Rollup

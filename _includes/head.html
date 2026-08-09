@@ -7,8 +7,10 @@
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFF8F6"/>
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1A1110"/>
 
-  <!-- Applies a pinned theme before first paint, and locks out Dark Reader while
-       we are dark so it does not invert an already-dark page. -->
+  <!-- Applies a pinned theme before first paint, and locks out Dark Reader when
+       the reader pinned a theme or we are already dark. This has to happen here
+       rather than in theme.js: Dark Reader reads the lock as the document loads,
+       so a lock added later in the bundle comes too late for this page view. -->
   <script>
     (function() {
       var stored = null;
@@ -28,7 +30,10 @@
         ? stored === 'dark'
         : window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-      if (dark) {
+      // A pinned theme is an explicit choice and outranks Dark Reader, light
+      // included - without this it inverts our pinned light theme on every page
+      // load. Following the system, only dark needs the lock.
+      if (stored || dark) {
         var meta = document.createElement('meta');
         meta.name = 'darkreader-lock';
         document.head.appendChild(meta);

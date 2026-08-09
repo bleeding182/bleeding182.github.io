@@ -36,15 +36,22 @@ function getThemePreference() {
 }
 
 /**
- * Dark Reader inverts pages it believes are light. Without this it double-darkens
- * our dark theme, which is what swaps the colours. The lock is only correct while
- * we are actually dark, so it is added and removed alongside the theme rather than
- * hardcoded in the markup.
+ * Dark Reader inverts pages it believes are light. Two cases need the lock:
+ * we are dark, where it would double-darken and swap the colours; and the reader
+ * pinned a theme, where their explicit choice outranks the extension - a pinned
+ * light theme is still a choice, and without the lock Dark Reader overrides it.
+ *
+ * Following the system in light is the one case we leave alone, which is why this
+ * stays dynamic rather than hardcoded in the markup.
+ *
+ * Dark Reader reads the lock as the document loads, so toggling cannot rescue a
+ * page it has already inverted; head.html sets the lock before first paint and
+ * this keeps it in step for the next navigation.
  */
-function syncDarkReaderLock(theme) {
+function syncDarkReaderLock(theme, isPinned) {
   const existing = document.querySelector('meta[name="darkreader-lock"]');
 
-  if (theme === 'dark') {
+  if (isPinned || theme === 'dark') {
     if (!existing) {
       const meta = document.createElement('meta');
       meta.name = 'darkreader-lock';
@@ -82,7 +89,7 @@ function syncTheme() {
     document.documentElement.removeAttribute('data-theme');
   }
 
-  syncDarkReaderLock(theme);
+  syncDarkReaderLock(theme, Boolean(stored));
   syncThemeColor(theme, Boolean(stored));
 
   return theme;
@@ -97,7 +104,7 @@ function applyTheme(theme) {
   }
 
   document.documentElement.setAttribute('data-theme', theme);
-  syncDarkReaderLock(theme);
+  syncDarkReaderLock(theme, true);
   syncThemeColor(theme, true);
 }
 
