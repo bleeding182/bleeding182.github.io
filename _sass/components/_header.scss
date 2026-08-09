@@ -22,6 +22,15 @@
  * Only a `to` keyframe is declared, so the resting values stay where they
  * belong - on the rule below - and exist in exactly one place.
  *
+ * What is animated is the *opacity* of an overlay pseudo-element, never a
+ * colour. Keyframes resolve `light-dark()` against the `color-scheme` in force
+ * when they were computed, and changing `color-scheme` afterwards does not
+ * re-resolve them. A colour in the keyframe therefore froze at whichever theme
+ * was live when the animation started: pinning the opposite theme while
+ * scrolled left the bar painted in the old palette until a reload. Opacity has
+ * no such dependency, and the colours on `::before` are ordinary declarations,
+ * so they re-resolve live.
+ *
  * `animation-timeline: scroll()` is Chromium 115+ and Safari 26+; Firefox has
  * it behind a flag in Nightly. Everywhere else `theme.js` falls back to a
  * scroll listener toggling `.scrolled`, so readers get the same behaviour
@@ -37,8 +46,7 @@
  */
 @keyframes header-elevation {
   to {
-    background-color: var(--blog-color-surface-elevated);
-    box-shadow: var(--blog-shadow-md);
+    opacity: 1;
   }
 }
 
@@ -56,26 +64,39 @@
   gap: var(--blog-space-lg);
   flex-wrap: wrap;
 
-  /* Ramped over the first 64px of scroll: far enough to read as a lift-off
-     rather than a snap, short enough to be settled before the first heading
-     clears the bar. `linear` because scroll offset already is the progress -
-     an easing curve here would just decouple the two. The shorthand resets
-     `animation-timeline` and `animation-range`, so both follow it. */
-  @supports (animation-timeline: scroll()) {
-    animation: header-elevation 1ms linear both;
-    animation-timeline: scroll(root block);
-    animation-range: 0 64px;
+  /* The elevated surface, faded in over the resting one. `z-index: -1` keeps it
+     above the bar's own background but below its content, and `position: sticky`
+     above already makes this the containing block. */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: var(--blog-color-surface-elevated);
+    box-shadow: var(--blog-shadow-md);
+    opacity: 0;
+
+    /* Ramped over the first 64px of scroll: far enough to read as a lift-off
+       rather than a snap, short enough to be settled before the first heading
+       clears the bar. `linear` because scroll offset already is the progress -
+       an easing curve here would just decouple the two. The shorthand resets
+       `animation-timeline` and `animation-range`, so both follow it. */
+    @supports (animation-timeline: scroll()) {
+      animation: header-elevation 1ms linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0 64px;
+    }
+
+    /* The JS path. A class toggle can only snap, so it crossfades instead of
+       ramping - the closest a binary state gets to the 64px ramp above. */
+    @supports not (animation-timeline: scroll()) {
+      transition: opacity var(--blog-duration-normal) var(--blog-easing-standard);
+    }
   }
 
-  /* The JS path. A class toggle can only snap, so it crossfades instead of
-     ramping - the closest a binary state gets to the 64px ramp above. */
   @supports not (animation-timeline: scroll()) {
-    transition: background-color var(--blog-duration-normal) var(--blog-easing-standard),
-                box-shadow var(--blog-duration-normal) var(--blog-easing-standard);
-
-    &.scrolled {
-      background-color: var(--blog-color-surface-elevated);
-      box-shadow: var(--blog-shadow-md);
+    &.scrolled::before {
+      opacity: 1;
     }
   }
 
@@ -264,12 +285,12 @@
        content instead of sitting over it. Both paths have to be switched off,
        or the fallback would elevate on mobile where the CSS one doesn't -
        theme.js has no notion of the breakpoint and still adds the class. */
-    animation: none;
-
-    &.scrolled {
-      background-color: var(--blog-color-surface);
-      box-shadow: none;
+    &::before,
+    &.scrolled::before {
+      animation: none;
+      opacity: 0;
     }
+
     gap: var(--blog-space-sm);
 
     .header-left {
