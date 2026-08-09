@@ -5,8 +5,7 @@
   "description": "Personal Android development blog",
   "scripts": {
     "build:js": "rollup -c",
-    "watch:js": "rollup -c -w",
-    "prebuild": "npm run build:js"
+    "watch:js": "rollup -c -w"
   },
   "repository": {
     "type": "git",

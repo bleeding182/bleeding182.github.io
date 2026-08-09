@@ -18,10 +18,10 @@ github_username:  bleeding182
 exclude:
   - CNAME
   - README.md
-  - Guardfile
   - Gemfile
   - Gemfile.lock
   - CLAUDE.md
+  - bin
   - node_modules
   - package.json
   - package-lock.json

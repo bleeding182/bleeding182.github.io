@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+#
+# Run the blog locally: rebuilds the JS bundle on change, serves Jekyll with
+# livereload, and shuts both down together on Ctrl-C.
+#
+#   bin/serve            # http://localhost:4000
+#   bin/serve --port 4001
+#
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+if command -v rbenv >/dev/null 2>&1; then
+  eval "$(rbenv init - bash)"
+fi
+
+[ -d node_modules ] || { echo "node_modules missing - run bin/setup first." >&2; exit 1; }
+[ -d vendor/bundle ] || { echo "gems missing - run bin/setup first." >&2; exit 1; }
+
+rollup_pid=""
+
+cleanup() {
+  [ -n "$rollup_pid" ] && kill "$rollup_pid" 2>/dev/null || true
+}
+trap cleanup EXIT INT TERM
+
+# Build once up front so Jekyll's first pass has a bundle to copy.
+npm run build:js --silent
+
+# Invoke rollup directly rather than via `npm run`: npm spawns an intermediate
+# shell, so killing the npm pid would leave the watcher orphaned.
+./node_modules/.bin/rollup -c -w --silent &
+rollup_pid=$!
+
+# --livereload replaces the old guard/guard-livereload setup.
+exec bundle exec jekyll serve --livereload "$@"

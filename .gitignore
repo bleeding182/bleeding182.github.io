@@ -12,9 +12,11 @@ vendor/
 .bundle/
 
 # Generated assets
-# Note: bundle.js should be committed for GitHub Pages deployment
-# assets/bundle.js
-# assets/bundle.js.map
+# Built by `npm run build:js`, and rebuilt in CI before Jekyll runs, so the
+# artifact is never deployed from the repo. Keeping it untracked avoids an
+# ~80KB diff on every change and the merge conflicts that come with it.
+assets/bundle.js
+assets/bundle.js.map
 
 # Editor files
 .vscode/
