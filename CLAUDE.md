@@ -159,7 +159,7 @@ When creating new blog posts:
 
 ## Deployment
 
-Push to `master`; `.github/workflows/jekyll.yml` builds the JS bundle, builds
+Push to `main`; `.github/workflows/jekyll.yml` builds the JS bundle, builds
 Jekyll and deploys. There is no manual build step.
 
 The generated bundle (`assets/bundle.js` and its sourcemap) is **not** committed.
