@@ -2,22 +2,29 @@
 layout: about
 title: About
 permalink: /about/
+description: Android developer from Vienna, writing about Android and the tooling around it.
 ---
 
-First, a disclaimer.
-
-This is my personal blog. It does not necessarily depict the opinion of my employer, or any other linked sources.
-
-Now, let's continue.
+Hey, thanks for stopping by.
 
 ## Myself
 
-Hey, thanks for reading this. I'm from Austria, Europe and I have been developing Android apps since 2014. I care a lot about unique and creative solutions. By looking for new ways to accomplish things I believe that you can learn a lot in the process.
+I'm David, an Android developer from Vienna, Austria, building apps since 2014. Working at an agency means lots of different projects and technologies.
 
-Please feel free to contact me if you have some feedback, comment, or criticism about my work or findings, I am well aware that I do make mistakes and am happy to learn about them!
+I love finding new and creative solutions for problems. Rather than repeating the same patterns over and over again, I like to reflect on what I can do differently the next time.
 
-Have a nice day and enjoy my blog!
+You can find me on [GitHub](https://github.com/bleeding182).
+
+## This blog
+
+I write about things I enjoy figuring out. If a post saves you an afternoon, it did its job.
+
+Please feel free to [get in touch](mailto:{{ site.email }}) if you have feedback, a comment, or criticism about my work or findings. Everyone can make mistakes, but only by being aware of them can we grow.
+
+Enjoy!
 
 ---
 
-This blog is powered by Jekyll, hosted by GitHub.
+This is my personal blog. It does not necessarily depict the opinion of my employer, or any other linked source.
+
+Powered by Jekyll, hosted by GitHub.
